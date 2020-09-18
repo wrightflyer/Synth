@@ -56,6 +56,7 @@ void updateMix() {
 }
 
 void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {
+  Serial.printf("ch: %u, cc: %u, val: %u\n", channel, control, value);
   switch(control) {
     case 100:
       wave1Amp =  velocity2amplitude[value];
@@ -80,6 +81,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("Alive");
   AudioMemory(20);
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.5);
