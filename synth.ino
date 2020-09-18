@@ -22,12 +22,22 @@ AudioControlSGTL5000     sgtl5000_1;     //xy=489,53
 
 void OnNoteOn(byte channel, byte note, byte velocity) {
   Serial.printf("ch: %u, note: %u, vel: %u\n", channel, note, velocity);
-  waveformMod1.frequency(tune_frequencies2_PGM[note]);
+  float freq = tune_frequencies2_PGM[note];
+  waveformMod1.frequency(freq);
   waveformMod1.amplitude(1.0);
+  if (note > 12) {
+    note -= 10;
+    freq = tune_frequencies2_PGM[note];
+  }
+  waveformMod2.frequency(freq);
+  waveformMod2.amplitude(1.0);
+  pink1.amplitude(0.5);
 }
 
 void OnNoteOff(byte channel, byte note, byte velocity) {
   waveformMod1.amplitude(0);
+  waveformMod2.amplitude(0);
+  pink1.amplitude(0);
   Serial.println("and off");
 }
 
@@ -37,9 +47,10 @@ void setup() {
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.5);
   waveformMod1.begin(WAVEFORM_SINE);
+  waveformMod2.begin(WAVEFORM_SAWTOOTH);
   mixer1.gain(0, 0.3);
-  mixer1.gain(1, 0.3);
-  mixer1.gain(2, 0.3);
+  mixer1.gain(1, 0.2);
+  mixer1.gain(2, 0.1);
   usbMIDI.setHandleNoteOff(OnNoteOff);
   usbMIDI.setHandleNoteOn(OnNoteOn);
 }
