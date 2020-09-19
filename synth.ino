@@ -40,9 +40,10 @@ double mapf(double x, double in_min, double in_max, double out_min, double out_m
 }
 
 void OnNoteOn(byte channel, byte note, byte velocity) {
-  Serial.printf("ch: %u, note: %u, vel: %u\n", channel, note, velocity);
+  Serial.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
   digitalWrite(LED_PIN, HIGH);
   float freq = tune_frequencies2_PGM[note];
+  Serial.printf("so freq = %f\n", freq);
   waveformMod1.frequency(freq);
   if (note > 12) {
     note -= 10;
@@ -74,7 +75,6 @@ void updateADSR() {
 }
 
 void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {
-  Serial.printf("ch: %u, cc: %u, val: %u\n", channel, control, value);
   switch(control) {
     // 100, 101, 102 are OSC1, OSC2 and Noise mixers
     case 100:
