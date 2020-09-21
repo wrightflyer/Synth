@@ -1,12 +1,12 @@
 #include <Encoder.h>
 #include <Bounce2.h>
 
-#define redLED 11
-#define greenLED 10
+#define redLED 5
+#define greenLED 6
 #define blueLED 9
 
 Encoder enc(7,8);
-Bounce enc_button = Bounce(12, 5); // pin 12, 5ms
+Bounce enc_button = Bounce(4, 5); // pin 12, 5ms
 
 byte R, G, B;
 typedef enum {
