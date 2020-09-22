@@ -10,19 +10,29 @@
 #include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveformModulated waveformMod1;   //xy=152,165
-AudioSynthWaveformModulated waveformMod2;   //xy=157,238
-AudioSynthNoisePink      pink1;          //xy=168,317
-AudioMixer4              mixer1;         //xy=335,242
-AudioEffectEnvelope      envelope1;      //xy=519,242
-AudioOutputI2S           i2s1;           //xy=738,240
-AudioConnection          patchCord1(waveformMod1, 0, mixer1, 0);
-AudioConnection          patchCord2(waveformMod2, 0, mixer1, 1);
-AudioConnection          patchCord3(pink1, 0, mixer1, 2);
-AudioConnection          patchCord4(mixer1, envelope1);
-AudioConnection          patchCord5(envelope1, 0, i2s1, 0);
-AudioConnection          patchCord6(envelope1, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=399,20
+AudioSynthWaveform       LFO1;      //xy=67.77777099609375,203.3333225250244
+AudioSynthWaveform       LFO2;      //xy=69.99999321831592,257.77776696946887
+AudioSynthWaveformModulated waveformMod1;   //xy=229.77773666381836,204.11112785339355
+AudioSynthWaveformModulated waveformMod2;   //xy=230.33329391479492,247.1111297607422
+AudioSynthNoisePink      pink1;          //xy=235.77773666381836,288.33335304260254
+AudioMixer4              mixer1;         //xy=391.3332939147949,249.1111297607422
+AudioFilterStateVariable filter1;        //xy=527.7777442932129,252.3333396911621
+AudioMixer4              Filter_Select;         //xy=682.3333015441895,255.88888931274414
+AudioEffectEnvelope      envelope1;      //xy=840.1110305786133,255.44447135925293
+AudioOutputI2S           i2s1;           //xy=1001.1110305786133,256.44447135925293
+AudioConnection          patchCord1(LFO1, 0, waveformMod1, 0);
+AudioConnection          patchCord2(LFO2, 0, waveformMod2, 0);
+AudioConnection          patchCord3(waveformMod1, 0, mixer1, 0);
+AudioConnection          patchCord4(waveformMod2, 0, mixer1, 1);
+AudioConnection          patchCord5(pink1, 0, mixer1, 2);
+AudioConnection          patchCord6(mixer1, 0, filter1, 0);
+AudioConnection          patchCord7(filter1, 0, Filter_Select, 0);
+AudioConnection          patchCord8(filter1, 1, Filter_Select, 1);
+AudioConnection          patchCord9(filter1, 2, Filter_Select, 2);
+AudioConnection          patchCord10(Filter_Select, envelope1);
+AudioConnection          patchCord11(envelope1, 0, i2s1, 0);
+AudioConnection          patchCord12(envelope1, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=571.444393157959,167.11111640930176
 // GUItool: end automatically generated code
 
 extern const unsigned short amelia320[];
@@ -58,6 +68,12 @@ typedef enum {
   Sustain,
   Release
 } ADSR_change_t;
+
+typedef enum {
+  LPF,
+  BPF,
+  HPF
+} filter_band_t;
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
@@ -107,6 +123,23 @@ const keyb_t keybd[] = {
   { 0, KEY_WIDTH * 20 }
 };
 
+// modulator settings
+int osc1Waveform = WAVEFORM_SINE;
+float osc1Amplitude = 1.0;
+int osc2Waveform = WAVEFORM_SAWTOOTH;
+float osc2Amplitude = 1.0;
+
+// LFO settings
+int lfo1Waveform = WAVEFORM_SINE;
+float lfo1Freq = 13.0;
+float lfo1Amplitude = 0.02;
+int lfo2Waveform = WAVEFORM_SINE;
+float lfo2Freq = 6.0;
+float lfo2Amplitude = 0.02;
+
+// noise settings
+float noiseAmplitude = 1.0;
+
 // Mixer settings
 float wave1Amp = 1.0;
 float wave2Amp = 0.4;
@@ -117,6 +150,10 @@ float envAttack = 10.5;
 float envDecay = 35;
 float envSustain = 0.5;
 float envRelease = 300;
+
+filter_band_t filtBand = LPF;
+float filterFreq = 5000;
+float filterRes = 2.5;
 
 double mapf(double x, double in_min, double in_max, double out_min, double out_max)
 {
@@ -145,13 +182,12 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   Serial.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
   digitalWrite(LED_PIN, HIGH);
   float freq = tune_frequencies2_PGM[note];
-  Serial.printf("so freq = %f\n", freq);
   if (keybd[note - 48].type == 0) {
     whiteKey(keybd[note - 48].offset, true);
   }
   else {
     blackKey(keybd[note - 48].offset, true);
-  }
+  }  Serial.printf("so freq = %f\n", freq);
   waveformMod1.frequency(freq);
   if (note > 12) {
     note -= 10;
@@ -167,8 +203,7 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
   }
   else {
     blackKey(keybd[note - 48].offset, false);
-  }
-  digitalWrite(LED_PIN, LOW);
+  }  digitalWrite(LED_PIN, LOW);
   envelope1.noteOff();
 }
 
@@ -230,6 +265,59 @@ void updateADSR(ADSR_change_t change) {
   Serial.printf("ADSR: Attack = %.02fms, Decay = %.02fms, Sustain = %.02f, Release = %.02fms\n", envAttack, envDecay, envSustain, envRelease);
 }
 
+void updateFilterBand() {
+  switch(filtBand) {
+    case LPF:
+      Filter_Select.gain(0, 1.0);
+      Filter_Select.gain(1, 0);
+      Filter_Select.gain(2, 0);
+      break;
+
+    case BPF:
+      Filter_Select.gain(0, 0);
+      Filter_Select.gain(1, 1.0);
+      Filter_Select.gain(2, 0);
+      break;
+
+    case HPF:
+      Filter_Select.gain(0, 0);
+      Filter_Select.gain(1, 0);
+      Filter_Select.gain(2, 1.0);
+     break;
+  }
+}
+
+void updateFilter() {
+  filter1.frequency(filterFreq);
+  filter1.resonance(filterRes);
+}
+
+void updateOsc1() {
+  waveformMod1.begin(osc1Waveform);
+  waveformMod1.amplitude(osc1Amplitude);
+}
+
+void updateOsc2() {
+  waveformMod2.begin(osc2Waveform);
+  waveformMod2.amplitude(osc2Amplitude);
+}
+
+void updateLFO1() {
+  LFO1.begin(lfo1Waveform);
+  LFO1.frequency(lfo1Freq);
+  LFO1.amplitude(lfo1Amplitude);
+}
+
+void updateLFO2() {
+  LFO1.begin(lfo2Waveform);
+  LFO1.frequency(lfo2Freq);
+  LFO1.amplitude(lfo2Amplitude);
+}
+
+void updateNoise() {
+  pink1.amplitude(noiseAmplitude);
+}
+
 void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {
   switch(control) {
     // 100, 101, 102 are OSC1, OSC2 and Noise mixers
@@ -285,8 +373,7 @@ void setup() {
   tft.writeRect(0, 0, 320, 240, amelia320);
   // and give the world a chance to marvel in her glory
   delay(4000);
-  // then clear the decks
-  tft.fillScreen(ILI9341_LIGHTGREY);
+  // then clear the decks  tft.fillScreen(ILI9341_LIGHTGREY);
   tft.setTextColor(ILI9341_BLACK);
   tft.setCursor(40, 0);
   tft.setFont(Arial_18_Bold);
@@ -307,17 +394,18 @@ void setup() {
       blackKey(keybd[i - 48].offset, false);
     }
   }
-
   AudioMemory(20);
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.5);
-  waveformMod1.begin(WAVEFORM_SINE);
-  waveformMod1.amplitude(1.0);
-  waveformMod2.begin(WAVEFORM_SAWTOOTH);
-  waveformMod2.amplitude(1.0);
-  pink1.amplitude(1.0);
+  updateOsc1();
+  updateOsc2();
+  updateNoise(); // this probably fixed at 1.0 (mixer varies level)
+  updateLFO1();
+  updateLFO2();
   updateMix(AllMix);
   updateADSR(AllADSR);
+  updateFilterBand();
+  updateFilter();
   usbMIDI.setHandleNoteOff(OnNoteOff);
   usbMIDI.setHandleNoteOn(OnNoteOn);
   usbMIDI.setHandleControlChange(OnControlChange);

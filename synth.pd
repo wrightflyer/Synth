@@ -1,5 +1,5 @@
-#N canvas 3904 -382 742 716 10;
-#N canvas 1912 -612 3440 1357 key 0;
+#N canvas 264 92 742 716 10;
+#N canvas -10 26 1370 729 key 0;
 #X obj 261 466 makenote;
 #X obj 124 75 bng 18 250 50 0 c2 empty empty 17 7 0 10 -262144 -1 -1
 ;
@@ -502,13 +502,13 @@
 #X obj 100 50 cnv 15 92 140 empty empty ADSR 26 -10 0 14 -233017 -66577
 0;
 #X obj 108 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 4100 1;
+-1 -1 2800 1;
 #X obj 127 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 5800 1;
+-1 -1 6600 1;
 #X obj 148 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 7000 1;
+-1 -1 4200 1;
 #X obj 167 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 3700 1;
+-1 -1 6600 1;
 #X floatatom 105 166 3 0 0 3 - - -;
 #X floatatom 126 166 3 0 0 0 - - -;
 #X floatatom 147 166 3 0 0 0 - - -;
@@ -582,16 +582,16 @@
 #X obj 101 102 cnv 15 92 140 empty empty Mixer 20 -10 0 14 -233017
 -66577 0;
 #X obj 106 114 vsl 15 100 0 127 0 0 empty empty Osc1 0 -9 0 10 -262144
--1 -1 6800 1;
+-1 -1 7500 1;
 #X obj 61 244 int;
 #X floatatom 105 221 3 0 0 0 - - -;
 #X obj 61 286 ctlout 100;
 #X obj 134 114 vsl 15 100 0 127 0 0 empty empty Osc2 0 -9 0 10 -262144
--1 -1 5100 1;
+-1 -1 5800 1;
 #X obj 138 245 int;
 #X floatatom 134 220 3 0 0 0 - - -;
 #X obj 165 114 vsl 15 100 0 127 0 0 empty empty Noise -4 -9 0 10 -262144
--1 -1 5700 1;
+-1 -1 2000 1;
 #X obj 209 245 int;
 #X floatatom 165 220 3 0 0 0 - - -;
 #X obj 134 285 ctlout 101;
