@@ -1,4 +1,6 @@
-<div style="text-align:center"><img src="amelia320.png" /></div>
+<p align="center">
+    <img width="320" height="240" src="amelia320.png" />
+</p>
 
 ### A project to make a synth using Teensy 4 and Audio Adapter
 
