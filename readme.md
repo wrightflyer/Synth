@@ -1,3 +1,5 @@
+<div style="text-align:center"><img src="amelia320.png" /></div>
+
 ### A project to make a synth using Teensy 4 and Audio Adapter
 
 The current layout, as seen in INO file, where connections can be pasted back

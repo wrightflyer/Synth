@@ -25,6 +25,8 @@ AudioConnection          patchCord6(envelope1, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=399,20
 // GUItool: end automatically generated code
 
+extern const unsigned short amelia320[];
+
 #define LED_PIN 13
 #define TFT_DC  9
 #define TFT_CS 10
@@ -200,12 +202,16 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Alive");
   tft.begin();
+  tft.setRotation(1);
+  // show the pretty kitty
+  tft.writeRect(0, 0, 320, 240, amelia320);
+  // and give the world a chance to marvel in her glory
+  delay(2000);
+  // then clear the decks
   tft.fillScreen(ILI9341_LIGHTGREY);
   tft.setTextColor(ILI9341_BLACK);
-  tft.setTextSize(2);
-  tft.setRotation(1);
   tft.setCursor(40, 0);
-  tft.setFont(Arial_18);
+  tft.setFont(Arial_18_Bold);
   tft.println("Teensy Synth");
   tft.fillRoundRect(ADSR_PANEL_X, ADSR_PANEL_Y, ADSR_PANEL_W, PANEL_H, 5, ILI9341_DARKGREY);
   tft.setCursor(ADSR_PANEL_X + 30, ADSR_PANEL_Y);
