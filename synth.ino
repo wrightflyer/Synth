@@ -40,6 +40,9 @@ extern const unsigned short amelia320[];
 #define ADSR_PANEL_X 120
 #define ADSR_PANEL_Y 20
 #define ADSR_PANEL_W 100
+#define KEYB_X  10
+#define KEYB_Y  200
+#define KEY_WIDTH 12
 
 typedef enum {
   AllMix,
@@ -59,6 +62,51 @@ typedef enum {
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
 
+typedef struct {
+  uint8_t type;
+  uint16_t offset;
+} keyb_t;
+
+// keys from 48 up - black (1) or white (0)
+const keyb_t keybd[] = {
+  { 0, 0 },
+  { 1, KEY_WIDTH * 0.5 },
+  { 0, KEY_WIDTH },
+  { 1, KEY_WIDTH * 1.5 },
+  { 0, KEY_WIDTH * 2 },
+  { 0, KEY_WIDTH * 3 },
+  { 1, KEY_WIDTH * 3.5 },
+  { 0, KEY_WIDTH * 4 },
+  { 1, KEY_WIDTH * 4.5 },
+  { 0, KEY_WIDTH * 5 },
+  { 1, KEY_WIDTH * 5.5 },
+  { 0, KEY_WIDTH * 6 },
+  { 0, KEY_WIDTH * 7 },
+  { 1, KEY_WIDTH * 7.5 },
+  { 0, KEY_WIDTH * 8 },
+  { 1, KEY_WIDTH * 8.5 },
+  { 0, KEY_WIDTH * 9 },
+  { 0, KEY_WIDTH * 10 },
+  { 1, KEY_WIDTH * 10.5 },
+  { 0, KEY_WIDTH * 11 },
+  { 1, KEY_WIDTH * 11.5 },
+  { 0, KEY_WIDTH * 12 },
+  { 1, KEY_WIDTH * 12.5 },
+  { 0, KEY_WIDTH * 13 },
+  { 0, KEY_WIDTH * 14 },
+  { 1, KEY_WIDTH * 14.5 },
+  { 0, KEY_WIDTH * 15 },
+  { 1, KEY_WIDTH * 15.5 },
+  { 0, KEY_WIDTH * 16 },
+  { 0, KEY_WIDTH * 17 },
+  { 1, KEY_WIDTH * 17.5 },
+  { 0, KEY_WIDTH * 18 },
+  { 1, KEY_WIDTH * 18.5 },
+  { 0, KEY_WIDTH * 19 },
+  { 1, KEY_WIDTH * 19.5 },
+  { 0, KEY_WIDTH * 20 }
+};
+
 // Mixer settings
 float wave1Amp = 1.0;
 float wave2Amp = 0.4;
@@ -75,11 +123,35 @@ double mapf(double x, double in_min, double in_max, double out_min, double out_m
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+void whiteKey(int n, bool pressed) {
+  if (!pressed) {
+    tft.fillRoundRect(KEYB_X + n, KEYB_Y + 20, 10, 20, 2, CL(180, 180, 180));
+  }
+  else {
+    tft.fillRoundRect(KEYB_X + n, KEYB_Y + 20, 10, 20, 2, CL(0, 180, 0));
+  }
+}
+
+void blackKey(int n, bool pressed) {
+  if (!pressed) {
+    tft.fillRoundRect(KEYB_X + n, KEYB_Y, 10, 20, 2, ILI9341_BLACK);
+  }
+  else {
+    tft.fillRoundRect(KEYB_X + n, KEYB_Y, 10, 20, 2, CL(0, 180, 0));
+  }
+}
+
 void OnNoteOn(byte channel, byte note, byte velocity) {
-  tft.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
+  Serial.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
   digitalWrite(LED_PIN, HIGH);
   float freq = tune_frequencies2_PGM[note];
-  tft.printf("so freq = %f\n", freq);
+  Serial.printf("so freq = %f\n", freq);
+  if (keybd[note - 48].type == 0) {
+    whiteKey(keybd[note - 48].offset, true);
+  }
+  else {
+    blackKey(keybd[note - 48].offset, true);
+  }
   waveformMod1.frequency(freq);
   if (note > 12) {
     note -= 10;
@@ -90,6 +162,12 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
 }
 
 void OnNoteOff(byte channel, byte note, byte velocity) {
+  if (keybd[note - 48].type == 0) {
+    whiteKey(keybd[note - 48].offset, false);
+  }
+  else {
+    blackKey(keybd[note - 48].offset, false);
+  }
   digitalWrite(LED_PIN, LOW);
   envelope1.noteOff();
 }
@@ -202,11 +280,11 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Alive");
   tft.begin();
-  tft.setRotation(1);
+  tft.setRotation(3);
   // show the pretty kitty
   tft.writeRect(0, 0, 320, 240, amelia320);
   // and give the world a chance to marvel in her glory
-  delay(2000);
+  delay(4000);
   // then clear the decks
   tft.fillScreen(ILI9341_LIGHTGREY);
   tft.setTextColor(ILI9341_BLACK);
@@ -221,6 +299,14 @@ void setup() {
   tft.setCursor(MIX_PANEL_X + 20, MIX_PANEL_Y);
   tft.print("Mixer");
   tft.setFont(Arial_11_Bold);
+  for (int i = 48; i < 84; i++) {
+    if (keybd[i - 48].type == 0) {
+      whiteKey(keybd[i - 48].offset, false);
+    }
+    else {
+      blackKey(keybd[i - 48].offset, false);
+    }
+  }
 
   AudioMemory(20);
   sgtl5000_1.enable();

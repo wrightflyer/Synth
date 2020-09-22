@@ -1,11 +1,11 @@
-#N canvas 367 119 742 716 10;
-#N canvas -7 0 1362 716 key 0;
+#N canvas 3904 -382 742 716 10;
+#N canvas 1912 -612 3440 1357 key 0;
 #X obj 261 466 makenote;
 #X obj 124 75 bng 18 250 50 0 c2 empty empty 17 7 0 10 -262144 -1 -1
 ;
 #X msg 59 403 127;
 #X msg 106 403 320;
-#X obj 261 500 noteout;
+#X obj 274 503 noteout;
 #X msg 347 466 1;
 #X obj 124 94 bng 18 250 50 0 c2 empty empty 17 7 0 10 -262144 -1 -1
 ;
@@ -188,12 +188,12 @@
 #X obj 933 118 makenote;
 #X msg 728 61 127;
 #X msg 778 61 320;
-#X obj 933 154 noteout;
+#X obj 953 154 noteout;
 #X msg 1019 118 1;
 #X obj 1000 446 makenote;
 #X msg 769 389 127;
 #X msg 819 389 320;
-#X obj 1000 485 noteout;
+#X obj 1025 485 noteout;
 #X msg 1086 446 1;
 #X obj 728 25 r c3;
 #X obj 828 25 r cs3;
@@ -244,18 +244,15 @@
 #X msg 1319 389 82;
 #X msg 1371 389 83;
 #X obj 867 496 key;
-#X obj 866 576 print;
 #X obj 102 172 key;
 #X obj 12 267 send c3;
 #X obj 65 292 send d3;
-#X obj 68 221 select 97 115 100 102 103 104 106 107 108;
 #X obj 99 267 send e3;
 #X obj 151 290 send f3;
 #X obj 188 267 send g3;
 #X obj 256 291 send a3;
 #X obj 264 267 send b3;
-#X obj 330 291 send c4;
-#X obj 338 267 send d4;
+#X obj 327 298 send c4;
 #X obj 535 167 key;
 #X obj 445 262 send cs3;
 #X obj 492 296 send eb3;
@@ -371,7 +368,15 @@
 1;
 #X obj 108 196 spigot;
 #X obj 470 192 spigot;
+#X obj 260 540 print osk:;
+#X obj 998 521 print osk:;
+#X obj 934 190 print osk:;
+#X obj 866 576 print kbd:;
+#X obj 68 221 select 97 115 100 102 103 104 106 107 108 59;
+#X obj 325 274 send d4;
+#X obj 334 252 send e4;
 #X connect 0 0 4 0;
+#X connect 0 0 238 0;
 #X connect 0 1 4 1;
 #X connect 2 0 0 1;
 #X connect 3 0 0 2;
@@ -404,11 +409,13 @@
 #X connect 105 0 106 0;
 #X connect 106 0 0 0;
 #X connect 107 0 110 0;
+#X connect 107 0 240 0;
 #X connect 107 1 110 1;
 #X connect 108 0 107 1;
 #X connect 109 0 107 2;
 #X connect 111 0 110 2;
 #X connect 112 0 115 0;
+#X connect 112 0 239 0;
 #X connect 112 1 115 1;
 #X connect 113 0 112 1;
 #X connect 114 0 112 2;
@@ -465,42 +472,43 @@
 #X connect 162 0 112 0;
 #X connect 163 0 112 0;
 #X connect 164 0 112 0;
-#X connect 165 0 166 0;
-#X connect 167 0 239 0;
-#X connect 170 0 168 0;
-#X connect 170 1 169 0;
-#X connect 170 2 171 0;
-#X connect 170 3 172 0;
-#X connect 170 4 173 0;
-#X connect 170 5 174 0;
-#X connect 170 6 175 0;
-#X connect 170 7 176 0;
-#X connect 170 8 177 0;
-#X connect 178 0 240 0;
-#X connect 184 0 179 0;
-#X connect 184 1 180 0;
-#X connect 184 2 181 0;
-#X connect 184 3 182 0;
-#X connect 184 4 183 0;
-#X connect 184 5 185 0;
-#X connect 184 6 186 0;
-#X connect 238 0 239 1;
-#X connect 238 0 240 1;
-#X connect 239 0 170 0;
-#X connect 240 0 184 0;
+#X connect 165 0 241 0;
+#X connect 166 0 236 0;
+#X connect 175 0 237 0;
+#X connect 181 0 176 0;
+#X connect 181 1 177 0;
+#X connect 181 2 178 0;
+#X connect 181 3 179 0;
+#X connect 181 4 180 0;
+#X connect 181 5 182 0;
+#X connect 181 6 183 0;
+#X connect 235 0 236 1;
+#X connect 235 0 237 1;
+#X connect 236 0 242 0;
+#X connect 237 0 181 0;
+#X connect 242 0 167 0;
+#X connect 242 1 168 0;
+#X connect 242 2 169 0;
+#X connect 242 3 170 0;
+#X connect 242 4 171 0;
+#X connect 242 5 172 0;
+#X connect 242 6 173 0;
+#X connect 242 7 174 0;
+#X connect 242 8 243 0;
+#X connect 242 9 244 0;
 #X coords 0 -1 1 1 520 140 2 100 5;
 #X restore 58 82 pd key;
 #N canvas 391 158 772 382 ADSR 0;
 #X obj 100 50 cnv 15 92 140 empty empty ADSR 26 -10 0 14 -233017 -66577
 0;
 #X obj 108 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 4100 1;
 #X obj 127 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 9300 1;
+-1 -1 5800 1;
 #X obj 148 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 1800 1;
+-1 -1 7000 1;
 #X obj 167 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 4700 1;
+-1 -1 3700 1;
 #X floatatom 105 166 3 0 0 3 - - -;
 #X floatatom 126 166 3 0 0 0 - - -;
 #X floatatom 147 166 3 0 0 0 - - -;
@@ -574,16 +582,16 @@
 #X obj 101 102 cnv 15 92 140 empty empty Mixer 20 -10 0 14 -233017
 -66577 0;
 #X obj 106 114 vsl 15 100 0 127 0 0 empty empty Osc1 0 -9 0 10 -262144
--1 -1 5500 1;
+-1 -1 6800 1;
 #X obj 61 244 int;
 #X floatatom 105 221 3 0 0 0 - - -;
 #X obj 61 286 ctlout 100;
 #X obj 134 114 vsl 15 100 0 127 0 0 empty empty Osc2 0 -9 0 10 -262144
--1 -1 3000 1;
+-1 -1 5100 1;
 #X obj 138 245 int;
 #X floatatom 134 220 3 0 0 0 - - -;
 #X obj 165 114 vsl 15 100 0 127 0 0 empty empty Noise -4 -9 0 10 -262144
--1 -1 300 1;
+-1 -1 5700 1;
 #X obj 209 245 int;
 #X floatatom 165 220 3 0 0 0 - - -;
 #X obj 134 285 ctlout 101;
