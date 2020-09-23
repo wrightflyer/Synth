@@ -50,6 +50,7 @@
 #define _ILI9341_t3H_
 
 #include <stdint.h>
+typedef bool boolean;
 #include "Print.h"
 
 #if defined(__MKL26Z64__)
@@ -324,7 +325,7 @@ class ILI9341_t3 : public Print
 #endif
 	uint16_t old_x0=-1, old_x1, old_y0=-1, old_y1;
 	void setAddr(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1)
-	  __attribute__((always_inline)) {
+	   {
 		if (x0 != old_x0 || x1 != old_x1) {
 			writecommand_cont(ILI9341_CASET); // Column addr set
 			writedata16_cont(x0);   // XSTART
@@ -344,23 +345,26 @@ class ILI9341_t3 : public Print
 
 #if defined(__IMXRT1052__) || defined(__IMXRT1062__)  // Teensy 4.x
 // T4
-	void DIRECT_WRITE_LOW(volatile uint32_t * base, uint32_t mask)  __attribute__((always_inline)) {
+	void DIRECT_WRITE_LOW(volatile uint32_t * base, uint32_t mask)   {
 		*(base+34) = mask;
 	}
-	void DIRECT_WRITE_HIGH(volatile uint32_t * base, uint32_t mask)  __attribute__((always_inline)) {
+	void DIRECT_WRITE_HIGH(volatile uint32_t * base, uint32_t mask)   {
 		*(base+33) = mask;
 	}
 	void waitFifoNotFull(void) {
-    	uint32_t tmp __attribute__((unused));
+#if 0
+    	uint32_t tmp ;
     	do {
         	if ((IMXRT_LPSPI4_S.RSR & LPSPI_RSR_RXEMPTY) == 0)  {
             	tmp = IMXRT_LPSPI4_S.RDR;  // Read any pending RX bytes in
             	if (_pending_rx_count) _pending_rx_count--; //decrement count of bytes still levt
         	}
     	} while ((IMXRT_LPSPI4_S.SR & LPSPI_SR_TDF) == 0) ;
+#endif
 	}
 	void waitTransmitComplete(void)  {
-	    uint32_t tmp __attribute__((unused));
+#if 0
+	    uint32_t tmp ;
 	//    digitalWriteFast(2, HIGH);
 
 	    while (_pending_rx_count) {
@@ -371,11 +375,13 @@ class ILI9341_t3 : public Print
 	    }
 	    IMXRT_LPSPI4_S.CR = LPSPI_CR_MEN | LPSPI_CR_RRF;       // Clear RX FIFO
 	//    digitalWriteFast(2, LOW);
+#endif
 	}
 
 
 	#define TCR_MASK  (LPSPI_TCR_PCS(3) | LPSPI_TCR_FRAMESZ(31) | LPSPI_TCR_CONT | LPSPI_TCR_RXMSK )
-	void maybeUpdateTCR(uint32_t requested_tcr_state) /*__attribute__((always_inline)) */ {
+	void maybeUpdateTCR(uint32_t requested_tcr_state) /* */ {
+#if 0
 		if ((_spi_tcr_current & TCR_MASK) != requested_tcr_state) {
 			bool dc_state_change = (_spi_tcr_current & LPSPI_TCR_PCS(3)) != (requested_tcr_state & LPSPI_TCR_PCS(3));
 			_spi_tcr_current = (_spi_tcr_current & ~TCR_MASK) | requested_tcr_state ;
@@ -392,64 +398,81 @@ class ILI9341_t3 : public Print
 
 			}
 		}
+#endif
 	}
 
-	void beginSPITransaction(uint32_t clock = ILI9341_SPICLOCK) __attribute__((always_inline)) {
+	void beginSPITransaction(uint32_t clock = ILI9341_SPICLOCK)  {
+#if 0
 		SPI.beginTransaction(SPISettings(clock, MSBFIRST, SPI_MODE0));
 		if (!_dcport) _spi_tcr_current = IMXRT_LPSPI4_S.TCR; 	// Only if DC is on hardware CS 
 		if (_csport)
 			DIRECT_WRITE_LOW(_csport, _cspinmask);
+#endif
 	}
-	void endSPITransaction() __attribute__((always_inline)) {
+	void endSPITransaction()  {
+#if 0
 		if (_csport)
 			DIRECT_WRITE_HIGH(_csport, _cspinmask);
 		SPI.endTransaction();
+#endif
 	}
 
 	// BUGBUG:: currently assumming we only have CS_0 as valid CS
-	void writecommand_cont(uint8_t c) __attribute__((always_inline)) {
+	void writecommand_cont(uint8_t c)  {
+#if 0
 		maybeUpdateTCR(_tcr_dc_assert | LPSPI_TCR_FRAMESZ(7) /*| LPSPI_TCR_CONT*/);
 		IMXRT_LPSPI4_S.TDR = c;
 		_pending_rx_count++;	//
 		waitFifoNotFull();
+#endif
 	}
-	void writedata8_cont(uint8_t c) __attribute__((always_inline)) {
+	void writedata8_cont(uint8_t c)  {
+#if 0
 		maybeUpdateTCR(_tcr_dc_not_assert | LPSPI_TCR_FRAMESZ(7) | LPSPI_TCR_CONT);
 		IMXRT_LPSPI4_S.TDR = c;
 		_pending_rx_count++;	//
 		waitFifoNotFull();
+#endif
 	}
-	void writedata16_cont(uint16_t d) __attribute__((always_inline)) {
+	void writedata16_cont(uint16_t d)  {
+#if 0
 		maybeUpdateTCR(_tcr_dc_not_assert | LPSPI_TCR_FRAMESZ(15) | LPSPI_TCR_CONT);
 		IMXRT_LPSPI4_S.TDR = d;
 		_pending_rx_count++;	//
 		waitFifoNotFull();
+#endif
 	}
-	void writecommand_last(uint8_t c) __attribute__((always_inline)) {
+	void writecommand_last(uint8_t c)  {
+#if 0
 		maybeUpdateTCR(_tcr_dc_assert | LPSPI_TCR_FRAMESZ(7));
 		IMXRT_LPSPI4_S.TDR = c;
 //		IMXRT_LPSPI4_S.SR = LPSPI_SR_WCF | LPSPI_SR_FCF | LPSPI_SR_TCF;
 		_pending_rx_count++;	//
 		waitTransmitComplete();
+#endif
 	}
-	void writedata8_last(uint8_t c) __attribute__((always_inline)) {
+	void writedata8_last(uint8_t c)  {
+#if 0
 		maybeUpdateTCR(_tcr_dc_not_assert | LPSPI_TCR_FRAMESZ(7));
 		IMXRT_LPSPI4_S.TDR = c;
 //		IMXRT_LPSPI4_S.SR = LPSPI_SR_WCF | LPSPI_SR_FCF | LPSPI_SR_TCF;
 		_pending_rx_count++;	//
 		waitTransmitComplete();
+#endif
 	}
-	void writedata16_last(uint16_t d) __attribute__((always_inline)) {
+	void writedata16_last(uint16_t d)  {
+#if 0
 		maybeUpdateTCR(_tcr_dc_not_assert | LPSPI_TCR_FRAMESZ(15));
 		IMXRT_LPSPI4_S.TDR = d;
 //		IMXRT_LPSPI4_S.SR = LPSPI_SR_WCF | LPSPI_SR_FCF | LPSPI_SR_TCF;
 		_pending_rx_count++;	//
 		waitTransmitComplete();
+#endif
 	}
 
 #else
 // T3.x	
-	//void waitFifoNotFull(void) __attribute__((always_inline)) {
+	//void waitFifoNotFull(void)  {
 	void waitFifoNotFull(void) {
 		uint32_t sr;
 		uint32_t tmp __attribute__((unused));
@@ -466,12 +489,12 @@ class ILI9341_t3 : public Print
 			if (sr & 0xF0) tmp = KINETISK_SPI0.POPR;  // drain RX FIFO
 		} while ((sr & 0xF0F0) > 0);             // wait both RX & TX empty
 	}
-	void waitTransmitComplete(void) __attribute__((always_inline)) {
+	void waitTransmitComplete(void)  {
 		uint32_t tmp __attribute__((unused));
 		while (!(KINETISK_SPI0.SR & SPI_SR_TCF)) ; // wait until final output done
 		tmp = KINETISK_SPI0.POPR;                  // drain the final RX FIFO word
 	}
-	void waitTransmitComplete(uint32_t mcr) __attribute__((always_inline)) {
+	void waitTransmitComplete(uint32_t mcr)  {
 		uint32_t tmp __attribute__((unused));
 		while (1) {
 			uint32_t sr = KINETISK_SPI0.SR;
@@ -484,47 +507,47 @@ class ILI9341_t3 : public Print
 			tmp = KINETISK_SPI0.POPR;
 		}
 	}
-	void beginSPITransaction(uint32_t clock = ILI9341_SPICLOCK) __attribute__((always_inline)) {
+	void beginSPITransaction(uint32_t clock = ILI9341_SPICLOCK)  {
 		SPI.beginTransaction(SPISettings(clock, MSBFIRST, SPI_MODE0));
 		if (_csport)
 			*_csport  &= ~_cspinmask;
 	}
-	void endSPITransaction() __attribute__((always_inline)) {
+	void endSPITransaction()  {
 		if (_csport)
 			*_csport |= _cspinmask;
 		SPI.endTransaction();
 	}
 
-	void writecommand_cont(uint8_t c) __attribute__((always_inline)) {
+	void writecommand_cont(uint8_t c)  {
 		KINETISK_SPI0.PUSHR = c | (pcs_command << 16) | SPI_PUSHR_CTAS(0) | SPI_PUSHR_CONT;
 		waitFifoNotFull();
 	}
-	void writedata8_cont(uint8_t c) __attribute__((always_inline)) {
+	void writedata8_cont(uint8_t c)  {
 		KINETISK_SPI0.PUSHR = c | (pcs_data << 16) | SPI_PUSHR_CTAS(0) | SPI_PUSHR_CONT;
 		waitFifoNotFull();
 	}
-	void writedata16_cont(uint16_t d) __attribute__((always_inline)) {
+	void writedata16_cont(uint16_t d)  {
 		KINETISK_SPI0.PUSHR = d | (pcs_data << 16) | SPI_PUSHR_CTAS(1) | SPI_PUSHR_CONT;
 		waitFifoNotFull();
 	}
-	void writecommand_last(uint8_t c) __attribute__((always_inline)) {
+	void writecommand_last(uint8_t c)  {
 		uint32_t mcr = SPI0_MCR;
 		KINETISK_SPI0.PUSHR = c | (pcs_command << 16) | SPI_PUSHR_CTAS(0) | SPI_PUSHR_EOQ;
 		waitTransmitComplete(mcr);
 	}
-	void writedata8_last(uint8_t c) __attribute__((always_inline)) {
+	void writedata8_last(uint8_t c)  {
 		uint32_t mcr = SPI0_MCR;
 		KINETISK_SPI0.PUSHR = c | (pcs_data << 16) | SPI_PUSHR_CTAS(0) | SPI_PUSHR_EOQ;
 		waitTransmitComplete(mcr);
 	}
-	void writedata16_last(uint16_t d) __attribute__((always_inline)) {
+	void writedata16_last(uint16_t d)  {
 		uint32_t mcr = SPI0_MCR;
 		KINETISK_SPI0.PUSHR = d | (pcs_data << 16) | SPI_PUSHR_CTAS(1) | SPI_PUSHR_EOQ;
 		waitTransmitComplete(mcr);
 	}
 #endif
 	void HLine(int16_t x, int16_t y, int16_t w, uint16_t color)
-	  __attribute__((always_inline)) {
+	   {
 	  	if((x >= _width) || (y >= _height) || (y < 0)) return;
 		if(x < 0) {	w += x; x = 0; 	}
 		if((x+w-1) >= _width)  w = _width-x;
@@ -534,7 +557,7 @@ class ILI9341_t3 : public Print
 		do { writedata16_cont(color); } while (--w > 0);
 	}
 	void VLine(int16_t x, int16_t y, int16_t h, uint16_t color)
-	  __attribute__((always_inline)) {
+	   {
 		if((x >= _width) || (x < 0) || (y >= _height)) return;
 		if(y < 0) {	h += y; y = 0; 	}
 		if((y+h-1) >= _height) h = _height-y;
@@ -543,7 +566,7 @@ class ILI9341_t3 : public Print
 		do { writedata16_cont(color); } while (--h > 0);
 	}
 	void Pixel(int16_t x, int16_t y, uint16_t color)
-	  __attribute__((always_inline)) {
+	   {
 		if((x >= _width) || (x < 0) || (y >= _height) || (y < 0)) return;
 		setAddr(x, y, x, y);
 		writecommand_cont(ILI9341_RAMWR);
@@ -552,9 +575,18 @@ class ILI9341_t3 : public Print
 	void drawFontBits(uint32_t bits, uint32_t numbits, uint32_t x, uint32_t y, uint32_t repeat);
 };
 
-#ifndef swap
-#define swap(a, b) { typeof(a) t = a; a = b; b = t; }
-#endif
+#define swap(a, b) { int16_t t = a; a = b; b = t; }
+#define min(x, y) ((x > y) ? y : x)
+
+static inline int __builtin_clz(uint32_t x) {
+    uint32_t mask = 0x80000000;
+    int n = 0;
+    while (!(x & mask)) {
+        n++;
+        mask >>= 1;
+    }
+    return n;
+}
 
 // To avoid conflict when also using Adafruit_GFX or any Adafruit library
 // which depends on Adafruit_GFX, #include the Adafruit library *BEFORE*

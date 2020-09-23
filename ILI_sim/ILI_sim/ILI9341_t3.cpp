@@ -48,6 +48,7 @@
 
 // <\SoftEgg>
 
+#define _CRT_SECURE_NO_WARNINGS
 #include "ILI9341_t3.h"
 #include "SPI.h"
 
@@ -414,6 +415,7 @@ uint8_t ILI9341_t3::readcommand8(uint8_t c, uint8_t index)
 	beginSPITransaction(ILI9341_SPICLOCK_READ);
 
 	if (_dcport) {
+#if 0
 		// DC pin is controlled by GPIO
 		DIRECT_WRITE_LOW(_dcport, _dcpinmask);
 		IMXRT_LPSPI4_S.SR = LPSPI_SR_TCF | LPSPI_SR_FCF | LPSPI_SR_WCF;
@@ -438,6 +440,7 @@ uint8_t ILI9341_t3::readcommand8(uint8_t c, uint8_t index)
 		while (!(IMXRT_LPSPI4_S.SR & LPSPI_SR_WCF)) ; // wait until word complete
 		while (((IMXRT_LPSPI4_S.FSR >> 16) & 0x1F) == 0) ; // wait until rx fifo not empty
 		r = IMXRT_LPSPI4_S.RDR;
+#endif
 	} else {
 		// DC pin is controlled by SPI CS hardware
 
@@ -474,6 +477,7 @@ uint16_t ILI9341_t3::readScanLine()
 	//digitalWriteFast(2, LOW);
 	beginSPITransaction(ILI9341_SPICLOCK_READ);
 	if (_dcport) {
+#if 0
 		// DC pin is controlled by GPIO
 		DIRECT_WRITE_LOW(_dcport, _dcpinmask);
 		IMXRT_LPSPI4_S.SR = LPSPI_SR_TCF | LPSPI_SR_FCF | LPSPI_SR_WCF;
@@ -488,6 +492,7 @@ uint16_t ILI9341_t3::readScanLine()
 		while (((IMXRT_LPSPI4_S.FSR >> 16) & 0x1F) == 0) ; // wait until rx fifo not empty
 		line = IMXRT_LPSPI4_S.RDR >> 7;
 		//if (IMXRT_LPSPI4_S.FSR != 0) Serial.println("ERROR: junk remains in FIFO!!!");
+#endif
 	} else {
 		// DC pin is controlled by SPI CS hardware
 		// TODO...
@@ -609,6 +614,7 @@ void ILI9341_t3::readRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t *
 	writedata8_last(0);		// BUGBUG:: maybe fix this as this will wait until the byte fully transfers through.
 
 	while (txCount || rxCount) {
+#if 0
 		// transmit another byte if possible
 		if (txCount && (IMXRT_LPSPI4_S.SR & LPSPI_SR_TDF)) {
 			txCount--;
@@ -632,6 +638,7 @@ void ILI9341_t3::readRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t *
 				*pcolors++ = color565(rgb[0], rgb[1], rgb[2]);
 			}
 		}
+#endif
 	}
 
 	// We should have received everything so should be done
@@ -825,6 +832,7 @@ void ILI9341_t3::begin(void)
 		}
 	}
 #elif defined(__IMXRT1052__) || defined(__IMXRT1062__)  // Teensy 4.x 
+#if 0
 	_pending_rx_count = 0;
 	SPI.begin();
 	_csport = portOutputRegister(_cs);
@@ -852,8 +860,6 @@ void ILI9341_t3::begin(void)
 	}
 	maybeUpdateTCR(_tcr_dc_not_assert | LPSPI_TCR_FRAMESZ(7));
 
-
-#endif
 	// toggle RST low to reset
 	if (_rst < 255) {
 		pinMode(_rst, OUTPUT);
@@ -893,6 +899,8 @@ void ILI9341_t3::begin(void)
 	beginSPITransaction(_clock);
 	writecommand_last(ILI9341_DISPON);    // Display on
 	endSPITransaction();
+#endif
+#endif
 }
 
 
@@ -1261,6 +1269,8 @@ void ILI9341_t3::fillTriangle ( int16_t x0, int16_t y0,
     drawFastHLine(a, y, b-a+1, color);
   }
 }
+
+#define pgm_read_byte(x) (*(x))
 
 void ILI9341_t3::drawBitmap(int16_t x, int16_t y,
 			      const uint8_t *bitmap, int16_t w, int16_t h,
@@ -1773,6 +1783,7 @@ uint8_t ILI9341_t3::getRotation(void) {
 }
 
 void ILI9341_t3::sleep(bool enable) {
+#if 0
 	beginSPITransaction(_clock);
 	if (enable) {
 		writecommand_cont(ILI9341_DISPOFF);		
@@ -1784,6 +1795,7 @@ void ILI9341_t3::sleep(bool enable) {
 		endSPITransaction();
 		delay(5);
 	}
+#endif
 }
 
 void Adafruit_GFX_Button::initButton(ILI9341_t3 *gfx,

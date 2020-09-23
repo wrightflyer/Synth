@@ -31,6 +31,7 @@
 #ifndef Print_h
 #define Print_h
 
+#define _CRT_SECURE_NO_WARNINGS
 #include <inttypes.h>
 #include <stdio.h> // for size_t - gives sprintf and other stuff to all sketches & libs
 #include <stdarg.h>

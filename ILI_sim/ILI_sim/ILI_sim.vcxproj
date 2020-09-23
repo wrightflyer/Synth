@@ -104,8 +104,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;__IMXRT1062__;__arm__;TEENSYDUINO=153;ARDUINO=10813;ARDUINO_TEENSY40;F_CPU=60000000;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,8 +141,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;__IMXRT1062__;__arm__;TEENSYDUINO=153;ARDUINO=10813;ARDUINO_TEENSY40;F_CPU=60000000;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,9 +157,11 @@
     <ClInclude Include="ILI9341_t3.h" />
     <ClInclude Include="ILI_sim.h" />
     <ClInclude Include="Print.h" />
+    <ClInclude Include="Printable.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SPI.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="WString.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ILI9341_t3.cpp" />
