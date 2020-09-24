@@ -1120,7 +1120,7 @@ public:
 	static const SPI_Hardware_t spiclass_lpspi1_hardware;
 #endif	
 public:
-	constexpr SPIClass(uintptr_t myport, uintptr_t myhardware)
+	/* constexpr */ SPIClass(uintptr_t myport, uintptr_t myhardware)
 		: port_addr(myport), hardware_addr(myhardware) {
 	}
 //	constexpr SPIClass(IMXRT_LPSPI_t *myport, const SPI_Hardware_t *myhardware)

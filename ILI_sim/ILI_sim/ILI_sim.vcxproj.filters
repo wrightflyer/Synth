@@ -50,6 +50,12 @@
     <ClCompile Include="ILI9341_t3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="glcdfont.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Print.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ILI_sim.rc">
