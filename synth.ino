@@ -1,8 +1,9 @@
 #include "NoteData.h"
-#include "SPI.h"
-#include "ILI9341_t3.h"
-#include "font_Arial.h"
-#include "font_ArialBold.h"
+#include <ILI9341_t3.h>
+#include <font_Arial.h>
+#include <font_ArialBold.h>
+#include <XPT2046_Touchscreen.h>
+#include <Encoder.h>
 #include <Audio.h>
 #include <Wire.h>
 #include <SPI.h>
@@ -40,6 +41,11 @@ extern const unsigned short amelia320[];
 #define LED_PIN 13
 #define TFT_DC  9
 #define TFT_CS 10
+#define TOUCH_CS 8
+#define JOY_SW 2
+#define JOY_X 8 // pin 22
+#define JOY_Y 5 // pin 19
+
 #define PANEL_H 140
 #define BAR_HEIGHT 100
 #define BAR_WIDTH 20
@@ -77,6 +83,29 @@ typedef enum {
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
+XPT2046_Touchscreen ts(TOUCH_CS);
+Encoder enc(2,3);
+
+/*===========================================================
+ *  TS calibration musings... points at 4 corners:
+ * 
+        3740, 3833                     227, 3818
+        
+        
+        3687, 374                      235, 346
+        
+        3740 - 227 = 3513 to represent 320 X
+        3687 - 235 = 3452 to represent 320 X
+        Avg = 3482
+        
+        3833 - 374 = 3459 to represent 240 Y
+        3818 - 346 = 3472 to represent 240 Y
+        Avg = 3465
+        
+        X = (X reading - 231) then map(3482, 0, 0, 320)
+        Y = (Y reading - 360) then map(3465, 0, 0, 240)
+        
+============================================================*/
 
 typedef struct {
   uint8_t type;
@@ -155,6 +184,29 @@ filter_band_t filtBand = LPF;
 float filterFreq = 5000;
 float filterRes = 2.5;
 
+int clickCount = 0;
+unsigned long lastMillis = 0;
+long encPos = -999;
+int encVal = 0;
+
+boolean pointInRect(int x, int y, int rectX, int rectY, int rectW, int rectH) {
+  boolean ret = false;
+  if ((x >= rectX) && (x <= (rectX + rectW)) && (y >= rectY) && (y <= (rectY + rectH))) {
+    ret = true;
+  }
+  Serial.printf("x=%u y=%u, Rx=%u, Ry=%u, Rw=%u Rh=%u, Rx2=%u, Ry2=%u, ret=%u\n",
+            x, y, rectX, rectY, rectW, rectH, rectX+rectW, rectY+rectH, ret);
+  return ret;
+}
+
+int pointInBar(int x, int y, int barX, int barY) {
+  int ret = -1;
+  if (pointInRect(x, y, barX, barY + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT)) {
+    ret = map((y - (barY + BAR_OFFSET)), BAR_HEIGHT, 0, 0, 127);
+  }
+  return ret;
+}
+
 double mapf(double x, double in_min, double in_max, double out_min, double out_max)
 {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -215,8 +267,10 @@ void drawBar(int x, int y, int value, char * text) {
   // draw filled part rect to show value
   tft.fillRoundRect(x, y + BAR_OFFSET + value, BAR_WIDTH, BAR_HEIGHT - value, 5, ILI9341_BLACK);
   // add a label above
-  tft.setCursor(x + 8, y + BAR_HEIGHT + 20);
-  tft.print(text);
+  if (text != NULL) {
+    tft.setCursor(x + 8, y + BAR_HEIGHT + 20);
+    tft.print(text);
+  }
 }
 
 void updateMix(Mix_change_t change) {
@@ -226,18 +280,20 @@ void updateMix(Mix_change_t change) {
   mixer1.gain(2, noiseAmp);
   if ((change == W1) || (change == AllMix)) {
     w1_val = BAR_HEIGHT - mapf(wave1Amp, 0.0, 1.0, 0, BAR_HEIGHT);
-    drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, w1_val, "1");
+    drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, w1_val, (change == AllMix) ? "1" : NULL);
   }
   if ((change == W2) || (change == AllMix)) {
     w2_val = BAR_HEIGHT - mapf(wave2Amp, 0.0, 1.0, 0, BAR_HEIGHT);
-    drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, w2_val, "2");
+    drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, w2_val, (change == AllMix) ? "2" : NULL);
   }
   if ((change == Noise) || (change == AllMix)) {
     noise_val = BAR_HEIGHT - mapf(noiseAmp, 0.0, 1.0, 0, BAR_HEIGHT);
-    drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, noise_val, "N");
+    drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, noise_val, (change == AllMix) ? "N" : NULL);
   }
+  #if 0
   Serial.printf("Mixer: Osc1 = %.02f, Osc2 = %.02f, Noise = %.02f, w1 = %u, w2 = %u, noise =%u\n", 
     wave1Amp, wave2Amp, noiseAmp, w1_val, w2_val, noise_val);
+    #endif
 }
 
 void updateADSR(ADSR_change_t change) {
@@ -247,22 +303,22 @@ void updateADSR(ADSR_change_t change) {
   envelope1.sustain(envSustain);
   envelope1.release(envRelease);
   if ((change == Attack) || (change == AllADSR)) {
-    a_val = BAR_HEIGHT - mapf(envAttack, 0, 2000.0, 0, BAR_HEIGHT); 
-    drawBar(ADSR_PANEL_X + 5, ADSR_PANEL_Y, a_val, "A");
+    a_val = BAR_HEIGHT - mapf(envAttack, 0, 2000.0, 0, BAR_HEIGHT);
+    drawBar(ADSR_PANEL_X + 5, ADSR_PANEL_Y, a_val, (change == AllADSR) ? "A" : NULL);
   }
   if ((change == Decay) || (change == AllADSR)) {
     d_val = BAR_HEIGHT - mapf(envDecay, 0, 2000.0, 0, BAR_HEIGHT); 
-    drawBar(ADSR_PANEL_X + 30, ADSR_PANEL_Y, d_val, "D");
+    drawBar(ADSR_PANEL_X + 30, ADSR_PANEL_Y, d_val, (change == AllADSR) ? "D" : NULL);
   }
   if ((change == Sustain) || (change == AllADSR)) {
     s_val = BAR_HEIGHT - mapf(envSustain, 0, 1.0, 0, BAR_HEIGHT); 
-    drawBar(ADSR_PANEL_X + 55, ADSR_PANEL_Y, s_val, "S");
+    drawBar(ADSR_PANEL_X + 55, ADSR_PANEL_Y, s_val, (change == AllADSR) ? "S" : NULL);
   }
   if ((change == Release) || (change == AllADSR)) {
     r_val = BAR_HEIGHT - mapf(envRelease, 0, 2000.0, 0, BAR_HEIGHT); 
-    drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, r_val, "R");
+    drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, r_val, (change == AllADSR) ? "R" : NULL);
   }
-  Serial.printf("ADSR: Attack = %.02fms, Decay = %.02fms, Sustain = %.02f, Release = %.02fms\n", envAttack, envDecay, envSustain, envRelease);
+  //Serial.printf("ADSR: Attack = %.02fms, Decay = %.02fms, Sustain = %.02f, Release = %.02fms\n", envAttack, envDecay, envSustain, envRelease);
 }
 
 void updateFilterBand() {
@@ -365,10 +421,13 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
+  pinMode(JOY_SW, INPUT_PULLUP);
   Serial.begin(9600);
   Serial.println("Alive");
   tft.begin();
   tft.setRotation(3);
+  ts.begin();
+  ts.setRotation(3);
   // show the pretty kitty
   tft.writeRect(0, 0, 320, 240, amelia320);
   // and give the world a chance to marvel in her glory
@@ -414,6 +473,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   usbMIDI.read();
+#if 0  
   int16_t x, y;
   tft.getCursor(&x, &y);
   if (y > 240) {
@@ -421,4 +481,102 @@ void loop() {
     tft.setCursor(0, 20);
   }
   //Serial.printf("x = %u, y = %u\n", x, y);
+#endif
+  if (ts.touched()) {
+    int X, Y;
+    TS_Point p = ts.getPoint();
+    X = p.x - 231;
+    X = map(X, 3482, 0, 0, 320);
+    Y = p.y - 360;
+    Y = map(Y, 3465, 0, 0, 240);
+#if 0
+    tft.fillRect(100, 150, 140, 60, ILI9341_BLACK);
+    tft.setTextColor(ILI9341_GREEN);
+    tft.setFont(Arial_24);
+    tft.setCursor(100, 150);
+    tft.print("X = ");
+    tft.print(X);
+    tft.setCursor(100, 180);
+    tft.print("Y = ");
+    tft.print(Y);
+    tft.fillCircle(X, Y, 4, CL(0, 255, 0));
+#endif
+    tft.setFont(Arial_14);
+    tft.fillRect(240, 5, 100, 30, ILI9341_BLACK);
+    tft.setTextColor(ILI9341_RED);
+    tft.setCursor(240, 5);
+    int Aval;
+    Aval = pointInBar(X, Y, ADSR_PANEL_X + 5, ADSR_PANEL_Y);
+    if (Aval > 0) {
+      tft.print(Aval);
+      OnControlChange(1, 103, Aval);
+    }
+    int Dval;
+    Dval = pointInBar(X, Y, ADSR_PANEL_X + 30, ADSR_PANEL_Y);
+    if (Dval > 0) {
+      tft.print(Dval);
+      OnControlChange(1, 104, Dval);
+    }
+    int Sval;
+    Sval = pointInBar(X, Y, ADSR_PANEL_X + 55, ADSR_PANEL_Y);
+    if (Sval > 0) {
+      tft.print(Sval);
+      OnControlChange(1, 105, Sval);
+    }
+    int Rval;
+    Rval = pointInBar(X, Y, ADSR_PANEL_X + 80, ADSR_PANEL_Y);
+    if (Rval > 0) {
+      tft.print(Rval);
+      OnControlChange(1, 106, Rval);
+    }
+    int O1val;
+    O1val = pointInBar(X, Y, MIX_PANEL_X + 5, MIX_PANEL_Y);
+    if (O1val > 0) {
+      tft.print(O1val);
+      OnControlChange(1, 100, O1val);
+    }
+    int O2val;
+    O2val = pointInBar(X, Y, MIX_PANEL_X + 30, MIX_PANEL_Y);
+    if (O2val > 0) {
+      tft.print(O2val);
+      OnControlChange(1, 101, O2val);
+    }
+    int Nval;
+    Nval = pointInBar(X, Y, MIX_PANEL_X + 55, MIX_PANEL_Y);
+    if (Nval > 0) {
+      tft.print(Nval);
+      OnControlChange(1, 102, Nval);
+    }
+  }
+  if (millis() > (lastMillis + 100)) {
+    if (digitalRead(JOY_SW) == 0) {
+      clickCount++;
+      Serial.printf("Click %u\n", clickCount);
+    }
+    int joyX, joyY;
+    joyX = analogRead(JOY_X);
+    joyY = analogRead(JOY_Y);
+    #if 1
+    tft.fillRect(220, 10, 100, 12, ILI9341_BLACK);
+    tft.setCursor(220, 10);
+    tft.setTextColor(ILI9341_WHITE);
+    tft.setFont(Arial_12);
+    tft.printf("x=%u y=%u\r", joyX, joyY);
+    #endif
+    OnControlChange(1, 103, map(joyX, 0, 1023, 0, 127));
+    OnControlChange(1, 104, map(joyY, 0, 1023, 0, 127));
+    lastMillis = millis();
+  }
+  long newPos;
+  newPos = enc.read();
+  if (newPos != encPos) {
+    if ((newPos > encPos) && (encVal < 127)) {
+      encVal++;
+    }
+    if ((newPos < encPos) && (encVal > 0)) {
+      encVal--;
+    }
+    OnControlChange(1, 105, encVal);
+    encPos = newPos;
+  }
 }
