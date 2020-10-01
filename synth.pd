@@ -1,4 +1,4 @@
-#N canvas 264 92 742 716 10;
+#N canvas 176 26 742 716 10;
 #N canvas -10 26 1370 729 key 0;
 #X obj 261 466 makenote;
 #X obj 124 75 bng 18 250 50 0 c2 empty empty 17 7 0 10 -262144 -1 -1
@@ -782,3 +782,29 @@
 #X connect 31 0 29 0;
 #X coords 0 -1 1 1 260 140 1 100 100;
 #X restore 259 429 pd OSC2;
+#N canvas 0 50 450 300 filter 0;
+#X obj 100 100 cnv 15 120 140 empty empty Filter 25 -10 0 14 -233017
+-66577 0;
+#X obj 108 112 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X text 126 111 HPF;
+#X text 126 127 BPF;
+#X text 126 143 LPF;
+#X obj 159 115 vsl 15 100 0 127 0 0 empty empty Freq 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 114 245 int;
+#X floatatom 158 222 3 0 0 0 - - -;
+#X obj 114 287 ctlout 100;
+#X obj 191 116 vsl 15 100 0 127 0 0 empty empty Res 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 146 246 int;
+#X floatatom 190 223 3 0 0 0 - - -;
+#X obj 146 288 ctlout 100;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 0;
+#X connect 9 0 10 0;
+#X connect 10 0 11 0;
+#X connect 11 0 12 0;
+#X coords 0 -1 1 1 120 140 1 100 100;
+#X restore 540 435 pd filter;
