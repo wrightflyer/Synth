@@ -19,8 +19,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+//#include <Arduino.h>
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdlib.h>
+#include "fakelibc.h"
 #include "WString.h"
-
 
 /*********************************************/
 /*  Constructors                             */
@@ -67,7 +70,7 @@ String::String(unsigned char c)
 {
 	init();
 	char buf[4];
-	utoa(c, buf, 10);
+	fake_utoa(c, buf, 10);
 	*this = buf;
 }
 
@@ -75,7 +78,7 @@ String::String(const int value, unsigned char base)
 {
 	init();
 	char buf[18];
-	itoa(value, buf, base);
+	fake_itoa(value, buf, base);
 	*this = buf;
 }
 
@@ -83,7 +86,7 @@ String::String(unsigned int value, unsigned char base)
 {
 	init();
 	char buf[17];
-  	utoa(value, buf, base);
+  	fake_utoa(value, buf, base);
 	*this = buf;
 }
 
@@ -91,7 +94,7 @@ String::String(long value, unsigned char base)
 {
 	init();
 	char buf[34];
-	ltoa(value, buf, base);
+	fake_ltoa(value, buf, base);
 	*this = buf;
 }
 
@@ -99,7 +102,7 @@ String::String(unsigned long value, unsigned char base)
 {
 	init();
 	char buf[33];
-	ultoa(value, buf, base);
+	fake_ultoa(value, buf, base);
 	*this = buf;
 }
 
@@ -283,7 +286,7 @@ String & String::append(char c)
 String & String::append(int num)
 {
 	char buf[12];
-	ltoa((long)num, buf, 10);
+	fake_ltoa((long)num, buf, 10);
 	append(buf, strlen(buf));
 	return *this;
 }
@@ -291,7 +294,7 @@ String & String::append(int num)
 String & String::append(unsigned int num)
 {
 	char buf[11];
-	ultoa((unsigned long)num, buf, 10);
+	fake_ultoa((unsigned long)num, buf, 10);
 	append(buf, strlen(buf));
 	return *this;
 }
@@ -299,7 +302,7 @@ String & String::append(unsigned int num)
 String & String::append(long num)
 {
 	char buf[12];
-	ltoa(num, buf, 10);
+	fake_ltoa(num, buf, 10);
 	append(buf, strlen(buf));
 	return *this;
 }
@@ -307,7 +310,7 @@ String & String::append(long num)
 String & String::append(unsigned long num)
 {
 	char buf[11];
-	ultoa(num, buf, 10);
+	fake_ultoa(num, buf, 10);
 	append(buf, strlen(buf));
 	return *this;
 }

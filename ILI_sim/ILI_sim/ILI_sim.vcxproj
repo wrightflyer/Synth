@@ -104,9 +104,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;__IMXRT1062__;__arm__;TEENSYDUINO=153;ARDUINO=10813;ARDUINO_TEENSY40;F_CPU=60000000;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;__IMXRT1062__;__arm__;TEENSYDUINO=153;ARDUINO=10813;ARDUINO_TEENSY40;F_CPU=60000000;__STRICT_ANSI__;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,9 +140,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;__IMXRT1062__;__arm__;TEENSYDUINO=153;ARDUINO=10813;ARDUINO_TEENSY40;F_CPU=60000000;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;__IMXRT1062__;__arm__;TEENSYDUINO=153;ARDUINO=10813;ARDUINO_TEENSY40;F_CPU=60000000;__STRICT_ANSI__;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="fakelibc.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ILI9341_t3.h" />
     <ClInclude Include="ILI_sim.h" />
@@ -164,10 +163,12 @@
     <ClInclude Include="WString.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="fakelibc.cpp" />
     <ClCompile Include="glcdfont.c" />
     <ClCompile Include="ILI9341_t3.cpp" />
     <ClCompile Include="ILI_sim.cpp" />
     <ClCompile Include="Print.cpp" />
+    <ClCompile Include="WString.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ILI_sim.rc" />
