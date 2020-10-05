@@ -41,7 +41,7 @@ void writeSim(uint16_t data) {
 	arr_screen[arr_idx] = (r << 16) | (g << 8) | b;
 	arr_idx++;
 	// if reached end of current line in rectangle
-	if (arr_idx == sim_x1) {
+	if ((arr_idx % 320) == sim_x1) {
 		// back to start of current rectangle line
 		arr_idx -= (sim_x1 - sim_x0);
 		// then down one whole line
