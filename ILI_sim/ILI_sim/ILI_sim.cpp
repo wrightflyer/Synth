@@ -35,10 +35,10 @@ void writeSim(uint16_t data) {
 		// stop if beyond x1,y1
 		return;
 	}
-	r = (data & 0xF800) >> 16; // 1111 1000 0000 0000 : 5
+	r = (data & 0xF800) >> 8; // 1111 1000 0000 0000 : 5
 	g = (data & 0x07E0) >> 3;  // 0000 0111 1110 0000 : 6
 	b = (data & 0x001F) << 3;  // 0000 0000 0001 1111 : 5
-	arr_screen[arr_idx] = (b << 16) | (g << 8) | r;
+	arr_screen[arr_idx] = (r << 16) | (g << 8) | b;
 	arr_idx++;
 	// if reached end of current line in rectangle
 	if (arr_idx == sim_x1) {
@@ -143,10 +143,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    int R, G, B;
    for (int n = 0; n < (320 * 240); n++) {
-       R = rand() & 0xFF;
-       G = rand() & 0xFF;
-       B = rand() & 0xFF;
-       arr_screen[n] = (B << 16) | (G << 8) | R;
+       R = 0;
+	   G = 0; //rand() & 0xFF;
+	   B = 0xFF; // rand() & 0xFF;
+       arr_screen[n] = (R << 16) | (G << 8) | B;
    }
 
    // take global copy of wiondow handle so we can invalidate it to force WM_PAINT

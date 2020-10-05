@@ -36,6 +36,7 @@ void drawBar(int x, int y, int value, char * text) {
 void setup() {
 	tft.begin();
 	tft.fillScreenVGradient(CL(255, 255, 255), CL(0, 0, 255));
+	tft.setTextColor(CL(128, 20, 0));
 	drawBar(100, 20, 37, "Test");
 }
 
