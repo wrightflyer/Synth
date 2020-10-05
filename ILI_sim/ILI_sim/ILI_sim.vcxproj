@@ -163,6 +163,7 @@
     <ClInclude Include="WString.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="fakelibc.cpp" />
     <ClCompile Include="glcdfont.c" />
     <ClCompile Include="ILI9341_t3.cpp" />

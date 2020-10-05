@@ -1,6 +1,7 @@
 // ILI_sim.cpp : Defines the entry point for the application.
 //
 
+#include <stdint.h>
 #include "framework.h"
 #include "ILI_sim.h"
 
@@ -10,6 +11,7 @@
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+HWND ghWnd;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -17,7 +19,39 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+// fake Arduino in Display.cpp
+void setup();
+void loop();
+
 COLORREF arr_screen[320 * 240];
+// ILI uses an "active rectangle so that subsequent data writes go across
+// the X and down the Y so hold the bounds here.
+int sim_x0, sim_x1, sim_y0, sim_y1;
+int arr_idx;
+
+void writeSim(uint16_t data) {
+	uint8_t r, g, b;
+	if (arr_idx > ((sim_y1 * 320) + sim_x1)) {
+		// stop if beyond x1,y1
+		return;
+	}
+	r = (data & 0xF800) >> 16; // 1111 1000 0000 0000 : 5
+	g = (data & 0x07E0) >> 3;  // 0000 0111 1110 0000 : 6
+	b = (data & 0x001F) << 3;  // 0000 0000 0001 1111 : 5
+	arr_screen[arr_idx] = (b << 16) | (g << 8) | r;
+	arr_idx++;
+	// if reached end of current line in rectangle
+	if (arr_idx == sim_x1) {
+		// back to start of current rectangle line
+		arr_idx -= (sim_x1 - sim_x0);
+		// then down one whole line
+		arr_idx += 320;
+	}
+}
+
+void simUpdate() {
+	InvalidateRect(ghWnd, NULL, true);
+}
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -115,6 +149,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        arr_screen[n] = (B << 16) | (G << 8) | R;
    }
 
+   // take global copy of wiondow handle so we can invalidate it to force WM_PAINT
+   ghWnd = hWnd;
+   setup();
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 

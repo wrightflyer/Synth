@@ -12,3 +12,10 @@ blitted to a window in WM_PAINT.
 This is so that display output can easily be visualized on
 a PC without having to repeatedly flash a Teensy (or even need
 Teensy/ILI9341 hardware at all) 
+
+Update: hang on to your hat but this is the first ever picture
+of the sim kind of working. This was supposed to be a blue/white
+graduated fill but it turned out a bit more "rainbow" but that's
+hopefully just a colour mapping issue....
+
+![](ILI_sim/1st_ever.png)
