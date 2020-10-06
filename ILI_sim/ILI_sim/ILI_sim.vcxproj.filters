@@ -45,6 +45,12 @@
     <ClInclude Include="fakelibc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="font_Arial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="font_ArialBold.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ILI_sim.cpp">
@@ -66,6 +72,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="font_Arial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="font_ArialBold.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

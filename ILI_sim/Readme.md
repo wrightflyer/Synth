@@ -19,3 +19,26 @@ graduated fill but it turned out a bit more "rainbow" but that's
 hopefully just a colour mapping issue....
 
 ![](ILI_sim/1st_ever.png)
+
+LATER: So this was the first time the sim ran and actually
+displayed exactly what Teensy4/ILI9341 would have shown:
+
+![](ILI_sim/1st_work.png)
+
+And this is an exceprt from a Youtube video showing the
+real screen in action;
+
+![](ILI_sim/actual_synth.png)
+
+and with just minor changes (to do with background and
+small placement changes) this is the real Teensy code
+being run in the simulator:
+
+![](ILI_sim/sim_synth.png)
+
+(this has actually worked out much better than I
+hoped!)
+
+The key thing is going to be grouping all the application's
+drawing stuff into a separate file so that can be slotted
+into the simulator to see how it looks !

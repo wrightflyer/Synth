@@ -176,7 +176,7 @@ typedef struct {
 #define ILI9341_SPICLOCK 30000000
 #define ILI9341_SPICLOCK_READ 6500000
 
-extern int sim_x0, sim_x1, sim_y0, sim_y1, arr_idx;
+void simSetAddr(int x0, int y0, int x1, int y1);
 void writeSim(uint16_t);
 void simUpdate();
 
@@ -335,17 +335,14 @@ class ILI9341_t3 : public Print
 			//writedata16_cont(x0);   // XSTART
 			//writedata16_cont(x1);   // XEND
 			old_x0 = x0; old_x1 = x1;
-			sim_x0 = x0; sim_x1 = x1;
 		}
 		if (y0 != old_y0 || y1 != old_y1) {
 			//writecommand_cont(ILI9341_PASET); // Row addr set
 			//writedata16_cont(y0);   // YSTART
 			//writedata16_cont(y1);   // YEND
 			old_y0 = y0; old_y1 = y1;
-			sim_y0 = y0; sim_y1 = y1;
 		}
-		// start sim writing at x0, y0...
-		arr_idx = (y0 * ILI9341_TFTHEIGHT) + x0;
+        simSetAddr(x0, y0, x1, y1);
 	}
 
 //----------------------------------------------------------------------

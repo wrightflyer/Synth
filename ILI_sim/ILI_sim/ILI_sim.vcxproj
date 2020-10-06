@@ -29,13 +29,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="fakelibc.h" />
+    <ClInclude Include="font_Arial.h" />
+    <ClInclude Include="font_ArialBold.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="ILI9341_t3.h" />
     <ClInclude Include="ILI_sim.h" />
@@ -165,6 +167,8 @@
   <ItemGroup>
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="fakelibc.cpp" />
+    <ClCompile Include="font_Arial.cpp" />
+    <ClCompile Include="font_ArialBold.cpp" />
     <ClCompile Include="glcdfont.c" />
     <ClCompile Include="ILI9341_t3.cpp" />
     <ClCompile Include="ILI_sim.cpp" />
