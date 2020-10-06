@@ -1,6 +1,10 @@
 #include "ILI9341_t3.h"
 #include "font_Arial.h"
 #include "font_ArialBold.h"
+
+extern "C" {
+    extern const unsigned short amelia320[];
+}
 #define TFT_DC  9
 #define TFT_CS 10
 
@@ -103,7 +107,8 @@ char text[] = "Test";
 void setup() {
     tft.begin();
     tft.setRotation(3);
-    tft.fillScreen(CL(240, 240, 240));
+    //tft.fillScreen(CL(240, 240, 240));
+    tft.writeRect(0, 0, 320, 240, amelia320);
     tft.setTextColor(ILI9341_BLACK);
     tft.setCursor(40, 0);
     tft.setFont(Arial_18_Bold);
@@ -124,16 +129,24 @@ void setup() {
             blackKey(keybd[i - 48].offset, false);
         }
     }
-    drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, 57, (char *)"1" );
-    drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, 31, (char *)"2");
-    drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, 73,  (char *)"N" );
-
-    drawBar(ADSR_PANEL_X + 5, ADSR_PANEL_Y, 41, (char *)"A");
-    drawBar(ADSR_PANEL_X + 30, ADSR_PANEL_Y, 52, (char *)"D");
-    drawBar(ADSR_PANEL_X + 55, ADSR_PANEL_Y, 83, (char *)"S");
-    drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, 13, (char *)"R");
 }
 
 void loop() {
+    static int count5ms = 201;
+    if (++count5ms > 200) {
+        drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, rand() % 100, (char *)"1");
+        drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, rand() % 100, (char *)"2");
+        drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, rand() % 100, (char *)"N");
 
+        drawBar(ADSR_PANEL_X + 5, ADSR_PANEL_Y, rand() % 100, (char *)"A");
+        drawBar(ADSR_PANEL_X + 30, ADSR_PANEL_Y, rand() % 100, (char *)"D");
+        drawBar(ADSR_PANEL_X + 55, ADSR_PANEL_Y, rand() % 100, (char *)"S");
+        drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, rand() % 100, (char *)"R");
+        count5ms = 0;
+    }
+    tft.fillRect(0, 0, 100, 16, 0);
+    tft.setTextColor(CL(255, 255, 255));
+    tft.setCursor(0, 0);
+    tft.print("count = ");
+    tft.print(count5ms);
 }

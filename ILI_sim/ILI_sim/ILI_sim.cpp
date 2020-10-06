@@ -56,7 +56,12 @@ void writeSim(uint16_t data) {
 }
 
 void simUpdate() {
-	InvalidateRect(ghWnd, NULL, true);
+    RECT r;
+    r.left = 25;
+    r.right = 25 + 320;
+    r.top = 25;
+    r.bottom = 25 + 240;
+	InvalidateRect(ghWnd, &r, true);
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -178,6 +183,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_CREATE:
+        // get "ticks" so we can call Arduino Loop() regularly
+        SetTimer(hWnd, 1, 5, NULL);
+        break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -216,6 +225,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             DeleteDC(src);
             EndPaint(hWnd, &ps);
         }
+        break;
+    case WM_TIMER:
+        // call loop() in Display.cpp
+        loop();
+        simUpdate();
         break;
     case WM_DESTROY:
         PostQuitMessage(0);

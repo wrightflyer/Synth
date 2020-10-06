@@ -80,6 +80,9 @@
     <ClCompile Include="font_ArialBold.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\amelia320.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ILI_sim.rc">

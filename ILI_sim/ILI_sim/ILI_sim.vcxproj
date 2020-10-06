@@ -165,6 +165,7 @@
     <ClInclude Include="WString.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\amelia320.c" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="fakelibc.cpp" />
     <ClCompile Include="font_Arial.cpp" />

@@ -178,7 +178,6 @@ typedef struct {
 
 void simSetAddr(int x0, int y0, int x1, int y1);
 void writeSim(uint16_t);
-void simUpdate();
 
 class ILI9341_t3 : public Print
 {
@@ -420,7 +419,6 @@ class ILI9341_t3 : public Print
 			DIRECT_WRITE_HIGH(_csport, _cspinmask);
 		SPI.endTransaction();
 #endif
-		simUpdate();
 	}
 
 	// BUGBUG:: currently assumming we only have CS_0 as valid CS
