@@ -1,4 +1,4 @@
-#N canvas 176 26 742 716 10;
+#N canvas 4 6 742 716 10;
 #N canvas -10 26 1370 729 key 0;
 #X obj 261 466 makenote;
 #X obj 124 75 bng 18 250 50 0 c2 empty empty 17 7 0 10 -262144 -1 -1
@@ -502,7 +502,7 @@
 #X obj 100 50 cnv 15 92 140 empty empty ADSR 26 -10 0 14 -233017 -66577
 0;
 #X obj 108 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 4200 1;
 #X obj 127 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 148 55 vsl 15 100 0 127 0 0 empty empty empty 0 -9 0 10 -262144
@@ -534,50 +534,7 @@
 #X connect 11 0 7 0;
 #X connect 12 0 8 0;
 #X coords 0 -1 1 1 92 140 2 100 50;
-#X restore 589 82 pd ADSR;
-#N canvas 341 102 498 468 instrument 0;
-#X obj 100 100 cnv 15 120 140 empty empty Instrument 0 -10 0 14 -233017
--66577 0;
-#X obj 106 107 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 106 243 int;
-#X obj 174 417 pgmout;
-#X floatatom 173 387 5 0 0 0 - - -;
-#X obj 150 112 vradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
--1 -1 1;
-#X obj 159 250 select 0 1 2 3 4 5 6 7;
-#X msg 147 292 1;
-#X msg 179 291 7;
-#X msg 213 290 10;
-#X text 123 100 127;
-#X text 125 224 0;
-#X text 169 111 Piano;
-#X text 169 126 Harpsi;
-#X text 170 142 Glock;
-#X msg 244 290 20;
-#X text 170 156 ChOrgan;
-#X text 170 172 Tweet;
-#X msg 278 289 124;
-#X msg 312 290 110;
-#X text 171 187 BagPipe;
-#X connect 1 0 2 0;
-#X connect 2 0 4 0;
-#X connect 4 0 3 0;
-#X connect 5 0 6 0;
-#X connect 6 0 7 0;
-#X connect 6 1 8 0;
-#X connect 6 2 9 0;
-#X connect 6 3 15 0;
-#X connect 6 4 18 0;
-#X connect 6 5 19 0;
-#X connect 7 0 4 0;
-#X connect 8 0 4 0;
-#X connect 9 0 4 0;
-#X connect 15 0 4 0;
-#X connect 18 0 4 0;
-#X connect 19 0 4 0;
-#X coords 0 -1 1 1 120 140 2 100 100;
-#X restore 60 249 pd instrument;
+#X restore 211 253 pd ADSR;
 #N canvas 741 94 493 448 mix 0;
 #X obj 100 100 cnv 15 92 140 empty empty Mixer 20 -10 0 14 -233017
 -66577 0;
@@ -606,12 +563,12 @@
 #X connect 9 0 10 0;
 #X connect 10 0 12 0;
 #X coords 0 -1 1 1 92 140 1 100 100;
-#X restore 204 252 pd mix;
+#X restore 554 483 pd mix;
 #N canvas 0 50 450 418 LFO1 0;
 #X obj 100 100 cnv 15 170 140 empty empty LFO1 30 -10 0 14 -233017
 -66577 0;
 #X obj 107 114 vradio 15 1 0 8 empty empty Wave 0 -8 0 10 -262144 -1
--1 3;
+-1 7;
 #X text 129 111 Sine;
 #X text 129 127 Saw;
 #X text 128 142 Rev Saw;
@@ -621,7 +578,7 @@
 #X text 131 201 S/H;
 #X text 129 217 Arbi;
 #X obj 187 116 vsl 15 100 0 127 0 0 empty empty Freq 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 6200 1;
 #X obj 215 117 vsl 15 100 0 127 0 0 empty empty Ampl 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 243 116 vsl 15 100 0 127 0 0 empty empty PWM 0 -9 0 10 -262144
@@ -629,30 +586,32 @@
 #X floatatom 187 222 3 0 0 0 - - -;
 #X floatatom 215 222 3 0 0 0 - - -;
 #X floatatom 244 223 3 0 0 0 - - -;
-#X obj 133 268 ctlout 107;
-#X obj 204 268 ctlout 108;
 #X obj 273 268 ctlout 109;
 #X obj 164 242 int;
 #X obj 221 246 int;
 #X obj 280 212 int;
-#X obj 53 289 ctlout 113;
-#X connect 1 0 22 0;
-#X connect 10 0 19 0;
-#X connect 11 0 20 0;
-#X connect 12 0 21 0;
-#X connect 13 0 16 0;
-#X connect 14 0 17 0;
-#X connect 15 0 18 0;
-#X connect 19 0 13 0;
-#X connect 20 0 14 0;
-#X connect 21 0 15 0;
+#X obj 53 289 ctlout 110;
+#X obj 133 268 ctlout 112;
+#X obj 204 268 ctlout 114;
+#X obj 45 250 * 16;
+#X connect 1 0 23 0;
+#X connect 10 0 17 0;
+#X connect 11 0 18 0;
+#X connect 12 0 19 0;
+#X connect 13 0 21 0;
+#X connect 14 0 22 0;
+#X connect 15 0 16 0;
+#X connect 17 0 13 0;
+#X connect 18 0 14 0;
+#X connect 19 0 15 0;
+#X connect 23 0 20 0;
 #X coords 0 -1 1 1 170 140 1 100 100;
 #X restore 337 253 pd LFO1;
 #N canvas 0 50 450 418 LFO1 0;
 #X obj 100 100 cnv 15 170 140 empty empty LFO2 30 -10 0 14 -233017
 -66577 0;
 #X obj 107 114 vradio 15 1 0 8 empty empty Wave 0 -8 0 10 -262144 -1
--1 3;
+-1 0;
 #X text 129 111 Sine;
 #X text 129 127 Saw;
 #X text 128 142 Rev Saw;
@@ -673,23 +632,25 @@
 #X obj 164 242 int;
 #X obj 221 246 int;
 #X obj 280 212 int;
-#X obj 133 268 ctlout 110;
-#X obj 204 270 ctlout 111;
 #X obj 273 268 ctlout 112;
-#X obj 84 309 ctlout 114;
-#X connect 1 0 22 0;
+#X obj 84 309 ctlout 111;
+#X obj 133 268 ctlout 113;
+#X obj 204 270 ctlout 115;
+#X obj 41 263 * 16;
+#X connect 1 0 23 0;
 #X connect 10 0 16 0;
 #X connect 11 0 17 0;
 #X connect 12 0 18 0;
-#X connect 13 0 19 0;
-#X connect 14 0 20 0;
-#X connect 15 0 21 0;
+#X connect 13 0 21 0;
+#X connect 14 0 22 0;
+#X connect 15 0 19 0;
 #X connect 16 0 13 0;
 #X connect 17 0 14 0;
 #X connect 18 0 15 0;
+#X connect 23 0 20 0;
 #X coords 0 -1 1 1 170 140 1 100 100;
 #X restore 518 253 pd LFO1;
-#N canvas 514 42 450 300 Osc1 0;
+#N canvas 288 34 450 351 Osc1 0;
 #X obj 100 100 cnv 15 170 140 empty empty OSC1 50 -10 0 14 -233017
 -66577 0;
 #X obj 107 115 vradio 15 1 0 8 empty empty Wave 0 -8 0 10 -262144 -1
@@ -712,23 +673,27 @@
 #X floatatom 215 222 3 0 0 0 - - -;
 #X floatatom 244 222 3 0 0 0 - - -;
 #X obj 133 268 ctlout 107;
-#X obj 204 268 ctlout 108;
 #X obj 273 268 ctlout 109;
 #X obj 164 242 int;
 #X obj 221 246 int;
 #X obj 280 212 int;
-#X connect 10 0 19 0;
-#X connect 11 0 20 0;
-#X connect 12 0 21 0;
+#X obj 205 268 ctlout 118;
+#X obj 61 258 * 16;
+#X obj 44 302 ctlout 116;
+#X connect 1 0 22 0;
+#X connect 10 0 18 0;
+#X connect 11 0 19 0;
+#X connect 12 0 20 0;
 #X connect 13 0 16 0;
-#X connect 14 0 17 0;
-#X connect 15 0 18 0;
-#X connect 19 0 13 0;
-#X connect 20 0 14 0;
-#X connect 21 0 15 0;
+#X connect 14 0 21 0;
+#X connect 15 0 17 0;
+#X connect 18 0 13 0;
+#X connect 19 0 14 0;
+#X connect 20 0 15 0;
+#X connect 22 0 23 0;
 #X coords 0 -1 1 1 170 140 1 100 100;
-#X restore 62 424 pd Osc1;
-#N canvas 379 76 450 300 OSC2 0;
+#X restore 67 474 pd Osc1;
+#N canvas 379 76 450 384 OSC2 0;
 #X obj 100 100 cnv 15 260 140 empty empty OSC2 60 -10 0 14 -233017
 -66577 0;
 #X obj 107 115 vradio 15 1 0 8 empty empty Wave 0 -8 0 10 -262144 -1
@@ -751,7 +716,6 @@
 #X floatatom 215 222 3 0 0 0 - - -;
 #X floatatom 244 222 3 0 0 0 - - -;
 #X obj 133 268 ctlout 107;
-#X obj 204 268 ctlout 108;
 #X obj 273 268 ctlout 109;
 #X obj 164 242 int;
 #X obj 221 246 int;
@@ -768,43 +732,67 @@
 #X floatatom 319 222 3 0 0 0 - - -;
 #X obj 348 268 ctlout 109;
 #X obj 348 242 int;
-#X connect 10 0 19 0;
-#X connect 11 0 20 0;
-#X connect 12 0 21 0;
+#X obj 204 268 ctlout 119;
+#X obj 69 269 * 16;
+#X obj 63 310 ctlout 117;
+#X connect 1 0 32 0;
+#X connect 10 0 18 0;
+#X connect 11 0 19 0;
+#X connect 12 0 20 0;
 #X connect 13 0 16 0;
-#X connect 14 0 17 0;
-#X connect 15 0 18 0;
-#X connect 19 0 13 0;
-#X connect 20 0 14 0;
-#X connect 21 0 15 0;
-#X connect 28 0 31 0;
-#X connect 29 0 30 0;
-#X connect 31 0 29 0;
+#X connect 14 0 31 0;
+#X connect 15 0 17 0;
+#X connect 18 0 13 0;
+#X connect 19 0 14 0;
+#X connect 20 0 15 0;
+#X connect 27 0 30 0;
+#X connect 28 0 29 0;
+#X connect 30 0 28 0;
+#X connect 32 0 33 0;
 #X coords 0 -1 1 1 260 140 1 100 100;
-#X restore 259 429 pd OSC2;
-#N canvas 0 50 450 300 filter 0;
+#X restore 264 479 pd OSC2;
+#N canvas 368 122 450 352 filter 0;
 #X obj 100 100 cnv 15 120 140 empty empty Filter 25 -10 0 14 -233017
 -66577 0;
 #X obj 108 112 vradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144
--1 -1 0;
+-1 -1 2;
 #X text 126 111 HPF;
 #X text 126 127 BPF;
 #X text 126 143 LPF;
 #X obj 159 115 vsl 15 100 0 127 0 0 empty empty Freq 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 4600 1;
 #X obj 114 245 int;
 #X floatatom 158 222 3 0 0 0 - - -;
-#X obj 114 287 ctlout 100;
 #X obj 191 116 vsl 15 100 0 127 0 0 empty empty Res 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 5800 1;
 #X obj 146 246 int;
 #X floatatom 190 223 3 0 0 0 - - -;
-#X obj 146 288 ctlout 100;
+#X obj 114 287 ctlout 108;
+#X obj 206 290 ctlout 109;
+#X obj 13 195 select 0 1 2;
+#X obj 16 231 int 20;
+#X obj 34 259 int 60;
+#X obj 58 289 int 100;
+#X obj 24 321 ctlout 107;
+#X connect 1 0 13 0;
 #X connect 5 0 6 0;
 #X connect 6 0 7 0;
-#X connect 7 0 8 0;
+#X connect 7 0 11 0;
+#X connect 8 0 9 0;
 #X connect 9 0 10 0;
-#X connect 10 0 11 0;
-#X connect 11 0 12 0;
+#X connect 10 0 12 0;
+#X connect 13 0 14 0;
+#X connect 13 1 15 0;
+#X connect 13 2 16 0;
+#X connect 14 0 17 0;
+#X connect 15 0 17 0;
+#X connect 16 0 17 0;
 #X coords 0 -1 1 1 120 140 1 100 100;
-#X restore 540 435 pd filter;
+#X restore 60 251 pd filter;
+#X text 74 398 107 \, 108 \, 109;
+#X text 193 399 103 \, 104 \, 105 \, 106;
+#X text 370 397 110 \, 112 \, 114 \, ??;
+#X text 552 398 111 \, 113 \, 115 \, ??;
+#X text 100 622 116 \, ?? \, 118 \, ??;
+#X text 320 625 117 \, ?? \, 119 \, ?? \, ?? \, ??;
+#X text 557 629 100 \, 101 \, 102;

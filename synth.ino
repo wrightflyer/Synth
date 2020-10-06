@@ -1,4 +1,5 @@
 #include "NoteData.h"
+#include <MIDI.h>
 #include <ILI9341_t3.h>
 #include <font_Arial.h>
 #include <font_ArialBold.h>
@@ -85,6 +86,7 @@ typedef enum {
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
 XPT2046_Touchscreen ts(TOUCH_CS);
 Encoder enc(2,3);
+MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 
 /*===========================================================
  *  TS calibration musings... points at 4 corners:
@@ -413,6 +415,109 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateADSR(Release);
       break;
 
+    // 107, 108, 109 are for filter (band, freq, res)
+    case 107:
+      if (value < 43) {
+        filtBand= LPF;
+      }
+      else if ((value >= 43) && (value < 86)) {
+        filtBand= BPF;
+      }
+      else {
+        filtBand = HPF;
+      }
+      updateFilterBand();
+      break;
+
+    case 108:
+      filterFreq = mapf(value, 0, 127, 0, 10000);
+      updateFilter();
+      break;
+
+    case 109:
+      filterRes = mapf(value, 0, 127, 0.7, 5.0);
+      updateFilter();
+      break;
+
+    case 110:
+    case 111:
+    case 116:
+    case 117:
+      int change;
+      switch (value / 16) {
+        case 0:
+          change = WAVEFORM_SINE;
+          break;
+        case 1:
+          change = WAVEFORM_SAWTOOTH;
+          break;
+        case 2:
+          change = WAVEFORM_SAWTOOTH_REVERSE;
+          break;
+        case 3:
+          change = WAVEFORM_SQUARE;
+          break;
+        case 4:
+          change = WAVEFORM_TRIANGLE;
+          break;
+        case 5:
+          change = WAVEFORM_PULSE;
+          break;
+        case 6:
+          change = WAVEFORM_SAMPLE_HOLD;
+          break;
+        case 7:
+          change = WAVEFORM_ARBITRARY;
+          break;
+      }
+      if (control == 110) {
+        lfo1Waveform = change;
+        updateLFO1();
+      }
+      if (control == 111) {
+        lfo2Waveform = change;
+        updateLFO2();
+      }
+      if (control == 116) {
+        osc1Waveform = change;
+        updateOsc1();
+      }
+      if (control == 117) {
+        osc2Waveform = change;
+        updateOsc2();
+      }
+      break;
+
+    case 112:
+      lfo1Freq = mapf(value, 0, 127, 0.0, 20.0);
+      updateLFO1();
+      break;
+
+    case 113:
+      lfo2Freq = mapf(value, 0, 127, 0.0, 20.0);
+      updateLFO2();
+      break;
+
+    case 114:
+      lfo1Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      updateLFO1();
+      break;
+
+    case 115:
+      lfo2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      updateLFO2();
+      break;
+
+    case 118:
+      osc1Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      updateOsc1();
+      break;
+
+    case 119:
+      osc2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      updateOsc2();
+      break;
+
     default:
       // if unrecognised do nothing
       break;
@@ -423,7 +528,9 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   pinMode(JOY_SW, INPUT_PULLUP);
   Serial.begin(9600);
+  Serial1.begin(31250);
   Serial.println("Alive");
+  MIDI.begin(); 
   tft.begin();
   tft.setRotation(3);
   ts.begin();
@@ -468,6 +575,9 @@ void setup() {
   usbMIDI.setHandleNoteOff(OnNoteOff);
   usbMIDI.setHandleNoteOn(OnNoteOn);
   usbMIDI.setHandleControlChange(OnControlChange);
+  //MIDI.setHandleNoteOff(OnNoteOff);
+  //MIDI.setHandleNoteOn(OnNoteOn);
+  //MIDI.setHandleControlChange(OnControlChange);
 }
 
 void loop() {
@@ -548,6 +658,7 @@ void loop() {
       OnControlChange(1, 102, Nval);
     }
   }
+  #if 0
   if (millis() > (lastMillis + 100)) {
     if (digitalRead(JOY_SW) == 0) {
       clickCount++;
@@ -567,6 +678,8 @@ void loop() {
     OnControlChange(1, 104, map(joyY, 0, 1023, 0, 127));
     lastMillis = millis();
   }
+  #endif
+  #if 0
   long newPos;
   newPos = enc.read();
   if (newPos != encPos) {
@@ -579,4 +692,33 @@ void loop() {
     OnControlChange(1, 105, encVal);
     encPos = newPos;
   }
+  #endif
+  #if 1
+  if (MIDI.read()) {                    // Is there a MIDI message incoming ?
+    int note, velocity, channel, d1, d2;
+    byte type = MIDI.getType();
+    switch (type) {
+      case midi::NoteOn:
+        note = MIDI.getData1();
+        velocity = MIDI.getData2();
+        channel = MIDI.getChannel();
+        if (velocity > 0) {
+          Serial.println(String("Note On:  ch=") + channel + ", note=" + note + ", velocity=" + velocity);
+        } else {
+          Serial.println(String("Note Off: ch=") + channel + ", note=" + note);
+        }
+        break;
+      case midi::NoteOff:
+        note = MIDI.getData1();
+        velocity = MIDI.getData2();
+        channel = MIDI.getChannel();
+        Serial.println(String("Note Off: ch=") + channel + ", note=" + note + ", velocity=" + velocity);
+        break;
+      default:
+        d1 = MIDI.getData1();
+        d2 = MIDI.getData2();
+        Serial.println(String("Message, type=") + type + ", data = " + d1 + " " + d2);
+    }
+  }
+  #endif
 }
