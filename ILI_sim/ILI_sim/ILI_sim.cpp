@@ -28,6 +28,7 @@ COLORREF arr_screen[320 * 240];
 // the X and down the Y so hold the bounds here.
 int sim_x0, sim_x1, sim_y0, sim_y1;
 int x_ptr, y_ptr;
+int sim_min_x = 999, sim_max_x, sim_min_y = 999, sim_max_y;
 
 void simSetAddr(int x0, int y0, int x1, int y1) {
     sim_x0 = x0;
@@ -36,6 +37,19 @@ void simSetAddr(int x0, int y0, int x1, int y1) {
     sim_y1 = y1;
     x_ptr = x0;
     y_ptr = y0;
+
+	if (x0 < sim_min_x) {
+		sim_min_x = x0;
+	}
+	if (x1 > sim_max_x) {
+		sim_max_x = x1;
+	}
+	if (y0 < sim_min_y) {
+		sim_min_y = y0;
+	}
+	if (y1 > sim_max_y) {
+		sim_max_y = y1;
+	}
 }
 
 void writeSim(uint16_t data) {
@@ -57,11 +71,19 @@ void writeSim(uint16_t data) {
 
 void simUpdate() {
     RECT r;
-    r.left = 25;
-    r.right = 25 + 320;
-    r.top = 25;
-    r.bottom = 25 + 240;
+	if (sim_min_x == 999) {
+		// no drawing since last time
+		return;
+	}
+    r.left = 25 + sim_min_x;
+    r.right = 25 + sim_max_x + 1;
+    r.top = 25 + sim_min_y;
+    r.bottom = 25 + sim_max_y + 1;
 	InvalidateRect(ghWnd, &r, true);
+	sim_min_x = 999;
+	sim_max_x = 0;
+	sim_min_y = 999;
+	sim_max_y = 0;
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,

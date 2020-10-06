@@ -98,6 +98,7 @@ void drawBar(int x, int y, int value, char * text) {
     // add a label above
     if (text != NULL) {
         tft.setCursor(x + 8, y + BAR_HEIGHT + 20);
+		tft.setTextColor(0);
         tft.print(text);
     }
 }
@@ -109,13 +110,14 @@ void setup() {
     tft.setRotation(3);
     //tft.fillScreen(CL(240, 240, 240));
     tft.writeRect(0, 0, 320, 240, amelia320);
-    tft.setTextColor(ILI9341_BLACK);
+    tft.setTextColor(CL(0, 160, 0));
     tft.setCursor(40, 0);
     tft.setFont(Arial_18_Bold);
     tft.println("Teensy Synth");
     tft.fillRoundRect(ADSR_PANEL_X, ADSR_PANEL_Y, ADSR_PANEL_W, PANEL_H, 5, ILI9341_DARKGREY);
     tft.setCursor(ADSR_PANEL_X + 30, ADSR_PANEL_Y);
     tft.setFont(Arial_14);
+	tft.setTextColor(ILI9341_BLACK);
     tft.print("ADSR");
     tft.fillRoundRect(MIX_PANEL_X, MIX_PANEL_Y, MIX_PANEL_W, PANEL_H, 5, ILI9341_DARKGREY);
     tft.setCursor(MIX_PANEL_X + 20, MIX_PANEL_Y);
@@ -144,9 +146,11 @@ void loop() {
         drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, rand() % 100, (char *)"R");
         count5ms = 0;
     }
+#if 0
     tft.fillRect(0, 0, 100, 16, 0);
     tft.setTextColor(CL(255, 255, 255));
     tft.setCursor(0, 0);
     tft.print("count = ");
     tft.print(count5ms);
+#endif
 }
