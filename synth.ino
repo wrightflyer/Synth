@@ -702,19 +702,29 @@ void loop() {
         note = MIDI.getData1();
         velocity = MIDI.getData2();
         channel = MIDI.getChannel();
+        #if 0
         if (velocity > 0) {
           Serial.println(String("Note On:  ch=") + channel + ", note=" + note + ", velocity=" + velocity);
         } else {
           Serial.println(String("Note Off: ch=") + channel + ", note=" + note);
         }
+        #endif
         OnNoteOn(channel, note, velocity);
         break;
       case midi::NoteOff:
         note = MIDI.getData1();
         velocity = MIDI.getData2();
         channel = MIDI.getChannel();
+        #if 0
         Serial.println(String("Note Off: ch=") + channel + ", note=" + note + ", velocity=" + velocity);
+        #endif
         OnNoteOff(channel, note, velocity);
+        break;
+      case midi::ControlChange:
+        d1 = MIDI.getData1();
+        d2 = MIDI.getData2();
+        channel = MIDI.getChannel();
+        OnControlChange(channel, d1, d2);
         break;
       default:
         d1 = MIDI.getData1();
