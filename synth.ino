@@ -111,7 +111,7 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 
 typedef struct {
   uint8_t type;
-  uint16_t offset;
+  float offset;
 } keyb_t;
 
 // keys from 48 up - black (1) or white (0)
@@ -157,16 +157,22 @@ const keyb_t keybd[] = {
 // modulator settings
 int osc1Waveform = WAVEFORM_SINE;
 float osc1Amplitude = 1.0;
+float osc1PWM = 0.0;
 int osc2Waveform = WAVEFORM_SAWTOOTH;
 float osc2Amplitude = 1.0;
+float osc2PWM = 0.0;
+int osc2Octave = 0;
+int osc2Fine = 0; // can range -12 to +12
 
 // LFO settings
 int lfo1Waveform = WAVEFORM_SINE;
 float lfo1Freq = 13.0;
 float lfo1Amplitude = 0.02;
+float lfo1PWM = 0.0;
 int lfo2Waveform = WAVEFORM_SINE;
 float lfo2Freq = 6.0;
 float lfo2Amplitude = 0.02;
+float lfo2PWM = 0.0;
 
 // noise settings
 float noiseAmplitude = 1.0;
@@ -237,16 +243,22 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   digitalWrite(LED_PIN, HIGH);
   float freq = tune_frequencies2_PGM[note];
   if (keybd[note - 48].type == 0) {
-    whiteKey(keybd[note - 48].offset, true);
+    whiteKey((int)keybd[note - 48].offset, true);
   }
   else {
-    blackKey(keybd[note - 48].offset, true);
-  }  Serial.printf("so freq = %f\n", freq);
-  waveformMod1.frequency(freq);
-  if (note > 12) {
-    note -= 10;
-    freq = tune_frequencies2_PGM[note];
+    blackKey((int)keybd[note - 48].offset, true);
   }
+  Serial.printf("so freq = %f\n", freq);
+  waveformMod1.frequency(freq);
+  note += osc2Octave; // -24, -12, 0, 12 or 24
+  note -= osc2Fine; // then apply -12..+12 in octave
+  if (note < 0) {
+    note = 0;
+  }
+  if (note > 127) {
+    note = 127;
+  }
+  freq = tune_frequencies2_PGM[note];
   waveformMod2.frequency(freq);
   envelope1.noteOn();
 }
@@ -261,7 +273,7 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
   envelope1.noteOff();
 }
 
-void drawBar(int x, int y, int value, char * text) {
+void drawBar(int x, int y, int value, const char * text) {
   // erase existing bar  
   tft.fillRoundRect(x, y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, 5, ILI9341_LIGHTGREY);
   // draw full height outline
@@ -353,23 +365,27 @@ void updateFilter() {
 void updateOsc1() {
   waveformMod1.begin(osc1Waveform);
   waveformMod1.amplitude(osc1Amplitude);
+  //waveformMod1.pulseWidth(osc1PWM);
 }
 
 void updateOsc2() {
   waveformMod2.begin(osc2Waveform);
   waveformMod2.amplitude(osc2Amplitude);
+  //waveformMod2.pulseWidth(osc2PWM);
 }
 
 void updateLFO1() {
   LFO1.begin(lfo1Waveform);
   LFO1.frequency(lfo1Freq);
   LFO1.amplitude(lfo1Amplitude);
+  LFO1.pulseWidth(lfo1PWM);
 }
 
 void updateLFO2() {
-  LFO1.begin(lfo2Waveform);
-  LFO1.frequency(lfo2Freq);
-  LFO1.amplitude(lfo2Amplitude);
+  LFO2.begin(lfo2Waveform);
+  LFO2.frequency(lfo2Freq);
+  LFO2.amplitude(lfo2Amplitude);
+  LFO2.pulseWidth(lfo2PWM);
 }
 
 void updateNoise() {
@@ -378,7 +394,7 @@ void updateNoise() {
 
 void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {
   switch(control) {
-    // 100, 101, 102 are OSC1, OSC2 and Noise mixers
+    // 100, 101, 102 are Mixer controls for OSC1, OSC2 and Noise
     case 100:
       wave1Amp =  velocity2amplitude[value];
       updateMix(W1);
@@ -439,6 +455,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateFilter();
       break;
 
+    // All of Osc1, Osc2, LFO1. LFO2 have similar wave shape selects...
     case 110:
     case 111:
     case 116:
@@ -488,14 +505,10 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       break;
 
+    // other LF01 settings
     case 112:
       lfo1Freq = mapf(value, 0, 127, 0.0, 20.0);
       updateLFO1();
-      break;
-
-    case 113:
-      lfo2Freq = mapf(value, 0, 127, 0.0, 20.0);
-      updateLFO2();
       break;
 
     case 114:
@@ -503,19 +516,69 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateLFO1();
       break;
 
+    case 20:
+      lfo1PWM = mapf(value, 0, 127, 0.0, 1.0);
+      updateLFO1();
+      break;
+
+    // other LFO2 settings
+    case 113:
+      lfo2Freq = mapf(value, 0, 127, 0.0, 20.0);
+      updateLFO2();
+      break;
+
     case 115:
       lfo2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
       updateLFO2();
       break;
 
+    case 21:
+      lfo2PWM = mapf(value, 0, 127, 0.0, 1.0);
+      updateLFO2();
+      break;
+
+    // Osc1 has wave (above), Ampl, PWM
     case 118:
       osc1Amplitude = mapf(value, 0, 127, 0.0, 1.0);
       updateOsc1();
       break;
 
+    case 23:
+      osc1PWM = mapf(value, 0, 127, 0.0, 1.0);
+      updateOsc1();
+      break;
+
+    // Osc2 has wave (above), Freq, Ampl, PWM, Octave, FineTune
     case 119:
       osc2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
       updateOsc2();
+      break;
+
+    case 25:
+      osc2PWM = mapf(value, 0, 127, 0.0, 1.0);
+      updateOsc2();
+      break;
+
+    case 26:
+      if (value < 26) {
+        osc2Octave = -24;
+      }
+      else if ((value >= 26) && (value < 52)) {
+        osc2Octave = -12;
+      }
+      else if ((value >= 52) && (value < 78)) {
+        osc2Octave = 0;
+      }
+      else if ((value >= 78) && (value < 104)) {
+        osc2Octave = 12;
+      }
+      else if (value >= 104) {
+        osc2Octave = 24;
+      }
+      break;
+
+    case 27:
+      osc2Fine = mapf(value, 0, 127, -12, 12);
       break;
 
     default:
