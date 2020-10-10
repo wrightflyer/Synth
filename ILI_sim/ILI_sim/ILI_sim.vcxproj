@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Display.h" />
     <ClInclude Include="fakelibc.h" />
     <ClInclude Include="font_Arial.h" />
     <ClInclude Include="font_ArialBold.h" />

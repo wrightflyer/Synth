@@ -1,3 +1,4 @@
+#include "Display.h"
 #include "ILI9341_t3.h"
 #include "font_Arial.h"
 #include "font_ArialBold.h"
@@ -98,7 +99,7 @@ void drawBar(int x, int y, int value, char * text) {
     // add a label above
     if (text != NULL) {
         tft.setCursor(x + 8, y + BAR_HEIGHT + 20);
-		tft.setTextColor(0);
+        tft.setTextColor(0);
         tft.print(text);
     }
 }
@@ -114,10 +115,18 @@ void setup() {
     tft.setCursor(40, 0);
     tft.setFont(Arial_18_Bold);
     tft.println("Teensy Synth");
+    tft.setTextColor(65535);
+    tft.setFont(Arial_14_Bold);
+    tft.setCursor(40, 140);
+    tft.print("Select Display on File menu");
+}
+
+void display1() {
+    tft.fillScreen(CL(192, 192, 192));
     tft.fillRoundRect(ADSR_PANEL_X, ADSR_PANEL_Y, ADSR_PANEL_W, PANEL_H, 5, ILI9341_DARKGREY);
     tft.setCursor(ADSR_PANEL_X + 30, ADSR_PANEL_Y);
     tft.setFont(Arial_14);
-	tft.setTextColor(ILI9341_BLACK);
+    tft.setTextColor(ILI9341_BLACK);
     tft.print("ADSR");
     tft.fillRoundRect(MIX_PANEL_X, MIX_PANEL_Y, MIX_PANEL_W, PANEL_H, 5, ILI9341_DARKGREY);
     tft.setCursor(MIX_PANEL_X + 20, MIX_PANEL_Y);
@@ -133,17 +142,29 @@ void setup() {
     }
 }
 
+void display2() {
+    tft.fillScreen(CL(192, 192, 192));
+
+}
+
+void display3() {
+    tft.fillScreen(CL(192, 192, 192));
+
+}
+
 void loop() {
     static int count5ms = 201;
     if (++count5ms > 200) {
-        drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, rand() % 100, (char *)"1");
-        drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, rand() % 100, (char *)"2");
-        drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, rand() % 100, (char *)"N");
+        if (activeDisplay == DISPLAY_1) {
+            drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, rand() % 100, (char *)"1");
+            drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, rand() % 100, (char *)"2");
+            drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, rand() % 100, (char *)"N");
 
-        drawBar(ADSR_PANEL_X + 5, ADSR_PANEL_Y, rand() % 100, (char *)"A");
-        drawBar(ADSR_PANEL_X + 30, ADSR_PANEL_Y, rand() % 100, (char *)"D");
-        drawBar(ADSR_PANEL_X + 55, ADSR_PANEL_Y, rand() % 100, (char *)"S");
-        drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, rand() % 100, (char *)"R");
+            drawBar(ADSR_PANEL_X + 5, ADSR_PANEL_Y, rand() % 100, (char *)"A");
+            drawBar(ADSR_PANEL_X + 30, ADSR_PANEL_Y, rand() % 100, (char *)"D");
+            drawBar(ADSR_PANEL_X + 55, ADSR_PANEL_Y, rand() % 100, (char *)"S");
+            drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, rand() % 100, (char *)"R");
+        }
         count5ms = 0;
     }
 #if 0

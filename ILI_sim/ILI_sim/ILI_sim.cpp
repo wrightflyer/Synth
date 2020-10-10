@@ -22,6 +22,9 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 // fake Arduino in Display.cpp
 void setup();
 void loop();
+void display1();
+void display2();
+void display3();
 
 COLORREF arr_screen[320 * 240];
 // ILI uses an "active rectangle so that subsequent data writes go across
@@ -29,6 +32,8 @@ COLORREF arr_screen[320 * 240];
 int sim_x0, sim_x1, sim_y0, sim_y1;
 int x_ptr, y_ptr;
 int sim_min_x = 999, sim_max_x, sim_min_y = 999, sim_max_y;
+
+active_t activeDisplay = NONE;
 
 void simSetAddr(int x0, int y0, int x1, int y1) {
     sim_x0 = x0;
@@ -38,30 +43,30 @@ void simSetAddr(int x0, int y0, int x1, int y1) {
     x_ptr = x0;
     y_ptr = y0;
 
-	if (x0 < sim_min_x) {
-		sim_min_x = x0;
-	}
-	if (x1 > sim_max_x) {
-		sim_max_x = x1;
-	}
-	if (y0 < sim_min_y) {
-		sim_min_y = y0;
-	}
-	if (y1 > sim_max_y) {
-		sim_max_y = y1;
-	}
+    if (x0 < sim_min_x) {
+        sim_min_x = x0;
+    }
+    if (x1 > sim_max_x) {
+        sim_max_x = x1;
+    }
+    if (y0 < sim_min_y) {
+        sim_min_y = y0;
+    }
+    if (y1 > sim_max_y) {
+        sim_max_y = y1;
+    }
 }
 
 void writeSim(uint16_t data) {
-	uint8_t r, g, b;
-	if ((x_ptr > sim_x1) && (y_ptr > sim_y1)) {
-		// stop if beyond x1,y1
-		return;
-	}
-	r = (data & 0xF800) >> 8; // 1111 1000 0000 0000 : 5
-	g = (data & 0x07E0) >> 3;  // 0000 0111 1110 0000 : 6
-	b = (data & 0x001F) << 3;  // 0000 0000 0001 1111 : 5
-	arr_screen[(y_ptr * 320) + x_ptr] = (r << 16) | (g << 8) | b;
+    uint8_t r, g, b;
+    if ((x_ptr > sim_x1) && (y_ptr > sim_y1)) {
+        // stop if beyond x1,y1
+        return;
+    }
+    r = (data & 0xF800) >> 8; // 1111 1000 0000 0000 : 5
+    g = (data & 0x07E0) >> 3;  // 0000 0111 1110 0000 : 6
+    b = (data & 0x001F) << 3;  // 0000 0000 0001 1111 : 5
+    arr_screen[(y_ptr * 320) + x_ptr] = (r << 16) | (g << 8) | b;
     x_ptr++;
     if (x_ptr > sim_x1) {
         x_ptr = sim_x0;
@@ -71,19 +76,19 @@ void writeSim(uint16_t data) {
 
 void simUpdate() {
     RECT r;
-	if (sim_min_x == 999) {
-		// no drawing since last time
-		return;
-	}
+    if (sim_min_x == 999) {
+        // no drawing since last time
+        return;
+    }
     r.left = 25 + sim_min_x;
     r.right = 25 + sim_max_x + 1;
     r.top = 25 + sim_min_y;
     r.bottom = 25 + sim_max_y + 1;
-	InvalidateRect(ghWnd, &r, true);
-	sim_min_x = 999;
-	sim_max_x = 0;
-	sim_min_y = 999;
-	sim_max_y = 0;
+    InvalidateRect(ghWnd, &r, true);
+    sim_min_x = 999;
+    sim_max_x = 0;
+    sim_min_y = 999;
+    sim_max_y = 0;
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -177,8 +182,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    int R, G, B;
    for (int n = 0; n < (320 * 240); n++) {
        R = 0;
-	   G = 0; //rand() & 0xFF;
-	   B = 0xFF; // rand() & 0xFF;
+       G = 0; //rand() & 0xFF;
+       B = 0xFF; // rand() & 0xFF;
        arr_screen[n] = (R << 16) | (G << 8) | B;
    }
 
@@ -220,6 +225,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
+                break;
+            case ID_FILE_TESTDISPLAY1:
+                activeDisplay = DISPLAY_1;
+                display1();
+                InvalidateRect(hWnd, NULL, true);
+                break;
+            case ID_FILE_TESTDISPLAY2:
+                activeDisplay = DISPLAY_2;
+                display2();
+                InvalidateRect(hWnd, NULL, true);
+                break;
+            case ID_FILE_TESTDISPLAY3:
+                activeDisplay = DISPLAY_3;
+                display3();
+                InvalidateRect(hWnd, NULL, true);
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
