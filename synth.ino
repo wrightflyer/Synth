@@ -157,10 +157,11 @@ const keyb_t keybd[] = {
 // modulator settings
 int osc1Waveform = WAVEFORM_SINE;
 float osc1Amplitude = 1.0;
-float osc1PWM = 0.0;
+int osc1Octave = 0;
+int osc1Fine = 0; // can range -12 to +12
+
 int osc2Waveform = WAVEFORM_SAWTOOTH;
 float osc2Amplitude = 1.0;
-float osc2PWM = 0.0;
 int osc2Octave = 0;
 int osc2Fine = 0; // can range -12 to +12
 
@@ -241,15 +242,25 @@ void blackKey(int n, bool pressed) {
 void OnNoteOn(byte channel, byte note, byte velocity) {
   Serial.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
   digitalWrite(LED_PIN, HIGH);
-  float freq = tune_frequencies2_PGM[note];
   if (keybd[note - 48].type == 0) {
     whiteKey((int)keybd[note - 48].offset, true);
   }
   else {
     blackKey((int)keybd[note - 48].offset, true);
   }
+
+  note += osc1Octave; // -24, -12, 0, 12 or 24
+  note -= osc1Fine; // then apply -12..+12 in octave
+  if (note < 0) {
+    note = 0;
+  }
+  if (note > 127) {
+    note = 127;
+  }
+  float freq = tune_frequencies2_PGM[note];
   Serial.printf("so freq = %f\n", freq);
   waveformMod1.frequency(freq);
+
   note += osc2Octave; // -24, -12, 0, 12 or 24
   note -= osc2Fine; // then apply -12..+12 in octave
   if (note < 0) {
@@ -478,13 +489,13 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
           change = WAVEFORM_TRIANGLE;
           break;
         case 5:
-          change = WAVEFORM_PULSE;
-          break;
-        case 6:
           change = WAVEFORM_SAMPLE_HOLD;
           break;
-        case 7:
+        case 6:
           change = WAVEFORM_ARBITRARY;
+          break;
+        case 7:
+          change = WAVEFORM_PULSE;
           break;
       }
       if (control == 110) {
@@ -537,25 +548,37 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateLFO2();
       break;
 
-    // Osc1 has wave (above), Ampl, PWM
+    // Osc1 has wave (above), Ampl, Octave, FineTune
     case 118:
       osc1Amplitude = mapf(value, 0, 127, 0.0, 1.0);
       updateOsc1();
       break;
 
     case 23:
-      osc1PWM = mapf(value, 0, 127, 0.0, 1.0);
-      updateOsc1();
-      break;
-
-    // Osc2 has wave (above), Freq, Ampl, PWM, Octave, FineTune
-    case 119:
-      osc2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
-      updateOsc2();
+      if (value < 26) {
+        osc1Octave = -24;
+      }
+      else if ((value >= 26) && (value < 52)) {
+        osc1Octave = -12;
+      }
+      else if ((value >= 52) && (value < 78)) {
+        osc1Octave = 0;
+      }
+      else if ((value >= 78) && (value < 104)) {
+        osc1Octave = 12;
+      }
+      else if (value >= 104) {
+        osc1Octave = 24;
+      }
       break;
 
     case 25:
-      osc2PWM = mapf(value, 0, 127, 0.0, 1.0);
+      osc1Fine = mapf(value, 0, 127, -12, 12);
+      break;
+
+    // Osc2 has wave (above), Freq, Ampl, Octave, FineTune
+    case 119:
+      osc2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
       updateOsc2();
       break;
 
