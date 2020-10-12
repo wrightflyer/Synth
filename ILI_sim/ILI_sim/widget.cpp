@@ -22,15 +22,49 @@ void VSlider::draw() {
     mTFT.fillRoundRect(mX, mY + mPos, mW, mH - mPos, 5, ILI9341_BLACK);
     // add a label above
     if (mLabel != NULL) {
-        mTFT.setCursor(mX + 8, mY + mH + 20);
+        mTFT.setCursor(mX + 8, mY + mH + 8);
         mTFT.print(mLabel);
     }
 }
 
-void VSlider::setPos(int val, float min, float max) {
+void VSlider::setSlider(int val, float min, float max) {
     mPos = mapf(val, min, max, 0, mH);
+    draw();
 }
 
 void VSlider::setLabel(char * text) {
-    strncpy(mLabel, text, 100);
+    strncpy_s(mLabel, text, 100);
+}
+
+void VSlider::setPos(int x, int y){
+    mX = x;
+    mY = y;
+}
+void VSlider::setSize(int w, int h){
+    mW = w;
+    mH = h;
+}
+
+bool VSlider::inSlider(int x, int y) {
+    return pointInRect(x, y, mX, mY, mW, mH);
+}
+
+void RadioGroup::setElements(vector<string> & labels) {
+    mLabels = labels;
+}
+
+void RadioGroup::draw() {
+    mTFT.setFontAdafruit();
+    mTFT.setTextSize(mFontSize);
+    for (int i = 0; i < mLabels.size(); i++) {
+        if (i == mSelected) {
+            mTFT.fillCircle(mX, mY + (i * mRadius * 3), mRadius, CL(0, 0, 0));
+        }
+        else {
+            mTFT.drawCircle(mX, mY + (i * mRadius * 3), mRadius, CL(0, 0, 0));
+        }
+        mTFT.setTextColor(CL(0, 0, 0));
+        mTFT.setCursor(mX + mRadius + 4, mY + (i * mRadius * 3) - (mRadius / 2));
+        mTFT.print(mLabels[i].c_str());
+    }
 }

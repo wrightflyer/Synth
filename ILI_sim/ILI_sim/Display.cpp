@@ -10,15 +10,15 @@ extern "C" {
 #define TFT_CS 10
 
 #define PANEL_H 140
-#define BAR_HEIGHT 100
-#define BAR_WIDTH 20
-#define BAR_OFFSET 15
+#define BAR_HEIGHT 120
+#define BAR_WIDTH 25
+#define BAR_OFFSET 18
 #define MIX_PANEL_X 10
 #define MIX_PANEL_Y 30
-#define MIX_PANEL_W 80
+#define MIX_PANEL_W 100
 #define ADSR_PANEL_X 120
 #define ADSR_PANEL_Y 30
-#define ADSR_PANEL_W 100
+#define ADSR_PANEL_W 140
 #define KEYB_X  10
 #define KEYB_Y  200
 #define KEY_WIDTH 12
@@ -70,6 +70,16 @@ const keyb_t keybd[] = {
   { 0, KEY_WIDTH * 20 }
 };
 
+VSlider slideOsc1(tft, MIX_PANEL_X + 5, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "1");
+VSlider slideOsc2(tft, MIX_PANEL_X + 35, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "2");
+VSlider slideNoise(tft, MIX_PANEL_X + 65, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "N");
+
+VSlider slideAttack(tft, ADSR_PANEL_X + 5, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "A");
+VSlider slideDecay(tft, ADSR_PANEL_X + 35, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "D");
+VSlider slideSustain(tft, ADSR_PANEL_X + 65, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "S");
+VSlider slideRelease(tft, ADSR_PANEL_X + 95, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "R");
+
+RadioGroup WaveSelect(tft, 20, 20, 6);
 
 void whiteKey(int n, bool pressed) {
     if (!pressed) {
@@ -119,6 +129,11 @@ void setup() {
     tft.setFont(Arial_14_Bold);
     tft.setCursor(40, 140);
     tft.print("Select Display on File menu");
+    vector<string> labels;
+    labels.push_back("Sine");
+    labels.push_back("Square");
+    labels.push_back("Sawtooth");
+    WaveSelect.setElements(labels);
 }
 
 void display1() {
@@ -132,6 +147,13 @@ void display1() {
     tft.setCursor(MIX_PANEL_X + 20, MIX_PANEL_Y);
     tft.print("Mixer");
     tft.setFont(Arial_11_Bold);
+    slideOsc1.draw();
+    slideOsc2.draw();
+    slideNoise.draw();
+    slideAttack.draw();
+    slideDecay.draw();
+    slideSustain.draw();
+    slideRelease.draw();
     for (int i = 48; i < 84; i++) {
         if (keybd[i - 48].type == 0) {
             whiteKey(keybd[i - 48].offset, false);
@@ -144,7 +166,7 @@ void display1() {
 
 void display2() {
     tft.fillScreen(CL(192, 192, 192));
-
+    WaveSelect.draw();
 }
 
 void display3() {
@@ -156,14 +178,14 @@ void loop() {
     static int count5ms = 201;
     if (++count5ms > 200) {
         if (activeDisplay == DISPLAY_1) {
-            drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, rand() % 100, (char *)"1");
-            drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, rand() % 100, (char *)"2");
-            drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, rand() % 100, (char *)"N");
+            slideOsc1.setSlider(rand() % BAR_HEIGHT);
+            slideOsc2.setSlider(rand() % BAR_HEIGHT);
+            slideNoise.setSlider(rand() % BAR_HEIGHT);
 
-            drawBar(ADSR_PANEL_X + 5, ADSR_PANEL_Y, rand() % 100, (char *)"A");
-            drawBar(ADSR_PANEL_X + 30, ADSR_PANEL_Y, rand() % 100, (char *)"D");
-            drawBar(ADSR_PANEL_X + 55, ADSR_PANEL_Y, rand() % 100, (char *)"S");
-            drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, rand() % 100, (char *)"R");
+            slideAttack.setSlider(rand() % BAR_HEIGHT);
+            slideDecay.setSlider(rand() % BAR_HEIGHT);
+            slideSustain.setSlider(rand() % BAR_HEIGHT);
+            slideRelease.setSlider(rand() % BAR_HEIGHT);
         }
         count5ms = 0;
     }
