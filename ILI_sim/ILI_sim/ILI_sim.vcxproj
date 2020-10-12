@@ -163,6 +163,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SPI.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="widget.h" />
     <ClInclude Include="WString.h" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +176,7 @@
     <ClCompile Include="ILI9341_t3.cpp" />
     <ClCompile Include="ILI_sim.cpp" />
     <ClCompile Include="Print.cpp" />
+    <ClCompile Include="widget.cpp" />
     <ClCompile Include="WString.cpp" />
   </ItemGroup>
   <ItemGroup>

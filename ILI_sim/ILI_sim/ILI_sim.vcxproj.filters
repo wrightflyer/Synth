@@ -54,6 +54,9 @@
     <ClInclude Include="Display.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="widget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ILI_sim.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\amelia320.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
