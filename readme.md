@@ -17,5 +17,11 @@ The Pure Data for my keyboard and controllers looks like this:
 knobs and keys - the PD sends MIDI that Teensy receives
 as usbMIDI).
 
+And this is a rough (very rough!) layout diagram to show how some
+of the bits connect together (I won't call it "schematic" as it doesn't
+deserve that title!):
+
+![electronic layout](layout.png)
+
 Read the WIKI: https://github.com/wrightflyer/Synth/wiki for more details
 about the hardware and the software and just how it all came about!
