@@ -10,3 +10,5 @@ typedef enum {
 } active_t;
 
 extern active_t activeDisplay;
+extern int mouseX, mouseY;
+extern bool mouseDown;

@@ -13,15 +13,17 @@ extern "C" {
 #define BAR_HEIGHT 120
 #define BAR_WIDTH 25
 #define BAR_OFFSET 18
-#define MIX_PANEL_X 10
-#define MIX_PANEL_Y 30
+#define MIX_PANEL_X 20
+#define MIX_PANEL_Y 20
 #define MIX_PANEL_W 100
-#define ADSR_PANEL_X 120
-#define ADSR_PANEL_Y 30
+#define ADSR_PANEL_X 140
+#define ADSR_PANEL_Y 20
 #define ADSR_PANEL_W 140
-#define KEYB_X  10
-#define KEYB_Y  200
+#define KEYB_X  24
+#define KEYB_Y  190
 #define KEY_WIDTH 12
+
+#define BKGND_COL CL(192, 192, 192)
 
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
 
@@ -70,20 +72,20 @@ const keyb_t keybd[] = {
   { 0, KEY_WIDTH * 20 }
 };
 
-VSlider slideOsc1(tft, MIX_PANEL_X + 5, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "1");
-VSlider slideOsc2(tft, MIX_PANEL_X + 35, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "2");
-VSlider slideNoise(tft, MIX_PANEL_X + 65, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "N");
+VSlider slideOsc1(tft, MIX_PANEL_X + 5, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, BKGND_COL, "1");
+VSlider slideOsc2(tft, MIX_PANEL_X + 35, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, BKGND_COL, "2");
+VSlider slideNoise(tft, MIX_PANEL_X + 65, MIX_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, BKGND_COL, "N");
 
-VSlider slideAttack(tft, ADSR_PANEL_X + 5, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "A");
-VSlider slideDecay(tft, ADSR_PANEL_X + 35, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "D");
-VSlider slideSustain(tft, ADSR_PANEL_X + 65, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "S");
-VSlider slideRelease(tft, ADSR_PANEL_X + 95, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, "R");
+VSlider slideAttack(tft, ADSR_PANEL_X + 5, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, BKGND_COL, "A");
+VSlider slideDecay(tft, ADSR_PANEL_X + 35, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, BKGND_COL, "D");
+VSlider slideSustain(tft, ADSR_PANEL_X + 65, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, BKGND_COL, "S");
+VSlider slideRelease(tft, ADSR_PANEL_X + 95, ADSR_PANEL_Y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, BKGND_COL, "R");
 
-RadioGroup WaveSelect(tft, 20, 20, 6);
+RadioGroup WaveSelect(tft, 20, 20, 6, BKGND_COL);
 
 void whiteKey(int n, bool pressed) {
     if (!pressed) {
-        tft.fillRoundRect(KEYB_X + n, KEYB_Y + 20, 10, 20, 2, CL(180, 180, 180));
+        tft.fillRoundRect(KEYB_X + n, KEYB_Y + 20, 10, 20, 2, ILI9341_WHITE);
     }
     else {
         tft.fillRoundRect(KEYB_X + n, KEYB_Y + 20, 10, 20, 2, CL(0, 180, 0));
@@ -131,13 +133,18 @@ void setup() {
     tft.print("Select Display on File menu");
     vector<string> labels;
     labels.push_back("Sine");
-    labels.push_back("Square");
     labels.push_back("Sawtooth");
+    labels.push_back("Rev. Saw");
+    labels.push_back("Square");
+    labels.push_back("Triangle");
+    labels.push_back("Samp Hold");
+    labels.push_back("Arbitrary");
+    labels.push_back("PWM");
     WaveSelect.setElements(labels);
 }
 
 void display1() {
-    tft.fillScreen(CL(192, 192, 192));
+    tft.fillScreen(BKGND_COL);
     tft.fillRoundRect(ADSR_PANEL_X, ADSR_PANEL_Y, ADSR_PANEL_W, PANEL_H, 5, ILI9341_DARKGREY);
     tft.setCursor(ADSR_PANEL_X + 30, ADSR_PANEL_Y);
     tft.setFont(Arial_14);
@@ -188,6 +195,13 @@ void loop() {
             slideRelease.setSlider(rand() % BAR_HEIGHT);
         }
         count5ms = 0;
+    }
+    if (activeDisplay == DISPLAY_2) {
+        if (mouseDown) {
+            WaveSelect.mouseClick(mouseX, mouseY);
+            mouseDown = false;
+            WaveSelect.draw();
+        }
     }
 #if 0
     tft.fillRect(0, 0, 100, 16, 0);

@@ -7,6 +7,9 @@
 
 #define MAX_LOADSTRING 100
 
+#define CLIENT_X 25
+#define CLIENT_Y 25
+
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -32,6 +35,9 @@ COLORREF arr_screen[320 * 240];
 int sim_x0, sim_x1, sim_y0, sim_y1;
 int x_ptr, y_ptr;
 int sim_min_x = 999, sim_max_x, sim_min_y = 999, sim_max_y;
+
+int mouseX, mouseY;
+bool mouseDown = false;
 
 active_t activeDisplay = NONE;
 
@@ -80,10 +86,10 @@ void simUpdate() {
         // no drawing since last time
         return;
     }
-    r.left = 25 + sim_min_x;
-    r.right = 25 + sim_max_x + 1;
-    r.top = 25 + sim_min_y;
-    r.bottom = 25 + sim_max_y + 1;
+    r.left = CLIENT_X + sim_min_x;
+    r.right = CLIENT_X + sim_max_x + 1;
+    r.top = CLIENT_Y + sim_min_y;
+    r.bottom = CLIENT_Y + sim_max_y + 1;
     InvalidateRect(ghWnd, &r, true);
     sim_min_x = 999;
     sim_max_x = 0;
@@ -256,8 +262,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             src = CreateCompatibleDC(hdc);
             SelectObject(src, map);
             BitBlt(hdc, // Destination
-                25,  // x and
-                25,  // y - upper-left corner of place, where we'd like to copy
+                CLIENT_X,  // x and
+                CLIENT_Y,  // y - upper-left corner of place, where we'd like to copy
                 320, // width of the region
                 240, // height
                 src, // source
@@ -272,6 +278,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         // call loop() in Display.cpp
         loop();
         simUpdate();
+        break;
+    case WM_LBUTTONDOWN:
+        mouseX = LOWORD(lParam) - CLIENT_X;
+        mouseY = HIWORD(lParam) - CLIENT_Y;
+        mouseDown = true;
+        break;
+    case WM_LBUTTONUP:
+        mouseDown = false;
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
