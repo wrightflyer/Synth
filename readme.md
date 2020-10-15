@@ -17,6 +17,10 @@ The Pure Data for my keyboard and controllers looks like this:
 knobs and keys - the PD sends MIDI that Teensy receives
 as usbMIDI).
 
+Later I discovered "Ctrlr" which does the same but in a prettier way...
+
+![keyb/controller layout](synthctrlr.png)
+
 And this is a rough (very rough!) layout diagram to show how some
 of the bits connect together (I won't call it "schematic" as it doesn't
 deserve that title!):
