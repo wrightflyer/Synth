@@ -196,7 +196,7 @@ float envRelease = 300;
 float filtEnvA = 10.5;
 float filtEnvD = 35;
 float filtEnvS = 0.5;
-float filtEndR = 300;
+float filtEnvR = 300;
 
 filter_band_t filtBand = LPF;
 float filterFreq = 5000;
