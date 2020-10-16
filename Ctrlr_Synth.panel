@@ -2,23 +2,23 @@
 
 <panel name="Ctrlr Panel" panelShowDialogs="1" panelMessageTime="10000.00000000000000000000"
        panelAuthorName="Cliff" panelAuthorEmail="wrightflyer@hotmail.com"
-       panelAuthorUrl="" panelAuthorDesc="" panelVersionMajor="1.00000000000000000000"
-       panelVersionMinor="0" panelVersionName="Hell-O-Kitty" panelVendor=""
-       panelDevice="" panelMidiSnapshotAfterLoad="0" panelMidiSnapshotAfterProgramChange="0"
+       panelAuthorDonateUrl="" panelAuthorUrl="" panelAuthorDesc=""
+       panelVersionMajor="1.00000000000000000000" panelVersionMinor="0"
+       panelVersionName="Hell-O-Kitty" panelVendor="" panelDevice=""
+       panelMidiSnapshotAfterLoad="0" panelMidiSnapshotAfterProgramChange="0"
        panelMidiSnapshotDelay="10.00000000000000000000" panelMidiSnapshotShowProgress="0"
-       panelMidiInputChannelDevice="1" panelMidiInputDevice="-- None"
-       panelMidiControllerChannelDevice="1" panelMidiControllerDevice="-- None"
-       panelMidiOutputChannelDevice="1" panelMidiOutputDevice="LoopBe Internal MIDI"
-       panelMidiInputFromHost="0" panelMidiInputChannelHost="1" panelMidiOutputToHost="0"
-       panelMidiOutputChannelHost="1" panelMidiThruH2H="0" panelMidiThruH2HChannelize="0"
-       panelMidiThruH2D="0" panelMidiThruH2DChannelize="0" panelMidiThruD2D="0"
-       panelMidiThruD2DChannelize="0" panelMidiThruD2H="0" panelMidiThruD2HChannelize="0"
-       panelMidiRealtimeIgnore="1" panelMidiInputThreadPriority="7.00000000000000000000"
-       panelMidiProgram="0" panelMidiBankLsb="0" panelMidiBankMsb="0"
-       panelMidiSendProgramChangeOnLoad="0" panelMidiProgramCalloutOnprogramChange="0"
-       panelMidiMatchCacheSize="32.00000000000000000000" panelMidiGlobalDelay="0"
-       panelMidiPauseOut="0" panelMidiPauseIn="0" panelOSCEnabled="0"
-       panelOSCPort="-1" panelOSCProtocol="0" luaPanelMidiChannelChanged="-- None"
+       panelMidiInputChannelDevice="1" panelMidiInputDevice="QX25" panelMidiControllerChannelDevice="1"
+       panelMidiControllerDevice="-- None" panelMidiOutputChannelDevice="1"
+       panelMidiOutputDevice="Teensy MIDI" panelMidiInputFromHost="0"
+       panelMidiInputChannelHost="1" panelMidiOutputToHost="0" panelMidiOutputChannelHost="1"
+       panelMidiThruH2H="0" panelMidiThruH2HChannelize="0" panelMidiThruH2D="0"
+       panelMidiThruH2DChannelize="0" panelMidiThruD2D="1" panelMidiThruD2DChannelize="0"
+       panelMidiThruD2H="0" panelMidiThruD2HChannelize="0" panelMidiRealtimeIgnore="1"
+       panelMidiInputThreadPriority="7.00000000000000000000" panelMidiProgram="0"
+       panelMidiBankLsb="0" panelMidiBankMsb="0" panelMidiSendProgramChangeOnLoad="0"
+       panelMidiProgramCalloutOnprogramChange="0" panelMidiMatchCacheSize="32.00000000000000000000"
+       panelMidiGlobalDelay="0" panelMidiPauseOut="0" panelMidiPauseIn="0"
+       panelOSCEnabled="0" panelOSCPort="-1" panelOSCProtocol="0" luaPanelMidiChannelChanged="-- None"
        luaPanelMidiReceived="-- None" luaPanelMidiMultiReceived="-- None"
        luaPanelLoaded="-- None" luaPanelBeforeLoad="-- None" luaPanelSaved="-- None"
        luaPanelResourcesLoaded="-- None" luaPanelProgramChanged="-- None"
@@ -26,7 +26,7 @@
        luaPanelModulatorValueChanged="-- None" luaPanelSaveState="-- None"
        luaPanelRestoreState="-- None" luaPanelMidiSnapshotPost="-- None"
        luaPanelMidiSnapshotPre="-- None" luaAudioProcessBlock="-- None"
-       luaPanelOSCReceived="-- None" panelFilePath="D:\Synth\Ctrlr_Synth.panel"
+       luaPanelOSCReceived="-- None" panelFilePath="C:\synth\Ctrlr_Synth.panel"
        panelUID="8.W9hB42P4bEC" panelInstanceUID="frAQ" panelInstanceManufacturerID="Bc8W"
        panelModulatorListColumns="-- None" panelModulatorListCsvDelimiter=","
        panelModulatorListXmlRoot="ctrlrModulatorList" panelModulatorListXmlModulator="ctrlrModulator"
@@ -38,13 +38,12 @@
        ctrlrMenuBarBackgroundColour1="fff7f7f7" ctrlrMenuBarBackgroundColour2="ffcccccc"
        ctrlrMenuBarTextColour="ff000000" ctrlrMenuBarHighlightedTextColour="ffffffff"
        ctrlrMenuBarHighlightColour="ff4364ff" ctrlrMenuBarFont="&lt;Sans-Serif&gt;;18;0;0;0;0;1;3"
-       ctrlrUseEditorWrapper="0" panelAuthorDonateUrl="" panelIndex="0"
-       panelIsDirty="0" uiPanelModulatorListViewTree="0">
+       ctrlrUseEditorWrapper="0" panelIndex="0" panelIsDirty="0" uiPanelModulatorListViewTree="0">
   <uiWindowManager>
     <uiChildWindow uiChildWindowName="MIDISettings" uiChildWindowState="3395 -210 800 500">
       <uiChildWindowContentState/>
     </uiChildWindow>
-    <uiChildWindow uiChildWindowName="ModulatorList" uiChildWindowState="2693 -111 1918 721">
+    <uiChildWindow uiChildWindowName="ModulatorList" uiChildWindowState="8 31 1350 721">
       <uiChildWindowContentState/>
     </uiChildWindow>
     <uiChildWindow uiChildWindowName="LayerEditor" uiChildWindowState="560 270 800 500">
@@ -76,12 +75,13 @@
     </luaManagerMethods>
   </luaManager>
   <panelResources/>
-  <uiPanelEditor uiPanelCanvasRectangle="0 0 865 822" uiPanelSnapSize="8" uiPanelBackgroundColour="0xffffffff"
+  <uiPanelEditor uiPanelCanvasRectangle="0 0 898 822" uiPanelSnapSize="8" uiPanelBackgroundColour="0xffffffff"
                  uiPanelBackgroundColour1="0xffffffff" uiPanelBackgroundColour2="0xffffffff"
                  uiPanelBackgroundGradientType="1" uiPanelImageResource="-- None"
-                 uiPanelEditMode="0" uiPanelViewPortSize="919" uiPanelPropertiesSize="520"
-                 uiPanelLock="0" uiPanelDisabledOnEdit="0" uiPanelMenuBarVisible="1"
-                 uiPanelMenuBarHideOnExport="0" uiPanelWidth="400" uiPanelHeight="400"
+                 uiPanelEditMode="0" uiPanelLock="0" uiPanelDisabledOnEdit="0"
+                 uiPanelMenuBarVisible="1" uiPanelMenuBarHideOnExport="0" uiPanelProgramsMenuHideOnExport="0"
+                 uiPanelMidiControllerMenuHideOnExport="0" uiPanelMidiThruMenuHideOnExport="0"
+                 uiPanelMidiChannelMenuHideOnExport="0" uiPanelWidth="400" uiPanelHeight="400"
                  name="Ctrlr Panel" uiPanelImageAlpha="255.00000000000000000000"
                  uiPanelImageLayout="64" uiPanelSnapActive="1" uiPanelPropertiesOnRight="0"
                  luaPanelPaintBackground="-- None" luaPanelResized="-- None" luaPanelFileDragDropHandler="-- None"
@@ -90,8 +90,7 @@
                  uiPanelTooltipOutlineColour="0xff000000" uiPanelTooltipColour="0xff000000"
                  uiPanelTooltipCornerRound="1.00000000000000000000" uiPanelTooltipPlacement="2"
                  uiPanelTooltipFont="&lt;Sans-Serif&gt;;15;1;0;0;0;1;3" uiPanelZoom="1.00000000000000000000"
-                 uiPanelMidiChannelMenuHideOnExport="0" uiPanelMidiThruMenuHideOnExport="0"
-                 uiPanelMidiControllerMenuHideOnExport="0" uiPanelProgramsMenuHideOnExport="0">
+                 uiPanelViewPortSize="807" uiPanelPropertiesSize="201">
     <uiPanelCanvasLayer uiPanelCanvasLayerName="New layer" uiPanelCanvasLayerUid="55a4dc48d80600008eaeec7600000000"
                         uiPanelCanvasLayerColour="0x000000" uiPanelCanvasLayerVisibility="1"
                         uiPanelCanvasLayerIndex="0"/>
@@ -132,7 +131,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="mixer_osc1" modulatorMin="0.00000000000000000000" modulatorValue="72">
+             name="mixer_osc1" modulatorMin="0.00000000000000000000" modulatorValue="71">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="100.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -178,7 +177,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="mixer_osc2" modulatorMin="0.00000000000000000000"
-             modulatorValue="71">
+             modulatorValue="85">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="101.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -224,7 +223,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="mixer_noise" modulatorMin="0.00000000000000000000"
-             modulatorValue="18">
+             modulatorValue="0">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="102.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -294,7 +293,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="ADSR_attack" modulatorMin="0.00000000000000000000"
-             modulatorValue="82">
+             modulatorValue="15">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="103.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -340,7 +339,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="ADSR_decay" modulatorMin="0.00000000000000000000"
-             modulatorValue="55">
+             modulatorValue="0">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="104.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -386,7 +385,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="adsr_sustain" modulatorMin="0.00000000000000000000"
-             modulatorValue="63">
+             modulatorValue="0">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="105.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -432,7 +431,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="adsr_release" modulatorMin="0.00000000000000000000"
-             modulatorValue="16">
+             modulatorValue="67">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="106.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -538,7 +537,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo1_freq" modulatorMin="0.00000000000000000000" modulatorValue="6">
+             name="lfo1_freq" modulatorMin="0.00000000000000000000" modulatorValue="4">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="112.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -584,7 +583,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo1_ampl" modulatorMin="0.00000000000000000000" modulatorValue="4">
+             name="lfo1_ampl" modulatorMin="0.00000000000000000000" modulatorValue="0">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="114.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -630,7 +629,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo1_pwm" modulatorMin="0.00000000000000000000" modulatorValue="9">
+             name="lfo1_pwm" modulatorMin="0.00000000000000000000" modulatorValue="0">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="20.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -888,7 +887,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc1_fine" modulatorMin="0.00000000000000000000" modulatorValue="0">
+             name="osc1_fine" modulatorMin="0.00000000000000000000" modulatorValue="1">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="25.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -934,7 +933,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc1_ampl" modulatorMin="0.00000000000000000000" modulatorValue="0">
+             name="osc1_ampl" modulatorMin="0.00000000000000000000" modulatorValue="62">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="118.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1004,7 +1003,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc2_fine" modulatorMin="0.00000000000000000000" modulatorValue="0">
+             name="osc2_fine" modulatorMin="0.00000000000000000000" modulatorValue="42">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="27.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1050,7 +1049,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc2_ampl" modulatorMin="0.00000000000000000000" modulatorValue="0">
+             name="osc2_ampl" modulatorMin="0.00000000000000000000" modulatorValue="71">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="119.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1103,7 +1102,7 @@
                uiGroupOutlineColour1="0xffa3a3a3" uiGroupOutlineColour2="0xffffffff"
                uiGroupBackgroundColour1="0xffa3a3a3" uiGroupBackgroundColour2="0xffffffff"
                uiGroupOutlineGradientType="Vertical" uiGroupBackgroundGradientType="1"
-               uiGroupBackgroundImage="" componentRectangle="40 560 228 84"
+               uiGroupBackgroundImage="" componentRectangle="40 560 385 84"
                uiGroupBackgroundImageLayout="36" uiGroupBackgroundImageAlpha="255.00000000000000000000"
                uiGroupTextPlacement="top" uiGroupTextFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
                uiGroupOutlineThickness="2.00000000000000000000" uiGroupOutlineRoundAngle="8.00000000000000000000"
@@ -1120,7 +1119,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="filter_res" modulatorMin="0.00000000000000000000"
-             modulatorValue="9">
+             modulatorValue="75">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="109.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1166,7 +1165,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="filter_freq" modulatorMin="0.00000000000000000000"
-             modulatorValue="2">
+             modulatorValue="66">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="108.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1211,7 +1210,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo1_wave" modulatorMin="0" modulatorValue="2">
+             name="lfo1_wave" modulatorMin="0" modulatorValue="4">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="110.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1251,7 +1250,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo2_wave" modulatorMin="0" modulatorValue="3">
+             name="lfo2_wave" modulatorMin="0" modulatorValue="1">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="111.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1290,7 +1289,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc1_wave" modulatorMin="0" modulatorValue="1">
+             name="osc1_wave" modulatorMin="0" modulatorValue="3">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="116.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1369,7 +1368,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="filter_band" modulatorMin="0" modulatorValue="2">
+             name="filter_band" modulatorMin="0" modulatorValue="0">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="107.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1385,7 +1384,7 @@
                componentEffectOffsetY="0" componentExcludedFromLabelDisplay="0"
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
-               componentLuaMouseDoubleClick="-- None" uiListBoxContent="High=10&#10;Band=50&#10;Low=90"
+               componentLuaMouseDoubleClick="-- None" uiListBoxContent="Low=10&#10;Band=50&#10;High=90"
                componentRectangle="8 24 80 55" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
@@ -1409,7 +1408,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc1_octave" modulatorMin="0" modulatorValue="3">
+             name="osc1_octave" modulatorMin="0" modulatorValue="2">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="23.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1425,7 +1424,7 @@
                componentEffectOffsetY="0" componentExcludedFromLabelDisplay="0"
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
-               componentLuaMouseDoubleClick="-- None" uiListBoxContent="-2=10&#10;-1=30&#10;0=60&#10;+1=90&#10;+2=120"
+               componentLuaMouseDoubleClick="-- None" uiListBoxContent="+2=120&#10;+1=90&#10;0=60&#10;-1=30&#10;-2=10&#10;"
                componentRectangle="184 32 67 109" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
@@ -1449,7 +1448,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc2_octave" modulatorMin="0" modulatorValue="1">
+             name="osc2_octave" modulatorMin="0" modulatorValue="2">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="26.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1465,7 +1464,7 @@
                componentEffectOffsetY="0" componentExcludedFromLabelDisplay="0"
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
-               componentLuaMouseDoubleClick="-- None" uiListBoxContent="-2=10&#10;-1=30&#10;0=60&#10;+1=90&#10;+2=120"
+               componentLuaMouseDoubleClick="-- None" uiListBoxContent="+2=120&#10;+1=90&#10;0=60&#10;-1=30&#10;-2=10&#10;"
                componentRectangle="192 48 67 100" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
@@ -1570,11 +1569,12 @@
                componentLuaMouseDoubleClick="-- None" uiLabelBgColour="0x00000000"
                uiLabelTextColour="0xff000000" uiLabelOutline="0" uiLabelOutlineColour="0x00000000"
                uiLabelJustification="centred" uiLabelFitFont="0" uiLabelFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
-               uiLabelText="CC:107, 108, 109" uiLabelDisplaysAllValues="0" uiLabelDisplayFormat="%n(%N) = %v(%h)"
-               uiLabelInputHighlightTextColour="0xffffffff" uiLabelInputHighlightColour="0xff0000ff"
-               uiLabelEditOnSingleClick="0" uiLabelEditOnDoubleClick="0" uiLabelEditFocusDiscardsChanges="1"
+               uiLabelText="CC:107, 108, 109, 30" uiLabelDisplaysAllValues="0"
+               uiLabelDisplayFormat="%n(%N) = %v(%h)" uiLabelInputHighlightTextColour="0xffffffff"
+               uiLabelInputHighlightColour="0xff0000ff" uiLabelEditOnSingleClick="0"
+               uiLabelEditOnDoubleClick="0" uiLabelEditFocusDiscardsChanges="1"
                uiLabelInputAllowedChars="" uiLabelInputMaxLength="1024.00000000000000000000"
-               uiLabelChangedCbk="-- None" uiType="uiLabel" componentRectangle="80 648 130 24"
+               uiLabelChangedCbk="-- None" uiType="uiLabel" componentRectangle="80 648 161 24"
                componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
   </modulator>
   <modulator modulatorCustomIndex="0" modulatorCustomIndexGroup="0" modulatorIsStatic="1"
@@ -1653,7 +1653,7 @@
                componentRectangle="64 248 154 26" uiType="uiLabel"/>
   </modulator>
   <modulator modulatorCustomIndex="0" modulatorCustomIndexGroup="0" modulatorIsStatic="1"
-             name="filtADSRcontrols" modulatorVstExported="0">
+             name="filtADSRcontrols" modulatorVstExported="0" modulatorValue="0">
     <component componentLabelPosition="top" componentLabelJustification="centred"
                componentLabelHeight="14" componentLabelWidth="0" componentLabelVisible="0"
                componentLabelAlwaysOnTop="1" componentSentBack="1" componentLabelColour="0xff000000"
@@ -1687,7 +1687,8 @@
              modulatorLinkedToModulatorSource="1" modulatorLinkedToComponent="Modulator"
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
-             luaModulatorValueChange="-- None" name="filt_ADSR_attack" modulatorMin="0.00000000000000000000">
+             luaModulatorValueChange="-- None" name="filt_ADSR_attack" modulatorMin="0.00000000000000000000"
+             modulatorValue="62">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="22.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1732,7 +1733,8 @@
              modulatorLinkedToModulatorSource="1" modulatorLinkedToComponent="Modulator"
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
-             luaModulatorValueChange="-- None" name="filt_ADSR_decay" modulatorMin="0.00000000000000000000">
+             luaModulatorValueChange="-- None" name="filt_ADSR_decay" modulatorMin="0.00000000000000000000"
+             modulatorValue="99">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="24.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1777,7 +1779,8 @@
              modulatorLinkedToModulatorSource="1" modulatorLinkedToComponent="Modulator"
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
-             luaModulatorValueChange="-- None" name="filt_ADSR_sustain" modulatorMin="0.00000000000000000000">
+             luaModulatorValueChange="-- None" name="filt_ADSR_sustain" modulatorMin="0.00000000000000000000"
+             modulatorValue="77">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="28.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1822,7 +1825,8 @@
              modulatorLinkedToModulatorSource="1" modulatorLinkedToComponent="Modulator"
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
-             luaModulatorValueChange="-- None" name="filt_ADSR_release" modulatorMin="0.00000000000000000000">
+             luaModulatorValueChange="-- None" name="filt_ADSR_release" modulatorMin="0.00000000000000000000"
+             modulatorValue="74">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="29.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1881,6 +1885,83 @@
                uiLabelInputAllowedChars="" uiLabelInputMaxLength="1024.00000000000000000000"
                uiLabelChangedCbk="-- None" componentLayerUid="55a4dc48d80600008eaeec7600000000"
                componentRectangle="648 472 106 24" uiType="uiLabel"/>
+  </modulator>
+  <modulator modulatorVstExported="1" modulatorMax="127.00000000000000000000"
+             vstIndex="40" modulatorIsStatic="0" modulatorGlobalVariable="-1.00000000000000000000"
+             modulatorMuteOnStart="0" modulatorMute="0" modulatorExcludeFromSnapshot="0"
+             modulatorValueExpression="modulatorValue" modulatorValueExpressionReverse="midiValue"
+             modulatorControllerExpression="value" luaModulatorGetValueForMIDI="-- None"
+             luaModulatorGetValueFromMIDI="-- None" modulatorLinkedToPanelProperty="-- None"
+             modulatorLinkedToModulatorProperty="-- None" modulatorLinkedToModulator="-- None"
+             modulatorLinkedToModulatorSource="1" modulatorLinkedToComponent="Modulator"
+             modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
+             modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
+             luaModulatorValueChange="-- None" name="filter_dc" modulatorMin="0.00000000000000000000"
+             modulatorValue="7">
+    <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
+          midiMessageCtrlrNumber="30.00000000000000000000" midiMessageCtrlrValue="0"
+          midiMessageMultiList="" midiMessageSysExFormula=""/>
+    <component componentLabelPosition="top" componentLabelJustification="centred"
+               componentLabelHeight="14" componentLabelWidth="0" componentLabelVisible="1"
+               componentLabelAlwaysOnTop="1" componentSentBack="0" componentLabelColour="0xff000000"
+               componentLabelFont="&lt;Sans-Serif&gt;;12;0;0;0;0;1;3" componentVisibleName="DC input"
+               componentMouseCursor="2" componentGroupName="FILTERcontrols"
+               componentGroupped="1" componentSnapSize="0" componentIsLocked="0"
+               componentDisabled="0" componentRadioGroupId="0" componentRadioGroupNotifyMidi="1"
+               componentVisibility="1" componentEffect="0" componentEffectRadius="1.00000000000000000000"
+               componentEffectColour="0xff000000" componentEffectOffsetX="0"
+               componentEffectOffsetY="0" componentExcludedFromLabelDisplay="0"
+               componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
+               componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
+               componentLuaMouseDoubleClick="-- None" uiSliderStyle="RotaryVerticalDrag"
+               uiSliderMin="0" uiSliderMax="127.00000000000000000000" uiSliderInterval="1.00000000000000000000"
+               uiSliderDoubleClickEnabled="1" uiSliderDoubleClickValue="0" uiSliderValuePosition="4"
+               uiSliderValueHeight="12" uiSliderValueWidth="36" uiSliderTrackCornerSize="5.00000000000000000000"
+               uiSliderThumbCornerSize="3.00000000000000000000" uiSliderThumbWidth="0"
+               uiSliderThumbHeight="0" uiSliderThumbFlatOnLeft="0" uiSliderThumbFlatOnRight="0"
+               uiSliderThumbFlatOnTop="0" uiSliderThumbFlatOnBottom="0" uiSliderValueTextColour="0xff000000"
+               uiSliderValueBgColour="0xffffffff" uiSliderRotaryOutlineColour="ff000000"
+               uiSliderRotaryFillColour="ff000000" uiSliderThumbColour="0xffff0000"
+               uiSliderValueHighlightColour="0xff0000ff" uiSliderValueOutlineColour="0xffffffff"
+               uiSliderTrackColour="0xff0f0f0f" uiSliderIncDecButtonColour="0xff0000ff"
+               uiSliderIncDecTextColour="0xffffffff" uiSliderValueFont="&lt;Sans-Serif&gt;;12;0;0;0;0;1;3"
+               uiSliderValueTextJustification="centred" uiSliderVelocitySensitivity="1.00000000000000000000"
+               uiSliderVelocityThreshold="1" uiSliderVelocityOffset="0.00000000000000000000"
+               uiSliderVelocityMode="0" uiSliderVelocityModeKeyTrigger="1" uiSliderSpringMode="0"
+               uiSliderSpringValue="0" uiSliderMouseWheelInterval="1.00000000000000000000"
+               uiSliderPopupBubble="0" uiType="uiSlider" componentRectangle="216 8 64 64"
+               componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
+  </modulator>
+  <modulator modulatorVstExported="1" modulatorMax="1" vstIndex="41" modulatorIsStatic="0"
+             modulatorGlobalVariable="-1" modulatorMuteOnStart="0" modulatorMute="0"
+             modulatorExcludeFromSnapshot="0" modulatorValueExpression="modulatorValue"
+             modulatorValueExpressionReverse="midiValue" modulatorControllerExpression="value"
+             luaModulatorGetValueForMIDI="-- None" luaModulatorGetValueFromMIDI="-- None"
+             modulatorLinkedToPanelProperty="-- None" modulatorLinkedToModulatorProperty="-- None"
+             modulatorLinkedToModulator="-- None" modulatorLinkedToModulatorSource="1"
+             modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
+             modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
+             modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
+             name="filt_mod" modulatorMin="0" modulatorValue="1">
+    <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
+          midiMessageCtrlrNumber="31.00000000000000000000" midiMessageCtrlrValue="0"
+          midiMessageMultiList="" midiMessageSysExFormula=""/>
+    <component componentLabelPosition="top" componentLabelJustification="centred"
+               componentLabelHeight="14" componentLabelWidth="0" componentLabelVisible="0"
+               componentLabelAlwaysOnTop="1" componentSentBack="0" componentLabelColour="0xff000000"
+               componentLabelFont="&lt;Sans-Serif&gt;;12;0;0;0;0;1;3" componentVisibleName="Modulated"
+               componentMouseCursor="2" componentGroupName="FILTERcontrols"
+               componentGroupped="1" componentSnapSize="0" componentIsLocked="0"
+               componentDisabled="0" componentRadioGroupId="0" componentRadioGroupNotifyMidi="1"
+               componentVisibility="1" componentEffect="0" componentEffectRadius="1"
+               componentEffectColour="0xff000000" componentEffectOffsetX="0"
+               componentEffectOffsetY="0" componentExcludedFromLabelDisplay="0"
+               componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
+               componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
+               componentLuaMouseDoubleClick="-- None" uiButtonTextColourOn="0xff000000"
+               uiToggleButtonFocusOutline="0x00000000" uiToggleButtonText="Modulated"
+               uiButtonTrueValue="1" uiButtonFalseValue="0" uiButtonColourOff="0xff0000ff"
+               componentRectangle="288 24 88 32" uiType="uiToggleButton" componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
   </modulator>
   <panelCustomData/>
 </panel>
