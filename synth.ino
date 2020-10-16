@@ -12,29 +12,33 @@
 #include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveform       LFO1;      //xy=67.77777099609375,203.3333225250244
-AudioSynthWaveform       LFO2;      //xy=69.99999321831592,257.77776696946887
-AudioSynthWaveformModulated waveformMod1;   //xy=229.77773666381836,204.11112785339355
-AudioSynthWaveformModulated waveformMod2;   //xy=230.33329391479492,247.1111297607422
-AudioSynthNoisePink      pink1;          //xy=235.77773666381836,288.33335304260254
-AudioMixer4              mixer1;         //xy=391.3332939147949,249.1111297607422
-AudioFilterStateVariable filter1;        //xy=527.7777442932129,252.3333396911621
-AudioMixer4              Filter_Select;         //xy=682.3333015441895,255.88888931274414
-AudioEffectEnvelope      envelope1;      //xy=840.1110305786133,255.44447135925293
-AudioOutputI2S           i2s1;           //xy=1001.1110305786133,256.44447135925293
+AudioSynthWaveform       LFO1;           //xy=146,283
+AudioSynthWaveform       LFO2;           //xy=148,337
+AudioSynthWaveformDc     dc1;            //xy=298,437
+AudioSynthWaveformModulated waveformMod1;   //xy=308,284
+AudioSynthWaveformModulated waveformMod2;   //xy=309,327
+AudioSynthNoisePink      pink1;          //xy=314,368
+AudioEffectEnvelope      envelope2;      //xy=445,437
+AudioMixer4              mixer1;         //xy=470,329
+AudioFilterStateVariable filter1;        //xy=610,388
+AudioMixer4              Filter_Select;  //xy=765,391
+AudioEffectEnvelope      envelope1;      //xy=923,391
+AudioOutputI2S           i2s1;           //xy=1084,392
 AudioConnection          patchCord1(LFO1, 0, waveformMod1, 0);
 AudioConnection          patchCord2(LFO2, 0, waveformMod2, 0);
-AudioConnection          patchCord3(waveformMod1, 0, mixer1, 0);
-AudioConnection          patchCord4(waveformMod2, 0, mixer1, 1);
-AudioConnection          patchCord5(pink1, 0, mixer1, 2);
-AudioConnection          patchCord6(mixer1, 0, filter1, 0);
-AudioConnection          patchCord7(filter1, 0, Filter_Select, 0);
-AudioConnection          patchCord8(filter1, 1, Filter_Select, 1);
-AudioConnection          patchCord9(filter1, 2, Filter_Select, 2);
-AudioConnection          patchCord10(Filter_Select, envelope1);
-AudioConnection          patchCord11(envelope1, 0, i2s1, 0);
-AudioConnection          patchCord12(envelope1, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=571.444393157959,167.11111640930176
+AudioConnection          patchCord3(dc1, envelope2);
+AudioConnection          patchCord4(waveformMod1, 0, mixer1, 0);
+AudioConnection          patchCord5(waveformMod2, 0, mixer1, 1);
+AudioConnection          patchCord6(pink1, 0, mixer1, 2);
+AudioConnection          patchCord7(envelope2, 0, filter1, 1);
+AudioConnection          patchCord8(mixer1, 0, filter1, 0);
+AudioConnection          patchCord9(filter1, 0, Filter_Select, 0);
+AudioConnection          patchCord10(filter1, 1, Filter_Select, 1);
+AudioConnection          patchCord11(filter1, 2, Filter_Select, 2);
+AudioConnection          patchCord12(Filter_Select, envelope1);
+AudioConnection          patchCord13(envelope1, 0, i2s1, 0);
+AudioConnection          patchCord14(envelope1, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=650,247
 // GUItool: end automatically generated code
 
 extern const unsigned short amelia320[];
@@ -189,6 +193,11 @@ float envDecay = 35;
 float envSustain = 0.5;
 float envRelease = 300;
 
+float filtEnvA = 10.5;
+float filtEnvD = 35;
+float filtEnvS = 0.5;
+float filtEndR = 300;
+
 filter_band_t filtBand = LPF;
 float filterFreq = 5000;
 float filterRes = 2.5;
@@ -272,6 +281,7 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   freq = tune_frequencies2_PGM[note];
   waveformMod2.frequency(freq);
   envelope1.noteOn();
+  envelope2.noteOn();
 }
 
 void OnNoteOff(byte channel, byte note, byte velocity) {
@@ -282,6 +292,7 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
     blackKey(keybd[note - 48].offset, false);
   }  digitalWrite(LED_PIN, LOW);
   envelope1.noteOff();
+  envelope2.noteOff();
 }
 
 void drawBar(int x, int y, int value, const char * text) {
@@ -344,6 +355,13 @@ void updateADSR(ADSR_change_t change) {
     drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, r_val, (change == AllADSR) ? "R" : NULL);
   }
   //Serial.printf("ADSR: Attack = %.02fms, Decay = %.02fms, Sustain = %.02f, Release = %.02fms\n", envAttack, envDecay, envSustain, envRelease);
+}
+
+void updateFiltADSR() {
+  envelope2.attack(filtEnvA);
+  envelope2.decay(filtEnvD);
+  envelope2.sustain(filtEnvS);
+  envelope2.release(filtEnvR);
 }
 
 void updateFilterBand() {
@@ -604,6 +622,27 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       osc2Fine = mapf(value, 0, 127, -12, 12);
       break;
 
+    // ADSR for filter
+    case 22:
+      filtEnvA = mapf(value, 0, 127, 0.0, 2000.0);
+      updateFiltADSR();
+      break;
+
+    case 24:
+      filtEnvD = mapf(value, 0, 127, 0.0, 2000.0);
+      updateFiltADSR();
+      break;
+
+    case 28:
+      filtEnvS = mapf(value, 0, 127, 0.0, 1.0);
+      updateFiltADSR();
+      break;
+
+    case 29:
+      filtEnvR = mapf(value, 0, 127, 0.0, 2000.0);
+      updateFiltADSR();
+      break;
+
     default:
       // if unrecognised do nothing
       break;
@@ -656,6 +695,8 @@ void setup() {
   updateLFO2();
   updateMix(AllMix);
   updateADSR(AllADSR);
+  updateFiltADSR();
+  dc1.amplitude(1.0);
   updateFilterBand();
   updateFilter();
   usbMIDI.setHandleNoteOff(OnNoteOff);
