@@ -160,6 +160,23 @@ const keyb_t keybd[] = {
   { 0, KEY_WIDTH * 20 }
 };
 
+char * waves[] = {
+  "Sine",
+  "Saw",
+  "Square",
+  "Triangle",
+  "Arbitrary",
+  "Pulse",
+  "Rev Saw",
+  "S/H"
+};
+
+char * bands[] = {
+  "LPF",
+  "BPF",
+  "HPF"
+};
+
 // modulator settings
 int osc1Waveform = WAVEFORM_SINE;
 float osc1Amplitude = 1.0;
@@ -176,6 +193,7 @@ int lfo1Waveform = WAVEFORM_SINE;
 float lfo1Freq = 13.0;
 float lfo1Amplitude = 0.02;
 float lfo1PWM = 0.0;
+
 int lfo2Waveform = WAVEFORM_SINE;
 float lfo2Freq = 6.0;
 float lfo2Amplitude = 0.02;
@@ -185,8 +203,8 @@ float lfo2PWM = 0.0;
 float noiseAmplitude = 1.0;
 
 // Mixer settings
-float wave1Amp = 1.0;
-float wave2Amp = 0.4;
+float osc1Amp = 1.0;
+float osc2Amp = 0.4;
 float noiseAmp = 0.2;
 
 // ADSR envelope settings
@@ -200,17 +218,37 @@ float filtEnvD = 35;
 float filtEnvS = 0.5;
 float filtEnvR = 300;
 
-float filtDC = 1.0;
-int filtMod = 0;
-
 filter_band_t filtBand = LPF;
 float filterFreq = 5000;
 float filterRes = 2.5;
+float filtDC = 1.0;
+int filtMod = 0;
 
 int clickCount = 0;
 unsigned long lastMillis = 0;
 long encPos = -999;
 int encVal = 0;
+
+void dumpPatch() {
+  Serial.println("====================================");
+  Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, fine= %d\n",
+                  waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Fine);
+  Serial.printf( "LFO1: wave=%s, freq=%.2f, ampl=%.2f, PWM=%.2f\n\n",
+                  waves[lfo1Waveform], lfo1Freq, lfo1Amplitude, lfo1PWM);
+  Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, fine= %d\n",
+                  waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Fine);
+  Serial.printf( "LFO2: wave=%s, freq=%.2f, ampl=%.2f, PWM=%.2f\n\n",
+                  waves[lfo2Waveform], lfo2Freq, lfo2Amplitude, lfo2PWM);
+  Serial.printf( "Filter: band=%s, freq=%.2f, res=%.2f, DC=%.2f, modulated=%u\n\n",
+                  bands[filtBand], filterFreq, filterRes, filtDC, filtMod);
+  Serial.printf( "Mix ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n",
+                  envAttack, envDecay, envSustain, envRelease);
+  Serial.printf( "Filter ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n\n",
+                  filtEnvA, filtEnvD, filtEnvS, filtEnvR);
+  Serial.printf( "Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f\n",
+                  osc1Amp, osc2Amp, noiseAmp);
+  Serial.println("====================================");
+}
 
 boolean pointInRect(int x, int y, int rectX, int rectY, int rectW, int rectH) {
   boolean ret = false;
@@ -316,15 +354,15 @@ void drawBar(int x, int y, int value, const char * text) {
 
 void updateMix(Mix_change_t change) {
   int w1_val, w2_val, noise_val;
-  mixer1.gain(0, wave1Amp);  
-  mixer1.gain(1, wave2Amp);
+  mixer1.gain(0, osc1Amp);  
+  mixer1.gain(1, osc2Amp);
   mixer1.gain(2, noiseAmp);
   if ((change == W1) || (change == AllMix)) {
-    w1_val = BAR_HEIGHT - mapf(wave1Amp, 0.0, 1.0, 0, BAR_HEIGHT);
+    w1_val = BAR_HEIGHT - mapf(osc1Amp, 0.0, 1.0, 0, BAR_HEIGHT);
     drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, w1_val, (change == AllMix) ? "1" : NULL);
   }
   if ((change == W2) || (change == AllMix)) {
-    w2_val = BAR_HEIGHT - mapf(wave2Amp, 0.0, 1.0, 0, BAR_HEIGHT);
+    w2_val = BAR_HEIGHT - mapf(osc2Amp, 0.0, 1.0, 0, BAR_HEIGHT);
     drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, w2_val, (change == AllMix) ? "2" : NULL);
   }
   if ((change == Noise) || (change == AllMix)) {
@@ -333,7 +371,7 @@ void updateMix(Mix_change_t change) {
   }
   #if 0
   Serial.printf("Mixer: Osc1 = %.02f, Osc2 = %.02f, Noise = %.02f, w1 = %u, w2 = %u, noise =%u\n", 
-    wave1Amp, wave2Amp, noiseAmp, w1_val, w2_val, noise_val);
+    osc1Amp, osc2Amp, noiseAmp, w1_val, w2_val, noise_val);
     #endif
 }
 
@@ -438,12 +476,12 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
   switch(control) {
     // 100, 101, 102 are Mixer controls for OSC1, OSC2 and Noise
     case 100:
-      wave1Amp =  velocity2amplitude[value];
+      osc1Amp =  velocity2amplitude[value];
       updateMix(W1);
       break;
 
     case 101:
-      wave2Amp = velocity2amplitude[value];
+      osc2Amp = velocity2amplitude[value];
       updateMix(W2);
       break;
 
@@ -530,19 +568,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
           change = WAVEFORM_PULSE;
           break;
       }
-      {
-        char * waves[] = {
-          "Sine",
-          "Saw",
-          "Square",
-          "Triangle",
-          "Arbitrary",
-          "Pulse",
-          "Rev Saw",
-          "S/H"
-        };
-        Serial.printf("Wave: %s\n", waves[change]);
-      }
+      Serial.printf("Wave: %s\n", waves[change]);
       if (control == 110) {
         lfo1Waveform = change;
         updateLFO1();
@@ -687,6 +713,9 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       filtMod = (value == 0) ? 0 : 1;
       Serial.printf("Modulation = %d\n", filtMod);
       updateFiltADSR();
+      if (filtMod == 0) {
+        dumpPatch();
+      }
       break;
 
     default:
