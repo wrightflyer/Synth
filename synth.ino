@@ -177,16 +177,18 @@ char * bands[] = {
   "HPF"
 };
 
+int globalNote;
+
 // modulator settings
 int osc1Waveform = WAVEFORM_SINE;
 float osc1Amplitude = 1.0;
 int osc1Octave = 0;
-int osc1Fine = 0; // can range -12 to +12
+float osc1Detune = 1.0; // can range 1.0 to 0.85
 
 int osc2Waveform = WAVEFORM_SAWTOOTH;
 float osc2Amplitude = 1.0;
 int osc2Octave = 0;
-int osc2Fine = 0; // can range -12 to +12
+float osc2Detune = 1.0; // can range 1.0 to 0.85
 
 // LFO settings
 int lfo1Waveform = WAVEFORM_SINE;
@@ -231,12 +233,12 @@ int encVal = 0;
 
 void dumpPatch() {
   Serial.println("====================================");
-  Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, fine= %d\n",
-                  waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Fine);
+  Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, detune=%.2f\n",
+                  waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Detune);
   Serial.printf( "LFO1: wave=%s, freq=%.2f, ampl=%.2f, PWM=%.2f\n\n",
                   waves[lfo1Waveform], lfo1Freq, lfo1Amplitude, lfo1PWM);
-  Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, fine= %d\n",
-                  waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Fine);
+  Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, detune= %.2f\n",
+                  waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Detune);
   Serial.printf( "LFO2: wave=%s, freq=%.2f, ampl=%.2f, PWM=%.2f\n\n",
                   waves[lfo2Waveform], lfo2Freq, lfo2Amplitude, lfo2PWM);
   Serial.printf( "Filter: band=%s, freq=%.2f, res=%.2f, DC=%.2f, modulated=%u\n\n",
@@ -291,6 +293,45 @@ void blackKey(int n, bool pressed) {
   }
 }
 
+void oscillatorsOn() {
+  byte note;
+  note = globalNote;  
+
+  note += osc1Octave; // -24, -12, 0, 12 or 24
+  if (note < 0) {
+    note = 0;
+  }
+  if (note > 127) {
+    note = 127;
+  }
+  float freq = tune_frequencies2_PGM[note];
+  freq *= osc1Detune; // mult 0.85 .. 1.0
+  Serial.printf("so freq1 = %f, ", freq);
+  waveformMod1.frequency(freq);
+
+  note = globalNote;
+  note += osc2Octave; // -24, -12, 0, 12 or 24
+  if (note < 0) {
+    note = 0;
+  }
+  if (note > 127) {
+    note = 127;
+  }
+  freq = tune_frequencies2_PGM[note];
+  freq *= osc2Detune; // mult 0.85 .. 1.0
+  Serial.printf("freq2 = %.2f\n", freq);
+  waveformMod2.frequency(freq);
+  // sound ADSR
+  envelope1.noteOn();
+  // filter ADSR
+  envelope2.noteOn();
+}
+
+void oscillatorsOff() {
+  envelope1.noteOff();
+  envelope2.noteOff();  
+}
+
 void OnNoteOn(byte channel, byte note, byte velocity) {
   Serial.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
   digitalWrite(LED_PIN, HIGH);
@@ -300,31 +341,8 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   else {
     blackKey((int)keybd[note - 48].offset, true);
   }
-
-  note += osc1Octave; // -24, -12, 0, 12 or 24
-  note += osc1Fine; // then apply -12..+12 in octave
-  if (note < 0) {
-    note = 0;
-  }
-  if (note > 127) {
-    note = 127;
-  }
-  float freq = tune_frequencies2_PGM[note];
-  Serial.printf("so freq = %f\n", freq);
-  waveformMod1.frequency(freq);
-
-  note += osc2Octave; // -24, -12, 0, 12 or 24
-  note += osc2Fine; // then apply -12..+12 in octave
-  if (note < 0) {
-    note = 0;
-  }
-  if (note > 127) {
-    note = 127;
-  }
-  freq = tune_frequencies2_PGM[note];
-  waveformMod2.frequency(freq);
-  envelope1.noteOn();
-  envelope2.noteOn();
+  globalNote = note;
+  oscillatorsOn();
 }
 
 void OnNoteOff(byte channel, byte note, byte velocity) {
@@ -334,8 +352,7 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
   else {
     blackKey(keybd[note - 48].offset, false);
   }  digitalWrite(LED_PIN, LOW);
-  envelope1.noteOff();
-  envelope2.noteOff();
+  oscillatorsOff();
 }
 
 void drawBar(int x, int y, int value, const char * text) {
@@ -492,12 +509,12 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     // 103, 104, 105, 106 are Envelope Attack, Decay, Sustain, Release
     case 103:
-      envAttack = mapf(value, 0, 127, 0.0, 2000.0);
+      envAttack = mapf(value, 0, 127, 0.0, 3000.0);
       updateADSR(Attack);
       break;
 
     case 104:
-      envDecay = mapf(value, 0, 127, 0.0, 2000.0);
+      envDecay = mapf(value, 0, 127, 0.0, 3000.0);
       updateADSR(Decay);
       break;
 
@@ -507,7 +524,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 106:
-      envRelease = mapf(value, 0, 127, 0.0, 2000.0);
+      envRelease = mapf(value, 0, 127, 0.0, 3000.0);
       updateADSR(Release);
       break;
 
@@ -647,8 +664,8 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 25:
-      osc1Fine = mapf(value, 0, 127, 0, 12);
-      Serial.printf("Osc1 fine = %d\n", osc1Fine);
+      osc1Detune = mapf(value, 0, 127, 1.0, 0.85);
+      Serial.printf("Osc1 detune = %.2f\n", osc1Detune);
       break;
 
     // Osc2 has wave (above), Freq, Ampl, Octave, FineTune
@@ -677,18 +694,18 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 27:
-      osc2Fine = mapf(value, 0, 127, 0, 12);
-      Serial.printf("Osc2 fine = %d\n", osc2Fine);
+      osc2Detune = mapf(value, 0, 127, 1.0, 0.85);
+      Serial.printf("Osc2 detune = %.2f\n", osc2Detune);
       break;
 
     // ADSR for filter
     case 22:
-      filtEnvA = mapf(value, 0, 127, 0.0, 2000.0);
+      filtEnvA = mapf(value, 0, 127, 0.0, 3000.0);
       updateFiltADSR();
       break;
 
     case 24:
-      filtEnvD = mapf(value, 0, 127, 0.0, 2000.0);
+      filtEnvD = mapf(value, 0, 127, 0.0, 3000.0);
       updateFiltADSR();
       break;
 
@@ -698,7 +715,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 29:
-      filtEnvR = mapf(value, 0, 127, 0.0, 2000.0);
+      filtEnvR = mapf(value, 0, 127, 0.0, 3000.0);
       updateFiltADSR();
       break;
 

@@ -83,7 +83,7 @@
   <uiPanelEditor uiPanelCanvasRectangle="0 0 898 822" uiPanelSnapSize="8" uiPanelBackgroundColour="0xffffffff"
                  uiPanelBackgroundColour1="0xffffffff" uiPanelBackgroundColour2="0xffffffff"
                  uiPanelBackgroundGradientType="1" uiPanelImageResource="-- None"
-                 uiPanelEditMode="1" uiPanelLock="0" uiPanelDisabledOnEdit="0"
+                 uiPanelEditMode="0" uiPanelLock="0" uiPanelDisabledOnEdit="0"
                  uiPanelMenuBarVisible="1" uiPanelMenuBarHideOnExport="0" uiPanelProgramsMenuHideOnExport="0"
                  uiPanelMidiControllerMenuHideOnExport="0" uiPanelMidiThruMenuHideOnExport="0"
                  uiPanelMidiChannelMenuHideOnExport="0" uiPanelWidth="400" uiPanelHeight="400"
@@ -899,7 +899,7 @@
     <component componentLabelPosition="top" componentLabelJustification="centred"
                componentLabelHeight="14" componentLabelWidth="0" componentLabelVisible="1"
                componentLabelAlwaysOnTop="1" componentSentBack="0" componentLabelColour="0xff000000"
-               componentLabelFont="&lt;Sans-Serif&gt;;12;0;0;0;0;1;3" componentVisibleName="Fine"
+               componentLabelFont="&lt;Sans-Serif&gt;;12;0;0;0;0;1;3" componentVisibleName="Detune"
                componentMouseCursor="2" componentGroupName="OSC1controls" componentGroupped="1"
                componentSnapSize="0" componentIsLocked="0" componentDisabled="0"
                componentRadioGroupId="0" componentRadioGroupNotifyMidi="1" componentVisibility="1"
@@ -1008,14 +1008,14 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc2_fine" modulatorMin="0.00000000000000000000" modulatorValue="57">
+             name="osc2_fine" modulatorMin="0.00000000000000000000" modulatorValue="48">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="27.00000000000000000000" midiMessageCtrlrValue="-46080.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
     <component componentLabelPosition="top" componentLabelJustification="centred"
                componentLabelHeight="14" componentLabelWidth="0" componentLabelVisible="1"
                componentLabelAlwaysOnTop="1" componentSentBack="0" componentLabelColour="0xff000000"
-               componentLabelFont="&lt;Sans-Serif&gt;;12;0;0;0;0;1;3" componentVisibleName="Fine"
+               componentLabelFont="&lt;Sans-Serif&gt;;12;0;0;0;0;1;3" componentVisibleName="Detune"
                componentMouseCursor="2" componentGroupName="OSC2controls" componentGroupped="1"
                componentSnapSize="0" componentIsLocked="0" componentDisabled="0"
                componentRadioGroupId="0" componentRadioGroupNotifyMidi="1" componentVisibility="1"
@@ -1215,7 +1215,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo1_wave" modulatorMin="0" modulatorValue="3">
+             name="lfo1_wave" modulatorMin="0" modulatorValue="4">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="110.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1232,18 +1232,18 @@
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
                componentLuaMouseDoubleClick="-- None" uiListBoxContent="Sine=8&#10;Sawtooth=24&#10;Rev Saw=40&#10;Square=56&#10;Triangle=72&#10;Samp/Hold=88&#10;Arbitrary=104&#10;Pulse=120"
-               componentRectangle="16 24 85 150" uiListBoxRowHeight="16.00000000000000000000"
+               componentRectangle="16 24 85 144" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
                uiListBoxFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3" uiListBoxHighlightFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
-               uiListBoxOutline="0" uiListBoxOutlineColour="0xff000000" uiListBoxVScrollBgColour="0xffffffff"
-               uiListBoxVScrollThumbColour="0xffababab" uiListBoxVScrollTrackColour="0xffff0000"
-               uiListBoxHScrollBgColour="0xffffffff" uiListBoxHScrollThumbColour="0xffababab"
-               uiListBoxHScrollTrackColour="0xffff0000" uiListBoxJustification="centred"
-               uiListBoxMultipleSelection="0" uiListBoxItemClicked="-- None"
-               uiListBoxItemDoubleClicked="-- None" uiListBoxItemDeleteKeyPressed="-- None"
-               uiListBoxItemReturnKeyPressed="-- None" componentLayerUid="55a4dc48d80600008eaeec7600000000"
-               uiType="uiListBox"/>
+               uiListBoxOutline="1.00000000000000000000" uiListBoxOutlineColour="0xff000000"
+               uiListBoxVScrollBgColour="0xffffffff" uiListBoxVScrollThumbColour="0xffababab"
+               uiListBoxVScrollTrackColour="0xffff0000" uiListBoxHScrollBgColour="0xffffffff"
+               uiListBoxHScrollThumbColour="0xffababab" uiListBoxHScrollTrackColour="0xffff0000"
+               uiListBoxJustification="centred" uiListBoxMultipleSelection="0"
+               uiListBoxItemClicked="-- None" uiListBoxItemDoubleClicked="-- None"
+               uiListBoxItemDeleteKeyPressed="-- None" uiListBoxItemReturnKeyPressed="-- None"
+               componentLayerUid="55a4dc48d80600008eaeec7600000000" uiType="uiListBox"/>
   </modulator>
   <modulator modulatorVstExported="1" modulatorMax="7" vstIndex="30" modulatorIsStatic="0"
              modulatorGlobalVariable="-1.00000000000000000000" modulatorMuteOnStart="0"
@@ -1255,7 +1255,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo2_wave" modulatorMin="0" modulatorValue="3">
+             name="lfo2_wave" modulatorMin="0" modulatorValue="7">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="111.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1272,17 +1272,18 @@
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
                componentLuaMouseDoubleClick="-- None" uiListBoxContent="Sine=8&#10;Sawtooth=24&#10;Rev Saw=40&#10;Square=56&#10;Triangle=72&#10;Samp/Hold=88&#10;Arbitrary=104&#10;Pulse=120"
-               componentRectangle="16 40 85 150" uiListBoxRowHeight="16.00000000000000000000"
+               componentRectangle="16 40 85 146" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
                uiListBoxFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3" uiListBoxHighlightFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
-               uiListBoxOutline="0" uiListBoxOutlineColour="0xff000000" uiListBoxVScrollBgColour="0xffffffff"
-               uiListBoxVScrollThumbColour="0xffababab" uiListBoxVScrollTrackColour="0xffff0000"
-               uiListBoxHScrollBgColour="0xffffffff" uiListBoxHScrollThumbColour="0xffababab"
-               uiListBoxHScrollTrackColour="0xffff0000" uiListBoxJustification="centred"
-               uiListBoxMultipleSelection="0" uiListBoxItemClicked="-- None"
-               uiListBoxItemDoubleClicked="-- None" uiListBoxItemDeleteKeyPressed="-- None"
-               uiListBoxItemReturnKeyPressed="-- None" uiType="uiListBox" componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
+               uiListBoxOutline="1.00000000000000000000" uiListBoxOutlineColour="0xff000000"
+               uiListBoxVScrollBgColour="0xffffffff" uiListBoxVScrollThumbColour="0xffababab"
+               uiListBoxVScrollTrackColour="0xffff0000" uiListBoxHScrollBgColour="0xffffffff"
+               uiListBoxHScrollThumbColour="0xffababab" uiListBoxHScrollTrackColour="0xffff0000"
+               uiListBoxJustification="centred" uiListBoxMultipleSelection="0"
+               uiListBoxItemClicked="-- None" uiListBoxItemDoubleClicked="-- None"
+               uiListBoxItemDeleteKeyPressed="-- None" uiListBoxItemReturnKeyPressed="-- None"
+               uiType="uiListBox" componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
   </modulator>
   <modulator modulatorVstExported="1" modulatorMax="6" vstIndex="31" modulatorIsStatic="0"
              modulatorGlobalVariable="-1.00000000000000000000" modulatorMuteOnStart="0"
@@ -1294,7 +1295,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc1_wave" modulatorMin="0" modulatorValue="1">
+             name="osc1_wave" modulatorMin="0" modulatorValue="3">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="116.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1311,17 +1312,18 @@
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
                componentLuaMouseDoubleClick="-- None" uiListBoxContent="Sine=8&#10;Sawtooth=24&#10;Rev Saw=40&#10;Square=56&#10;Triangle=72&#10;Samp/Hold=88&#10;Arbitrary=104"
-               componentRectangle="16 24 85 137" uiListBoxRowHeight="16.00000000000000000000"
+               componentRectangle="16 24 85 129" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
                uiListBoxFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3" uiListBoxHighlightFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
-               uiListBoxOutline="0" uiListBoxOutlineColour="0xff000000" uiListBoxVScrollBgColour="0xffffffff"
-               uiListBoxVScrollThumbColour="0xffababab" uiListBoxVScrollTrackColour="0xffff0000"
-               uiListBoxHScrollBgColour="0xffffffff" uiListBoxHScrollThumbColour="0xffababab"
-               uiListBoxHScrollTrackColour="0xffff0000" uiListBoxJustification="centred"
-               uiListBoxMultipleSelection="0" uiListBoxItemClicked="-- None"
-               uiListBoxItemDoubleClicked="-- None" uiListBoxItemDeleteKeyPressed="-- None"
-               uiListBoxItemReturnKeyPressed="-- None" uiType="uiListBox" componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
+               uiListBoxOutline="1.00000000000000000000" uiListBoxOutlineColour="0xff000000"
+               uiListBoxVScrollBgColour="0xffffffff" uiListBoxVScrollThumbColour="0xffababab"
+               uiListBoxVScrollTrackColour="0xffff0000" uiListBoxHScrollBgColour="0xffffffff"
+               uiListBoxHScrollThumbColour="0xffababab" uiListBoxHScrollTrackColour="0xffff0000"
+               uiListBoxJustification="centred" uiListBoxMultipleSelection="0"
+               uiListBoxItemClicked="-- None" uiListBoxItemDoubleClicked="-- None"
+               uiListBoxItemDeleteKeyPressed="-- None" uiListBoxItemReturnKeyPressed="-- None"
+               uiType="uiListBox" componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
   </modulator>
   <modulator modulatorVstExported="1" modulatorMax="6" vstIndex="32" modulatorIsStatic="0"
              modulatorGlobalVariable="-1.00000000000000000000" modulatorMuteOnStart="0"
@@ -1333,7 +1335,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc2_wave" modulatorMin="0" modulatorValue="3">
+             name="osc2_wave" modulatorMin="0" modulatorValue="2">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="117.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1350,18 +1352,18 @@
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
                componentLuaMouseDoubleClick="-- None" uiListBoxContent="Sine=8&#10;Sawtooth=24&#10;Rev Saw=40&#10;Square=56&#10;Triangle=72&#10;Samp/Hold=88&#10;Arbitrary=104"
-               componentRectangle="16 48 85 137" uiListBoxRowHeight="16.00000000000000000000"
+               componentRectangle="16 48 85 128" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
                uiListBoxFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3" uiListBoxHighlightFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
-               uiListBoxOutline="0" uiListBoxOutlineColour="0xff000000" uiListBoxVScrollBgColour="0xffffffff"
-               uiListBoxVScrollThumbColour="0xffababab" uiListBoxVScrollTrackColour="0xffff0000"
-               uiListBoxHScrollBgColour="0xffffffff" uiListBoxHScrollThumbColour="0xffababab"
-               uiListBoxHScrollTrackColour="0xffff0000" uiListBoxJustification="centred"
-               uiListBoxMultipleSelection="0" uiListBoxItemClicked="-- None"
-               uiListBoxItemDoubleClicked="-- None" uiListBoxItemDeleteKeyPressed="-- None"
-               uiListBoxItemReturnKeyPressed="-- None" componentLayerUid="55a4dc48d80600008eaeec7600000000"
-               uiType="uiListBox"/>
+               uiListBoxOutline="1.00000000000000000000" uiListBoxOutlineColour="0xff000000"
+               uiListBoxVScrollBgColour="0xffffffff" uiListBoxVScrollThumbColour="0xffababab"
+               uiListBoxVScrollTrackColour="0xffff0000" uiListBoxHScrollBgColour="0xffffffff"
+               uiListBoxHScrollThumbColour="0xffababab" uiListBoxHScrollTrackColour="0xffff0000"
+               uiListBoxJustification="centred" uiListBoxMultipleSelection="0"
+               uiListBoxItemClicked="-- None" uiListBoxItemDoubleClicked="-- None"
+               uiListBoxItemDeleteKeyPressed="-- None" uiListBoxItemReturnKeyPressed="-- None"
+               componentLayerUid="55a4dc48d80600008eaeec7600000000" uiType="uiListBox"/>
   </modulator>
   <modulator modulatorVstExported="1" modulatorMax="2" vstIndex="33" modulatorIsStatic="0"
              modulatorGlobalVariable="-1.00000000000000000000" modulatorMuteOnStart="0"
@@ -1373,7 +1375,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="filter_band" modulatorMin="0" modulatorValue="0">
+             name="filter_band" modulatorMin="0" modulatorValue="2">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="107.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1390,18 +1392,18 @@
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
                componentLuaMouseDoubleClick="-- None" uiListBoxContent="Low=10&#10;Band=50&#10;High=90"
-               componentRectangle="8 24 80 55" uiListBoxRowHeight="16.00000000000000000000"
+               componentRectangle="8 24 80 51" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
                uiListBoxFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3" uiListBoxHighlightFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
-               uiListBoxOutline="0" uiListBoxOutlineColour="0xff000000" uiListBoxVScrollBgColour="0xffffffff"
-               uiListBoxVScrollThumbColour="0xffababab" uiListBoxVScrollTrackColour="0xffff0000"
-               uiListBoxHScrollBgColour="0xffffffff" uiListBoxHScrollThumbColour="0xffababab"
-               uiListBoxHScrollTrackColour="0xffff0000" uiListBoxJustification="centred"
-               uiListBoxMultipleSelection="0" uiListBoxItemClicked="-- None"
-               uiListBoxItemDoubleClicked="-- None" uiListBoxItemDeleteKeyPressed="-- None"
-               uiListBoxItemReturnKeyPressed="-- None" componentLayerUid="55a4dc48d80600008eaeec7600000000"
-               uiType="uiListBox"/>
+               uiListBoxOutline="1.00000000000000000000" uiListBoxOutlineColour="0xff000000"
+               uiListBoxVScrollBgColour="0xffffffff" uiListBoxVScrollThumbColour="0xffababab"
+               uiListBoxVScrollTrackColour="0xffff0000" uiListBoxHScrollBgColour="0xffffffff"
+               uiListBoxHScrollThumbColour="0xffababab" uiListBoxHScrollTrackColour="0xffff0000"
+               uiListBoxJustification="centred" uiListBoxMultipleSelection="0"
+               uiListBoxItemClicked="-- None" uiListBoxItemDoubleClicked="-- None"
+               uiListBoxItemDeleteKeyPressed="-- None" uiListBoxItemReturnKeyPressed="-- None"
+               componentLayerUid="55a4dc48d80600008eaeec7600000000" uiType="uiListBox"/>
   </modulator>
   <modulator modulatorVstExported="1" modulatorMax="4" vstIndex="34" modulatorIsStatic="0"
              modulatorGlobalVariable="-1.00000000000000000000" modulatorMuteOnStart="0"
@@ -1413,7 +1415,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc1_octave" modulatorMin="0" modulatorValue="0">
+             name="osc1_octave" modulatorMin="0" modulatorValue="4">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="23.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1430,18 +1432,18 @@
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
                componentLuaMouseDoubleClick="-- None" uiListBoxContent="+2=120&#10;+1=90&#10;0=60&#10;-1=30&#10;-2=10&#10;"
-               componentRectangle="184 32 67 109" uiListBoxRowHeight="16.00000000000000000000"
+               componentRectangle="184 32 67 98" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
                uiListBoxFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3" uiListBoxHighlightFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
-               uiListBoxOutline="0" uiListBoxOutlineColour="0xff000000" uiListBoxVScrollBgColour="0xffffffff"
-               uiListBoxVScrollThumbColour="0xffababab" uiListBoxVScrollTrackColour="0xffff0000"
-               uiListBoxHScrollBgColour="0xffffffff" uiListBoxHScrollThumbColour="0xffababab"
-               uiListBoxHScrollTrackColour="0xffff0000" uiListBoxJustification="centred"
-               uiListBoxMultipleSelection="0" uiListBoxItemClicked="-- None"
-               uiListBoxItemDoubleClicked="-- None" uiListBoxItemDeleteKeyPressed="-- None"
-               uiListBoxItemReturnKeyPressed="-- None" componentLayerUid="55a4dc48d80600008eaeec7600000000"
-               uiType="uiListBox"/>
+               uiListBoxOutline="1.00000000000000000000" uiListBoxOutlineColour="0xff000000"
+               uiListBoxVScrollBgColour="0xffffffff" uiListBoxVScrollThumbColour="0xffababab"
+               uiListBoxVScrollTrackColour="0xffff0000" uiListBoxHScrollBgColour="0xffffffff"
+               uiListBoxHScrollThumbColour="0xffababab" uiListBoxHScrollTrackColour="0xffff0000"
+               uiListBoxJustification="centred" uiListBoxMultipleSelection="0"
+               uiListBoxItemClicked="-- None" uiListBoxItemDoubleClicked="-- None"
+               uiListBoxItemDeleteKeyPressed="-- None" uiListBoxItemReturnKeyPressed="-- None"
+               componentLayerUid="55a4dc48d80600008eaeec7600000000" uiType="uiListBox"/>
   </modulator>
   <modulator modulatorVstExported="1" modulatorMax="4" vstIndex="35" modulatorIsStatic="0"
              modulatorGlobalVariable="-1.00000000000000000000" modulatorMuteOnStart="0"
@@ -1453,7 +1455,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc2_octave" modulatorMin="0" modulatorValue="2">
+             name="osc2_octave" modulatorMin="0" modulatorValue="4">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="26.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1470,17 +1472,18 @@
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
                componentLuaMouseDoubleClick="-- None" uiListBoxContent="+2=120&#10;+1=90&#10;0=60&#10;-1=30&#10;-2=10&#10;"
-               componentRectangle="192 48 67 100" uiListBoxRowHeight="16.00000000000000000000"
+               componentRectangle="192 48 67 98" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="ffffffff" uiListBoxTextColour="0xff000000"
                uiListBoxFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3" uiListBoxHighlightFont="&lt;Sans-Serif&gt;;14;0;0;0;0;1;3"
-               uiListBoxOutline="0" uiListBoxOutlineColour="0xff000000" uiListBoxVScrollBgColour="0xffffffff"
-               uiListBoxVScrollThumbColour="0xffababab" uiListBoxVScrollTrackColour="0xffff0000"
-               uiListBoxHScrollBgColour="0xffffffff" uiListBoxHScrollThumbColour="0xffababab"
-               uiListBoxHScrollTrackColour="0xffff0000" uiListBoxJustification="centred"
-               uiListBoxMultipleSelection="0" uiListBoxItemClicked="-- None"
-               uiListBoxItemDoubleClicked="-- None" uiListBoxItemDeleteKeyPressed="-- None"
-               uiListBoxItemReturnKeyPressed="-- None" uiType="uiListBox" componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
+               uiListBoxOutline="1.00000000000000000000" uiListBoxOutlineColour="0xff000000"
+               uiListBoxVScrollBgColour="0xffffffff" uiListBoxVScrollThumbColour="0xffababab"
+               uiListBoxVScrollTrackColour="0xffff0000" uiListBoxHScrollBgColour="0xffffffff"
+               uiListBoxHScrollThumbColour="0xffababab" uiListBoxHScrollTrackColour="0xffff0000"
+               uiListBoxJustification="centred" uiListBoxMultipleSelection="0"
+               uiListBoxItemClicked="-- None" uiListBoxItemDoubleClicked="-- None"
+               uiListBoxItemDeleteKeyPressed="-- None" uiListBoxItemReturnKeyPressed="-- None"
+               uiType="uiListBox" componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
   </modulator>
   <modulator modulatorCustomIndex="0" modulatorCustomIndexGroup="0" modulatorIsStatic="1"
              name="osc1_label" modulatorVstExported="0" modulatorValue="0">
