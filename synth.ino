@@ -88,6 +88,14 @@ typedef enum {
   HPF
 } filter_band_t;
 
+typedef enum {
+  Arp_Off,
+  Arp_Up,
+  Arp_Down,
+  Arp_UpDown,
+  Arp_Random
+} arp_mode_t;
+
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
 XPT2046_Touchscreen ts(TOUCH_CS);
@@ -215,16 +223,28 @@ float envDecay = 35;
 float envSustain = 0.5;
 float envRelease = 300;
 
+// filter ADSR
 float filtEnvA = 10.5;
 float filtEnvD = 35;
 float filtEnvS = 0.5;
 float filtEnvR = 300;
 
+// filter main variables
 filter_band_t filtBand = LPF;
 float filterFreq = 5000;
 float filterRes = 2.5;
 float filtDC = 1.0;
 int filtMod = 0;
+
+// Arpeggiator
+arp_mode_t arpMode;
+int arpOctave;
+float arpSpeed;
+bool arpLatch;
+float arpDelay;
+int arpTranspose;
+byte arpNotes[8]; // Arpeggiate up to 8 notes
+int arpIndex;
 
 int clickCount = 0;
 unsigned long lastMillis = 0;
@@ -332,6 +352,52 @@ void oscillatorsOff() {
   envelope2.noteOff();  
 }
 
+void sortNotes() {
+/* From Wikipedia 
+ *   
+procedure bubbleSort(A : list of sortable items)
+    n := length(A)
+    repeat
+        newn := 0
+        for i := 1 to n - 1 inclusive do
+            if A[i - 1] > A[i] then
+                swap(A[i - 1], A[i])
+                newn := i
+            end if
+        end for
+        n := newn
+    until n ≤ 1
+end procedure
+*/
+  int newLen;
+  int len = arpIndex;
+  Serial.print("Input = ");
+  for (int i = 0; i < arpIndex; i++) {
+    Serial.printf("%d ", arpNotes[i]);
+  }
+  Serial.println();
+  do {
+    newLen = 0;
+    Serial.printf("i = 1 to %d\n", len - 1);
+    
+    for (int i = 1; i < (len - 1); i++) {
+      if (arpNotes[i - 1] > arpNotes[i]) {
+        Serial.printf("Swap %d and %d\n", arpNotes[i - 1], arpNotes[i]);
+        byte temp = arpNotes[i - 1];
+        arpNotes[i - 1] = arpNotes[i];
+        arpNotes[i] = temp;
+        newLen = i + 1;
+      }
+    }
+    Serial.printf("Set len to %d\n", newLen);
+    len = newLen;
+    for (int i = 0; i < arpIndex; i++) {
+      Serial.printf("%d ", arpNotes[i]);
+    }
+    Serial.println();
+  } while(len > 1);
+}
+
 void OnNoteOn(byte channel, byte note, byte velocity) {
   Serial.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
   digitalWrite(LED_PIN, HIGH);
@@ -342,7 +408,23 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
     blackKey((int)keybd[note - 48].offset, true);
   }
   globalNote = note;
-  oscillatorsOn();
+  if (arpMode == Arp_Off) {
+    oscillatorsOn();
+  }
+  else if (arpIndex < 8) {
+    // just consider adding notes to be played to the Arp array
+    bool already = false;
+    for (int i = 0; i < arpIndex; i++) {
+      if (arpNotes[i] == note) {
+        already = true;
+      }
+    }
+    if (!already) {
+      arpNotes[arpIndex] = note;
+      arpIndex++;
+      sortNotes();
+    }
+  }
 }
 
 void OnNoteOff(byte channel, byte note, byte velocity) {
@@ -735,6 +817,55 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       break;
 
+    case 85:
+      if (value < 24) {
+        arpMode = Arp_Off;
+      }
+      else if (value < 48) {
+        arpMode = Arp_Up;
+      }
+      else if (value < 72) {
+        arpMode = Arp_Down;
+      }
+      else if (value < 96) {
+        arpMode = Arp_UpDown;
+      }
+      else {
+        arpMode = Arp_Random;
+      }
+      break;
+
+    case 86:
+      if (value < 24) {
+        arpOctave = 1;
+      }
+      else if (value < 48) {
+        arpOctave = 2;;
+      }
+      else if (value < 72) {
+        arpOctave = 3;
+      }
+      else if (value < 96) {
+        arpOctave = 4;
+      }
+      break;
+
+    case 87:
+      arpLatch = value; // 0 /1
+      break;
+
+    case 88:
+      arpSpeed = mapf(value, 0, 127, 0, 100); // not sure of units yet
+      break;
+
+    case 89:
+      arpDelay = mapf(value, 0, 127, 0, 500); // try 0..500ms
+      break;
+
+    case 90:
+      arpTranspose = (int)mapf(value, 0, 127, 0, 11);
+      break;
+
     default:
       // if unrecognised do nothing
       break;
@@ -755,7 +886,7 @@ void setup() {
   // show the pretty kitty
   tft.writeRect(0, 0, 320, 240, amelia320);
   // and give the world a chance to marvel in her glory
-  delay(4000);
+  //delay(4000);
   // then clear the decks  tft.fillScreen(ILI9341_LIGHTGREY);
   tft.setTextColor(ILI9341_BLACK);
   tft.setCursor(40, 0);
@@ -790,6 +921,12 @@ void setup() {
   updateFiltADSR();
   updateFilterBand();
   updateFilter();
+  arpMode = Arp_Off;
+  arpLatch = false;
+  arpOctave = 1;
+  arpSpeed = 50;
+  arpDelay = 0;
+  arpTranspose = 0;
   usbMIDI.setHandleNoteOff(OnNoteOff);
   usbMIDI.setHandleNoteOn(OnNoteOn);
   usbMIDI.setHandleControlChange(OnControlChange);
