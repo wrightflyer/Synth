@@ -247,12 +247,13 @@ int filtMod = 0;
 // Arpeggiator
 arp_mode_t arpMode;
 int arpOctave;
-float arpSpeed;
+float arpPeriod;
 bool arpLatch;
 float arpDelay;
+bool arpDelayActive;
 int arpTranspose;
 byte arpNotes[8]; // Arpeggiate up to 8 notes
-int arpIndex;
+int arpStoreIndex;
 int arpPlayIndex;
 int arpNumDown;
 int arpIncrement;
@@ -280,8 +281,8 @@ void dumpPatch() {
                   filtEnvA, filtEnvD, filtEnvS, filtEnvR);
   Serial.printf( "Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f\n\n",
                   osc1Amp, osc2Amp, noiseAmp);
-  Serial.printf( " Arpeggiator: arpMode=%s, arpSpeed=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\n",
-                  arpModes[arpMode], arpSpeed, arpOctave, arpLatch, arpDelay, arpTranspose);
+  Serial.printf( " Arpeggiator: arpMode=%s, arpPeriod=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\n",
+                  arpModes[arpMode], arpPeriod, arpOctave, arpLatch, arpDelay, arpTranspose);
   Serial.println("====================================");
 }
 
@@ -337,6 +338,7 @@ void oscillatorsOn() {
   if (note > 127) {
     note = 127;
   }
+  Serial.printf("Osc1 note=%d ", note);
   float freq = tune_frequencies2_PGM[note];
   freq *= osc1Detune; // mult 0.85 .. 1.0
   Serial.printf("so freq1 = %f, ", freq);
@@ -350,6 +352,7 @@ void oscillatorsOn() {
   if (note > 127) {
     note = 127;
   }
+  Serial.printf("Osc2 note=%d ", note);
   freq = tune_frequencies2_PGM[note];
   freq *= osc2Detune; // mult 0.85 .. 1.0
   Serial.printf("freq2 = %.2f\n", freq);
@@ -383,10 +386,10 @@ procedure bubbleSort(A : list of sortable items)
 end procedure
 */
   int newLen;
-  int len = arpIndex;
+  int len = arpStoreIndex + 1;
 #ifdef DEBUG_SORT  
   Serial.print("Input = ");
-  for (int i = 0; i < arpIndex; i++) {
+  for (int i = 0; i < arpStoreIndex; i++) {
     Serial.printf("%d ", arpNotes[i]);
   }
   Serial.println();
@@ -411,7 +414,7 @@ end procedure
     len = newLen;
 #ifdef DEBUG_SORT  
     Serial.printf("Set len to %d\n", newLen);
-    for (int i = 0; i < arpIndex; i++) {
+    for (int i = 0; i < arpStoreIndex; i++) {
       Serial.printf("%d ", arpNotes[i]);
     }
     Serial.println();
@@ -433,29 +436,32 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   if (arpMode == Arp_Off) {
     oscillatorsOn();
   }
-  else if (arpIndex < 8) {    
+  else if (arpStoreIndex < 8) {
+    Serial.println(); // finish note info logging
     // just consider adding notes to be played to the Arp array
 
+#if 0
     if (arpNumDown == 1) {
       // start of new group
       for (int i = 0; i < 8; i++) {
         arpNotes[i] = 255;
       }
-      arpIndex = 0;
+      arpStoreIndex = 0;
       arpPlayIndex = 0;
     }
+#endif
 
     // now see if we already have this note/key in the array
     bool already = false;
-    for (int i = 0; i < arpIndex; i++) {
+    for (int i = 0; i < arpStoreIndex; i++) {
       if (arpNotes[i] == note) {
         already = true;
       }
     }
     // if not already in the array then add it (and sort into ascending order)
     if (!already) {
-      arpNotes[arpIndex] = note;
-      arpIndex++;
+      arpNotes[arpStoreIndex] = note;
+      arpStoreIndex++;
       sortNotes();
     }
   }
@@ -471,14 +477,14 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
   arpNumDown--;
   if (!arpLatch) {
     // remove the off note from the array
-    for (int i = 0; i < arpIndex; i++) {
+    for (int i = 0; i < arpStoreIndex; i++) {
       if (arpNotes[i] == note) {
         // shuffle remaining back 1 to this slot
-        for (int j = i + 1; j < arpIndex; j++) {
+        for (int j = i + 1; j < arpStoreIndex; j++) {
           arpNotes[j - 1] = arpNotes[j];
         }
         // and reduce number in array.
-        arpIndex--;
+        arpStoreIndex--;
         break;
       }
     }
@@ -869,15 +875,25 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     case 85:
       if (value < 24) {
         arpMode = Arp_Off;
+        oscillatorsOff();
+        arpStoreIndex = 0;
+        arpPlayIndex = 0;
       }
       else if (value < 48) {
         arpMode = Arp_Up;
+        arpPlayIndex = 0;
+        arpDelayActive = false;
       }
       else if (value < 72) {
         arpMode = Arp_Down;
+        arpPlayIndex = 0;
+        arpDelayActive = false;
       }
       else if (value < 96) {
         arpMode = Arp_UpDown;
+        arpPlayIndex = 0;
+        arpIncrement = 1; // start "up"
+        arpDelayActive = false;
       }
       else {
         arpMode = Arp_Random;
@@ -901,14 +917,19 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     case 87:
       arpLatch = value; // 0 /1
+      if (value == 0) {
+        arpPlayIndex = 0;
+        arpStoreIndex = 0;
+        oscillatorsOff();
+      }
       break;
 
     case 88:
-      arpSpeed = mapf(value, 0, 127, 0, 100); // not sure of units yet
+      arpPeriod = mapf(value, 0, 127, 500, 50); // not sure of units yet
       break;
 
     case 89:
-      arpDelay = mapf(value, 0, 127, 0, 500); // try 0..500ms
+      arpDelay = mapf(value, 0, 127, 0, 2000);
       break;
 
     case 90:
@@ -973,7 +994,7 @@ void setup() {
   arpMode = Arp_Off;
   arpLatch = false;
   arpOctave = 1;
-  arpSpeed = 50;
+  arpPeriod = 1000;
   arpDelay = 0;
   arpTranspose = 0;
   usbMIDI.setHandleNoteOff(OnNoteOff);
@@ -1146,36 +1167,66 @@ void loop() {
   #endif
   if (arpMode != Arp_Off) {
     // play Arpeggiator notes
-    if (arpIndex != 0) { // any notes in the array to play?
-      if (millis() > (lastMillis + arpSpeed)) {
+    if (arpStoreIndex != 0) { // any notes in the array to play?
+      // are we in a post sequence delay?
+      if ((arpDelay != 0) && (arpDelayActive == true)) {
+        if (millis() > (lastMillis + arpPeriod)) {
+          oscillatorsOff();
+        }
+        if (millis() > (lastMillis + arpDelay)) {
+          arpDelayActive = false;
+          Serial.println("Delay stop");
+          lastMillis = millis();
+        }
+      }
+      else if (millis() > (lastMillis + arpPeriod)) {
         lastMillis = millis();
-        globalNote = arpNotes[arpPlayIndex];
+        Serial.print("[ ");
+        for (int i = 0; i < arpStoreIndex; i++) {
+          Serial.print(arpNotes[i]);
+          if (i == arpPlayIndex) {
+            Serial.print('*');
+          }
+          Serial.print(' ');
+        }
+        Serial.println(']');
+        globalNote = arpNotes[arpPlayIndex] + arpTranspose;
+        oscillatorsOff(); // end previous note
+        oscillatorsOn(); // start new note ("globalNote") from ARP array
         switch(arpMode) {
           case Arp_Up:
             arpPlayIndex++;
-            if (arpPlayIndex > arpIndex) {
+            if (arpPlayIndex >= arpStoreIndex) {
               arpPlayIndex = 0;
+              arpDelayActive = true;
+              Serial.println("Up: Delay start");
             }
             break;
           case Arp_Down:
             arpPlayIndex--;
             if (arpPlayIndex < 0) {
-              arpPlayIndex = arpIndex;
+              arpPlayIndex = arpStoreIndex - 1;
+              arpDelayActive = true;
+              Serial.println("Dn: Delay start");
             }
             break;
           case Arp_UpDown:
             arpPlayIndex += arpIncrement;
-            if (arpPlayIndex > arpIndex) {
+            if (arpPlayIndex >= arpStoreIndex) {
               arpPlayIndex--;
               arpIncrement = -arpIncrement;
+              arpDelayActive = true;
+              Serial.println("Up*: Delay start");
             }
             if (arpPlayIndex < 0) {
               arpPlayIndex++;
               arpIncrement = -arpIncrement;
+              arpDelayActive = true;
+              Serial.println("Dn*: Delay start");
             }
             break;
          case Arp_Random:
-            arpPlayIndex = rand() % arpIndex;
+            arpPlayIndex = rand() % arpStoreIndex;
             break;
         }
       }
