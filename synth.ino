@@ -185,6 +185,14 @@ char * bands[] = {
   "HPF"
 };
 
+char * arpModes[] = {
+  "Off",
+  "Up",
+  "Down",
+  "Up/Down",
+  "Random"
+};
+
 int globalNote;
 
 // modulator settings
@@ -245,6 +253,9 @@ float arpDelay;
 int arpTranspose;
 byte arpNotes[8]; // Arpeggiate up to 8 notes
 int arpIndex;
+int arpPlayIndex;
+int arpNumDown;
+int arpIncrement;
 
 int clickCount = 0;
 unsigned long lastMillis = 0;
@@ -267,8 +278,10 @@ void dumpPatch() {
                   envAttack, envDecay, envSustain, envRelease);
   Serial.printf( "Filter ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n\n",
                   filtEnvA, filtEnvD, filtEnvS, filtEnvR);
-  Serial.printf( "Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f\n",
+  Serial.printf( "Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f\n\n",
                   osc1Amp, osc2Amp, noiseAmp);
+  Serial.printf( " Arpeggiator: arpMode=%s, arpSpeed=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\n",
+                  arpModes[arpMode], arpSpeed, arpOctave, arpLatch, arpDelay, arpTranspose);
   Serial.println("====================================");
 }
 
@@ -371,30 +384,38 @@ end procedure
 */
   int newLen;
   int len = arpIndex;
+#ifdef DEBUG_SORT  
   Serial.print("Input = ");
   for (int i = 0; i < arpIndex; i++) {
     Serial.printf("%d ", arpNotes[i]);
   }
   Serial.println();
+#endif  
   do {
     newLen = 0;
+#ifdef DEBUG_SORT  
     Serial.printf("i = 1 to %d\n", len - 1);
+#endif
     
     for (int i = 1; i < (len - 1); i++) {
       if (arpNotes[i - 1] > arpNotes[i]) {
+#ifdef DEBUG_SORT  
         Serial.printf("Swap %d and %d\n", arpNotes[i - 1], arpNotes[i]);
+#endif
         byte temp = arpNotes[i - 1];
         arpNotes[i - 1] = arpNotes[i];
         arpNotes[i] = temp;
         newLen = i + 1;
       }
     }
-    Serial.printf("Set len to %d\n", newLen);
     len = newLen;
+#ifdef DEBUG_SORT  
+    Serial.printf("Set len to %d\n", newLen);
     for (int i = 0; i < arpIndex; i++) {
       Serial.printf("%d ", arpNotes[i]);
     }
     Serial.println();
+#endif
   } while(len > 1);
 }
 
@@ -408,17 +429,30 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
     blackKey((int)keybd[note - 48].offset, true);
   }
   globalNote = note;
+  arpNumDown++;
   if (arpMode == Arp_Off) {
     oscillatorsOn();
   }
-  else if (arpIndex < 8) {
+  else if (arpIndex < 8) {    
     // just consider adding notes to be played to the Arp array
+
+    if (arpNumDown == 1) {
+      // start of new group
+      for (int i = 0; i < 8; i++) {
+        arpNotes[i] = 255;
+      }
+      arpIndex = 0;
+      arpPlayIndex = 0;
+    }
+
+    // now see if we already have this note/key in the array
     bool already = false;
     for (int i = 0; i < arpIndex; i++) {
       if (arpNotes[i] == note) {
         already = true;
       }
     }
+    // if not already in the array then add it (and sort into ascending order)
     if (!already) {
       arpNotes[arpIndex] = note;
       arpIndex++;
@@ -434,6 +468,21 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
   else {
     blackKey(keybd[note - 48].offset, false);
   }  digitalWrite(LED_PIN, LOW);
+  arpNumDown--;
+  if (!arpLatch) {
+    // remove the off note from the array
+    for (int i = 0; i < arpIndex; i++) {
+      if (arpNotes[i] == note) {
+        // shuffle remaining back 1 to this slot
+        for (int j = i + 1; j < arpIndex; j++) {
+          arpNotes[j - 1] = arpNotes[j];
+        }
+        // and reduce number in array.
+        arpIndex--;
+        break;
+      }
+    }
+  }
   oscillatorsOff();
 }
 
@@ -938,7 +987,8 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   usbMIDI.read();
-#if 0  
+
+#if 0  // testing touch input
   int16_t x, y;
   tft.getCursor(&x, &y);
   if (y > 240) {
@@ -947,6 +997,7 @@ void loop() {
   }
   //Serial.printf("x = %u, y = %u\n", x, y);
 #endif
+
 #ifdef USE_TOUCH
   if (ts.touched()) {
     int X, Y;
@@ -1015,7 +1066,8 @@ void loop() {
     }
   }
   #endif
-  #if 0
+
+  #if 0 // testing joystick input
   if (millis() > (lastMillis + 100)) {
     if (digitalRead(JOY_SW) == 0) {
       clickCount++;
@@ -1036,7 +1088,8 @@ void loop() {
     lastMillis = millis();
   }
   #endif
-  #if 0
+
+  #if 0 // testing encoder input
   long newPos;
   newPos = enc.read();
   if (newPos != encPos) {
@@ -1050,7 +1103,8 @@ void loop() {
     encPos = newPos;
   }
   #endif
-  #if 1
+
+  #if 1 // support 5 pin DIN MIDI in (the attach callbacks do't work??)
   if (MIDI.read()) {                    // Is there a MIDI message incoming ?
     int note, velocity, channel, d1, d2;
     byte type = MIDI.getType();
@@ -1090,4 +1144,41 @@ void loop() {
     }
   }
   #endif
+  if (arpMode != Arp_Off) {
+    // play Arpeggiator notes
+    if (arpIndex != 0) { // any notes in the array to play?
+      if (millis() > (lastMillis + arpSpeed)) {
+        lastMillis = millis();
+        globalNote = arpNotes[arpPlayIndex];
+        switch(arpMode) {
+          case Arp_Up:
+            arpPlayIndex++;
+            if (arpPlayIndex > arpIndex) {
+              arpPlayIndex = 0;
+            }
+            break;
+          case Arp_Down:
+            arpPlayIndex--;
+            if (arpPlayIndex < 0) {
+              arpPlayIndex = arpIndex;
+            }
+            break;
+          case Arp_UpDown:
+            arpPlayIndex += arpIncrement;
+            if (arpPlayIndex > arpIndex) {
+              arpPlayIndex--;
+              arpIncrement = -arpIncrement;
+            }
+            if (arpPlayIndex < 0) {
+              arpPlayIndex++;
+              arpIncrement = -arpIncrement;
+            }
+            break;
+         case Arp_Random:
+            arpPlayIndex = rand() % arpIndex;
+            break;
+        }
+      }
+    }
+  }
 }
