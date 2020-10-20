@@ -257,6 +257,7 @@ int arpStoreIndex;
 int arpPlayIndex;
 int arpNumDown;
 int arpIncrement;
+int arpPlayOctave;
 
 int clickCount = 0;
 unsigned long lastMillis = 0;
@@ -883,17 +884,20 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
         arpMode = Arp_Up;
         arpPlayIndex = 0;
         arpDelayActive = false;
+        arpPlayOctave = 1;
       }
       else if (value < 72) {
         arpMode = Arp_Down;
         arpPlayIndex = 0;
         arpDelayActive = false;
+        arpPlayOctave = arpOctave;
       }
       else if (value < 96) {
         arpMode = Arp_UpDown;
         arpPlayIndex = 0;
         arpIncrement = 1; // start "up"
         arpDelayActive = false;
+        arpPlayOctave = 1;
       }
       else {
         arpMode = Arp_Random;
@@ -902,16 +906,16 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     case 86:
       if (value < 24) {
-        arpOctave = 1;
+        arpOctave = 0;
       }
       else if (value < 48) {
-        arpOctave = 2;;
+        arpOctave = 1;;
       }
       else if (value < 72) {
-        arpOctave = 3;
+        arpOctave = 2;
       }
       else if (value < 96) {
-        arpOctave = 4;
+        arpOctave = 3;
       }
       break;
 
@@ -920,6 +924,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       if (value == 0) {
         arpPlayIndex = 0;
         arpStoreIndex = 0;
+        arpPlayOctave = 1;
         oscillatorsOff();
       }
       break;
@@ -993,7 +998,7 @@ void setup() {
   updateFilter();
   arpMode = Arp_Off;
   arpLatch = false;
-  arpOctave = 1;
+  arpOctave = 0;
   arpPeriod = 1000;
   arpDelay = 0;
   arpTranspose = 0;
@@ -1189,8 +1194,8 @@ void loop() {
           }
           Serial.print(' ');
         }
-        Serial.println(']');
-        globalNote = arpNotes[arpPlayIndex] + arpTranspose;
+        Serial.printf("] Octave=%u\n", arpPlayOctave);
+        globalNote = arpNotes[arpPlayIndex] + arpTranspose + (12 * arpPlayOctave);
         oscillatorsOff(); // end previous note
         oscillatorsOn(); // start new note ("globalNote") from ARP array
         switch(arpMode) {
@@ -1198,35 +1203,65 @@ void loop() {
             arpPlayIndex++;
             if (arpPlayIndex >= arpStoreIndex) {
               arpPlayIndex = 0;
-              arpDelayActive = true;
-              Serial.println("Up: Delay start");
+              if (arpPlayOctave < arpOctave) {
+                arpPlayOctave++;
+              }
+              else {
+                arpDelayActive = true;
+                arpPlayOctave = 0;
+                Serial.println("Up: Delay start");
+              }
             }
             break;
           case Arp_Down:
             arpPlayIndex--;
             if (arpPlayIndex < 0) {
               arpPlayIndex = arpStoreIndex - 1;
-              arpDelayActive = true;
-              Serial.println("Dn: Delay start");
+              if (arpPlayOctave > 0) {
+                arpPlayOctave--;
+              }
+              else {
+                arpDelayActive = true;
+                arpPlayOctave = arpOctave;
+                Serial.println("Dn: Delay start");
+              }
             }
             break;
           case Arp_UpDown:
             arpPlayIndex += arpIncrement;
             if (arpPlayIndex >= arpStoreIndex) {
-              arpPlayIndex--;
-              arpIncrement = -arpIncrement;
-              arpDelayActive = true;
-              Serial.println("Up*: Delay start");
+              if (arpPlayOctave < arpOctave) {
+                arpPlayOctave++;
+                arpPlayIndex = 0;
+              }
+              else {
+                arpPlayIndex--;
+                arpIncrement = -arpIncrement;
+                arpDelayActive = true;
+                Serial.println("Up*: Delay start");
+              }
             }
             if (arpPlayIndex < 0) {
-              arpPlayIndex++;
-              arpIncrement = -arpIncrement;
-              arpDelayActive = true;
-              Serial.println("Dn*: Delay start");
+              if (arpPlayOctave > 0) {
+                arpPlayOctave--;
+                arpPlayIndex = arpStoreIndex - 1;
+              }
+              else {
+                arpPlayIndex++;
+                arpIncrement = -arpIncrement;
+                arpDelayActive = true;
+                Serial.println("Dn*: Delay start");
+              }
             }
             break;
          case Arp_Random:
             arpPlayIndex = rand() % arpStoreIndex;
+            if (arpOctave > 0) {
+              arpPlayOctave = rand() % (arpOctave + 1);
+            }
+            else {
+              arpPlayOctave = 0;
+            }
             break;
         }
       }
