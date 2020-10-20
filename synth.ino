@@ -261,6 +261,7 @@ int arpPlayOctave;
 
 int clickCount = 0;
 unsigned long lastMillis = 0;
+unsigned long last_time = 0;
 long encPos = -999;
 int encVal = 0;
 
@@ -1265,6 +1266,20 @@ void loop() {
             break;
         }
       }
+    }
+  }
+  if(0) {
+    if(millis() - last_time >= 5000) {
+      Serial.print("Proc = ");
+      Serial.print(AudioProcessorUsage());
+      Serial.print(" (");    
+      Serial.print(AudioProcessorUsageMax());
+      Serial.print("),  Mem = ");
+      Serial.print(AudioMemoryUsage());
+      Serial.print(" (");    
+      Serial.print(AudioMemoryUsageMax());
+      Serial.println(")");
+      last_time = millis();
     }
   }
 }
