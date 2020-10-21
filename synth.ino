@@ -12,35 +12,46 @@
 #include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveform       LFO1;           //xy=413,114
-AudioSynthWaveform       LFO2;           //xy=415,168
-AudioSynthWaveformDc     dc1;            //xy=461,272
-AudioSynthWaveformModulated waveformMod1;   //xy=575,115
-AudioSynthWaveformModulated waveformMod2;   //xy=576,158
-AudioSynthNoisePink      pink1;          //xy=581,199
-AudioEffectEnvelope      envelope2;      //xy=608,272
-AudioMixer4              mixer1;         //xy=737,160
-AudioAmplifier           amp1;           //xy=742,273
-AudioFilterStateVariable filter1;        //xy=877,219
-AudioMixer4              Filter_Select;  //xy=1032,222
-AudioEffectEnvelope      envelope1;      //xy=1190,222
-AudioOutputI2S           i2s1;           //xy=1351,223
-AudioConnection          patchCord1(LFO1, 0, waveformMod1, 0);
-AudioConnection          patchCord2(LFO2, 0, waveformMod2, 0);
-AudioConnection          patchCord3(dc1, envelope2);
-AudioConnection          patchCord4(waveformMod1, 0, mixer1, 0);
-AudioConnection          patchCord5(waveformMod2, 0, mixer1, 1);
-AudioConnection          patchCord6(pink1, 0, mixer1, 2);
-AudioConnection          patchCord7(envelope2, amp1);
-AudioConnection          patchCord8(mixer1, 0, filter1, 0);
-AudioConnection          patchCord9(amp1, 0, filter1, 1);
-AudioConnection          patchCord10(filter1, 0, Filter_Select, 0);
-AudioConnection          patchCord11(filter1, 1, Filter_Select, 1);
-AudioConnection          patchCord12(filter1, 2, Filter_Select, 2);
-AudioConnection          patchCord13(Filter_Select, envelope1);
-AudioConnection          patchCord14(envelope1, 0, i2s1, 0);
-AudioConnection          patchCord15(envelope1, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=917,78
+AudioSynthWaveform       LFO1;           //xy=55,143
+AudioSynthWaveform       LFO2;           //xy=57,197
+AudioAmplifier           LFO1switch;           //xy=187.50000381469727,142.50000190734863
+AudioAmplifier           LFO2switch; //xy=193.75,196.25000190734863
+AudioSynthWaveformDc     dc1;            //xy=349.24998474121094,297.6071557998657
+AudioSynthWaveformModulated waveformMod1;   //xy=359.50000762939453,147.75000190734863
+AudioSynthWaveformModulated waveformMod2;   //xy=360.50000762939453,190.75000190734863
+AudioSynthNoisePink      pink1;          //xy=492.6428737640381,228.89285278320312
+AudioEffectEnvelope      envelope2;      //xy=500.17857360839844,296.35713386535645
+AudioAmplifier           Osc1switch;           //xy=521.4285714285713,147.14285714285714
+AudioAmplifier           Osc2switch; //xy=524.2857208251953,187.14287567138672
+AudioAmplifier           fModSwitch;           //xy=658.2857437133789,294.32142066955566
+AudioMixer4              mixer1;         //xy=675.7857818603516,194.17855834960938
+AudioFilterStateVariable filter1;        //xy=814.3571281433105,257.46426010131836
+AudioMixer4              Filter_Select;  //xy=1020.7857818603516,231.8928337097168
+AudioEffectEnvelope      envelope1;      //xy=1178.7857818603516,231.8928337097168
+AudioEffectChorus        chorus;    //xy=1336.5357971191406,231.14283752441406
+AudioOutputI2S           i2s1;           //xy=1508.035800933838,230.8928346633911
+AudioConnection          patchCord1(LFO1, LFO1switch);
+AudioConnection          patchCord2(LFO2, LFO2switch);
+AudioConnection          patchCord3(LFO1switch, 0, waveformMod1, 0);
+AudioConnection          patchCord4(LFO2switch, 0, waveformMod2, 0);
+AudioConnection          patchCord5(dc1, envelope2);
+AudioConnection          patchCord6(waveformMod1, Osc1switch);
+AudioConnection          patchCord7(waveformMod2, Osc2switch);
+AudioConnection          patchCord8(pink1, 0, mixer1, 2);
+AudioConnection          patchCord9(envelope2, fModSwitch);
+AudioConnection          patchCord10(Osc1switch, 0, mixer1, 0);
+AudioConnection          patchCord11(Osc2switch, 0, mixer1, 1);
+AudioConnection          patchCord12(fModSwitch, 0, filter1, 1);
+AudioConnection          patchCord13(mixer1, 0, filter1, 0);
+AudioConnection          patchCord14(mixer1, 0, Filter_Select, 3);
+AudioConnection          patchCord15(filter1, 0, Filter_Select, 0);
+AudioConnection          patchCord16(filter1, 1, Filter_Select, 1);
+AudioConnection          patchCord17(filter1, 2, Filter_Select, 2);
+AudioConnection          patchCord18(Filter_Select, envelope1);
+AudioConnection          patchCord19(envelope1, chorus);
+AudioConnection          patchCord20(chorus, 0, i2s1, 0);
+AudioConnection          patchCord21(chorus, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=697.75,78.25000286102295
 // GUItool: end automatically generated code
 
 extern const unsigned short amelia320[];
@@ -83,6 +94,7 @@ typedef enum {
 } ADSR_change_t;
 
 typedef enum {
+  FILT_OFF,
   LPF,
   BPF,
   HPF
@@ -180,6 +192,7 @@ char * waves[] = {
 };
 
 char * bands[] = {
+  "Off",
   "LPF",
   "BPF",
   "HPF"
@@ -192,6 +205,12 @@ char * arpModes[] = {
   "Up/Down",
   "Random"
 };
+
+// Number of samples in each delay line
+#define CHORUS_DELAY_LENGTH (32*AUDIO_BLOCK_SAMPLES)
+// Allocate the delay lines for left and right channels
+short l_delayline[CHORUS_DELAY_LENGTH];
+short r_delayline[CHORUS_DELAY_LENGTH];
 
 int globalNote;
 
@@ -259,6 +278,8 @@ int arpNumDown;
 int arpIncrement;
 int arpPlayOctave;
 
+int chorusVoices;
+
 int clickCount = 0;
 unsigned long lastMillis = 0;
 unsigned long last_time = 0;
@@ -269,13 +290,13 @@ void dumpPatch() {
   Serial.println("====================================");
   Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, detune=%.2f\n",
                   waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Detune);
-  Serial.printf( "LFO1: wave=%s, freq=%.2f, ampl=%.2f, PWM=%.2f\n\n",
+  Serial.printf( "LFO1: wave=%s, freq=%.2fHz, ampl=%.2f, PWM=%.2f\n\n",
                   waves[lfo1Waveform], lfo1Freq, lfo1Amplitude, lfo1PWM);
   Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, detune= %.2f\n",
                   waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Detune);
-  Serial.printf( "LFO2: wave=%s, freq=%.2f, ampl=%.2f, PWM=%.2f\n\n",
+  Serial.printf( "LFO2: wave=%s, freq=%.2fHz, ampl=%.2f, PWM=%.2f\n\n",
                   waves[lfo2Waveform], lfo2Freq, lfo2Amplitude, lfo2PWM);
-  Serial.printf( "Filter: band=%s, freq=%.2f, res=%.2f, DC=%.2f, modulated=%u\n\n",
+  Serial.printf( "Filter: band=%s, freq=%.2fHz, res=%.2f, DC=%.2f, modulated=%u\n\n",
                   bands[filtBand], filterFreq, filterRes, filtDC, filtMod);
   Serial.printf( "Mix ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n",
                   envAttack, envDecay, envSustain, envRelease);
@@ -343,7 +364,7 @@ void oscillatorsOn() {
   Serial.printf("Osc1 note=%d ", note);
   float freq = tune_frequencies2_PGM[note];
   freq *= osc1Detune; // mult 0.85 .. 1.0
-  Serial.printf("so freq1 = %f, ", freq);
+  Serial.printf("so freq1 = %.2fHz, ", freq);
   waveformMod1.frequency(freq);
 
   note = globalNote;
@@ -357,7 +378,7 @@ void oscillatorsOn() {
   Serial.printf("Osc2 note=%d ", note);
   freq = tune_frequencies2_PGM[note];
   freq *= osc2Detune; // mult 0.85 .. 1.0
-  Serial.printf("freq2 = %.2f\n", freq);
+  Serial.printf("freq2 = %.2fHz\n", freq);
   waveformMod2.frequency(freq);
   // sound ADSR
   envelope1.noteOn();
@@ -563,31 +584,41 @@ void updateFiltADSR() {
   envelope2.release(filtEnvR);
   dc1.amplitude(filtDC);
   if (filtMod == 0) {
-    amp1.gain(0.0);
+    fModSwitch.gain(0.0);
   }
   else {
-    amp1.gain(1.0);
+    fModSwitch.gain(1.0);
   }
 }
 
 void updateFilterBand() {
   switch(filtBand) {
+    case FILT_OFF:
+      Filter_Select.gain(0, 0);
+      Filter_Select.gain(1, 0);
+      Filter_Select.gain(2, 0);
+      Filter_Select.gain(3, 1.0);
+      break;
+
     case LPF:
       Filter_Select.gain(0, 1.0);
       Filter_Select.gain(1, 0);
       Filter_Select.gain(2, 0);
+      Filter_Select.gain(3, 0);
       break;
 
     case BPF:
       Filter_Select.gain(0, 0);
       Filter_Select.gain(1, 1.0);
       Filter_Select.gain(2, 0);
+      Filter_Select.gain(3, 0);
       break;
 
     case HPF:
       Filter_Select.gain(0, 0);
       Filter_Select.gain(1, 0);
       Filter_Select.gain(2, 1.0);
+      Filter_Select.gain(3, 0);
      break;
   }
 }
@@ -627,49 +658,76 @@ void updateNoise() {
   pink1.amplitude(noiseAmplitude);
 }
 
+void initChorus() {
+  chorusVoices = 0; // off by default
+
+  // Initialize the effect
+  // address of delayline
+  // total number of samples in the delay line
+  // number of voices in the chorus INCLUDING the original voice
+  if(!chorus.begin(l_delayline, CHORUS_DELAY_LENGTH, 6)) {
+    Serial.println("AudioEffectChorus - left channel begin failed");
+    while(1);
+  }
+}
+
+void updateChorus() {
+  chorus.voices(chorusVoices);
+}
+
 void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {
-  Serial.printf("CC: %u = %u\n", control, value);
+  Serial.printf("CC: %u = %u ==> ", control, value);
   switch(control) {
     // 100, 101, 102 are Mixer controls for OSC1, OSC2 and Noise
     case 100:
       osc1Amp =  velocity2amplitude[value];
+      Serial.printf("Osc1 amplitude = %.2f\n", osc1Amp);
       updateMix(W1);
       break;
 
     case 101:
       osc2Amp = velocity2amplitude[value];
+      Serial.printf("Osc2 amplitude = %.2f\n", osc2Amp);
       updateMix(W2);
       break;
 
     case 102:
       noiseAmp = velocity2amplitude[value];
+      Serial.printf("Noise amplitude = %.2f\n", noiseAmp);
       updateMix(Noise);
       break;
 
     // 103, 104, 105, 106 are Envelope Attack, Decay, Sustain, Release
     case 103:
       envAttack = mapf(value, 0, 127, 0.0, 3000.0);
+      Serial.printf("Attack = %.2f\n", envAttack);
       updateADSR(Attack);
       break;
 
     case 104:
       envDecay = mapf(value, 0, 127, 0.0, 3000.0);
+      Serial.printf("Decay = %.2f\n", envDecay);
       updateADSR(Decay);
       break;
 
     case 105:
       envSustain = mapf(value, 0, 127, 0.0, 1.0);
+      Serial.printf("Sustain = %.2f\n", envSustain);
       updateADSR(Sustain);
       break;
 
     case 106:
       envRelease = mapf(value, 0, 127, 0.0, 3000.0);
+      Serial.printf("Release = %.2f\n", envRelease);
       updateADSR(Release);
       break;
 
     // 107, 108, 109 are for filter (band, freq, res)
     case 107:
-      if (value < 43) {
+      if (value == 127) {
+        filtBand = FILT_OFF;
+      }
+      else if (value < 43) {
         filtBand= LPF;
       }
       else if ((value >= 43) && (value < 86)) {
@@ -678,17 +736,19 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       else {
         filtBand = HPF;
       }
-      Serial.printf("Filt band = %s\n", (filtBand == LPF) ? "Low" : (filtBand == BPF) ? "Band" : "High");
+      Serial.printf("Filter band = %s\n", bands[filtBand]);
+      updateFilterBand();
       break;
 
     case 108:
       filterFreq = mapf(value, 0, 127, 0, 10000);
-      Serial.printf("Filter Freq = %f\n", filterFreq);
+      Serial.printf("Filter Freq = %.2fHz\n", filterFreq);
       updateFilter();
       break;
 
     case 109:
       filterRes = mapf(value, 0, 127, 0.7, 5.0);
+      Serial.printf("Resonance = %.2f\n", filterRes);
       updateFilter();
       break;
 
@@ -724,62 +784,95 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
           change = WAVEFORM_PULSE;
           break;
       }
-      Serial.printf("Wave: %s\n", waves[change]);
+      Serial.printf("Wave: %s (", (value == 127) ? "Off" : waves[change]);
       if (control == 110) {
-        lfo1Waveform = change;
-        updateLFO1();
+        Serial.println("LFO1)");
+        if (value == 127) {
+          LFO1switch.gain(0);          
+        }
+        else {
+          LFO1switch.gain(1.0);
+          lfo1Waveform = change;
+          updateLFO1();
+        }
       }
       if (control == 111) {
-        lfo2Waveform = change;
-        updateLFO2();
+        Serial.println("LFO2)");
+        if (value == 127) {
+          LFO2switch.gain(0);
+        }
+        else {
+          LFO2switch.gain(1.0);
+          lfo2Waveform = change;
+          updateLFO2();
+        }
       }
       if (control == 116) {
-        osc1Waveform = change;
-        updateOsc1();
+        Serial.println("OSC1)");
+        if (value == 127) {
+          Osc1switch.gain(0);
+        }
+        else {
+          Osc1switch.gain(1.0);
+          osc1Waveform = change;
+          updateOsc1();
+        }
       }
       if (control == 117) {
-        osc2Waveform = change;
-        updateOsc2();
+        Serial.println("OSC2)");
+        if (value == 127) {
+          Osc2switch.gain(0);
+        }
+        else {
+          Osc2switch.gain(1.0);
+          osc2Waveform = change;
+          updateOsc2();
+        }
       }
       break;
 
     // other LF01 settings
     case 112:
       lfo1Freq = mapf(value, 0, 127, 0.0, 20.0);
-      Serial.printf("LFO1 freq = %f\n", lfo2Freq);
+      Serial.printf("LFO1 freq = %.2fHz\n", lfo1Freq);
       updateLFO1();
       break;
 
     case 114:
       lfo1Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      Serial.printf("LFO1 amplitude = %.2f\n", lfo1Amplitude);
       updateLFO1();
       break;
 
     case 20:
       lfo1PWM = mapf(value, 0, 127, 0.0, 1.0);
+      Serial.printf("LFO1 PWM = %.2f\n", lfo1PWM);
       updateLFO1();
       break;
 
     // other LFO2 settings
     case 113:
       lfo2Freq = mapf(value, 0, 127, 0.0, 20.0);
-      Serial.printf("LFO2 freq = %f\n", lfo2Freq);
+      Serial.printf("LFO2 freq = %.2fHz\n", lfo2Freq);
       updateLFO2();
       break;
 
     case 115:
       lfo2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      Serial.printf("LFO2 amplitude = %.2f\n", lfo2Amplitude);
       updateLFO2();
       break;
 
     case 21:
       lfo2PWM = mapf(value, 0, 127, 0.0, 1.0);
+      Serial.printf("LFO2 PWM = %.2f\n", lfo2PWM);
       updateLFO2();
       break;
 
     // Osc1 has wave (above), Ampl, Octave, FineTune
     case 118:
       osc1Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      Serial.printf("Osc1 amplitude = %.2f\n", osc1Amplitude);
       updateOsc1();
       break;
 
@@ -810,6 +903,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     // Osc2 has wave (above), Freq, Ampl, Octave, FineTune
     case 119:
       osc2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      Serial.printf("Osc2 amplitude = %.2f\n", osc2Amplitude);
       updateOsc2();
       break;
 
@@ -840,27 +934,31 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     // ADSR for filter
     case 22:
       filtEnvA = mapf(value, 0, 127, 0.0, 3000.0);
+      Serial.printf("Filter Attack = %.2f\n", filtEnvA);
       updateFiltADSR();
       break;
 
     case 24:
       filtEnvD = mapf(value, 0, 127, 0.0, 3000.0);
+      Serial.printf("Filter Decay = %.2f\n", filtEnvD);
       updateFiltADSR();
       break;
 
     case 28:
       filtEnvS = mapf(value, 0, 127, 0.0, 1.0);
+      Serial.printf("Filter Sustain = %.2f\n", filtEnvS);
       updateFiltADSR();
       break;
 
     case 29:
       filtEnvR = mapf(value, 0, 127, 0.0, 3000.0);
+      Serial.printf("Filter Release = %.2f\n", filtEnvR);
       updateFiltADSR();
       break;
 
     case 30:
       filtDC = mapf(value, 0, 127, -1.0, 1.0);
-      Serial.printf("DC = %f\n", filtDC);
+      Serial.printf("DC = %.2f\n", filtDC);
       updateFiltADSR();
       break;
 
@@ -877,24 +975,28 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     case 85:
       if (value < 24) {
         arpMode = Arp_Off;
+        Serial.println("Arp Off");
         oscillatorsOff();
         arpStoreIndex = 0;
         arpPlayIndex = 0;
       }
       else if (value < 48) {
         arpMode = Arp_Up;
+        Serial.println("Arp Up");
         arpPlayIndex = 0;
         arpDelayActive = false;
         arpPlayOctave = 1;
       }
       else if (value < 72) {
         arpMode = Arp_Down;
+        Serial.println("Arp Down");
         arpPlayIndex = 0;
         arpDelayActive = false;
         arpPlayOctave = arpOctave;
       }
       else if (value < 96) {
         arpMode = Arp_UpDown;
+        Serial.println("Arp Up/Down");
         arpPlayIndex = 0;
         arpIncrement = 1; // start "up"
         arpDelayActive = false;
@@ -902,6 +1004,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       else {
         arpMode = Arp_Random;
+        Serial.println("Arp Random");
       }
       break;
 
@@ -918,6 +1021,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       else if (value < 96) {
         arpOctave = 3;
       }
+      Serial.printf("Arp Octaves = %d\n", arpOctave + 1);
       break;
 
     case 87:
@@ -928,18 +1032,39 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
         arpPlayOctave = 1;
         oscillatorsOff();
       }
+      Serial.printf("Arp Latch = %u\n", arpLatch);
       break;
 
     case 88:
-      arpPeriod = mapf(value, 0, 127, 500, 50); // not sure of units yet
+      arpPeriod = mapf(value, 0, 127, 1200, 50); // not sure of units yet
+      Serial.printf("Arp Period = %.2f\n", arpPeriod);
       break;
 
     case 89:
       arpDelay = mapf(value, 0, 127, 0, 2000);
+      Serial.printf("Arp Delay = %.2f\n", arpDelay);
       break;
 
     case 90:
       arpTranspose = (int)mapf(value, 0, 127, 0, 11);
+      Serial.printf("Arp Transpose = %u\n", arpTranspose);
+      break;
+
+    case 91:
+      if (value < 24) {
+        chorusVoices = 0;
+      }
+      else if (value < 48) {
+        chorusVoices = 2;
+      }
+      else if (value < 72) {
+        chorusVoices = 4;
+      }
+      else if (value < 96) {
+        chorusVoices = 6;
+      }
+      Serial.printf("Chorus = %u\n", chorusVoices);
+      updateChorus();
       break;
 
     default:
@@ -986,7 +1111,7 @@ void setup() {
   }
   AudioMemory(20);
   sgtl5000_1.enable();
-  sgtl5000_1.volume(0.5);
+  sgtl5000_1.volume(0.75);
   updateOsc1();
   updateOsc2();
   updateNoise(); // this probably fixed at 1.0 (mixer varies level)
@@ -997,6 +1122,7 @@ void setup() {
   updateFiltADSR();
   updateFilterBand();
   updateFilter();
+  initChorus();
   arpMode = Arp_Off;
   arpLatch = false;
   arpOctave = 0;
