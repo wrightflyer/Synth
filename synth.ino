@@ -209,8 +209,7 @@ char * arpModes[] = {
 // Number of samples in each delay line
 #define CHORUS_DELAY_LENGTH (32*AUDIO_BLOCK_SAMPLES)
 // Allocate the delay lines for left and right channels
-short l_delayline[CHORUS_DELAY_LENGTH];
-short r_delayline[CHORUS_DELAY_LENGTH];
+short delayline[CHORUS_DELAY_LENGTH];
 
 int globalNote;
 
@@ -665,7 +664,7 @@ void initChorus() {
   // address of delayline
   // total number of samples in the delay line
   // number of voices in the chorus INCLUDING the original voice
-  if(!chorus.begin(l_delayline, CHORUS_DELAY_LENGTH, 6)) {
+  if(!chorus.begin(delayline, CHORUS_DELAY_LENGTH, 6)) {
     Serial.println("AudioEffectChorus - left channel begin failed");
     while(1);
   }
