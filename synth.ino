@@ -108,6 +108,11 @@ typedef enum {
   Arp_Random
 } arp_mode_t;
 
+typedef enum {
+  Mod_FM,
+  Mod_PM
+} osc_mod_t;
+
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
 XPT2046_Touchscreen ts(TOUCH_CS);
@@ -218,11 +223,13 @@ int osc1Waveform = WAVEFORM_SINE;
 float osc1Amplitude = 1.0;
 int osc1Octave = 0;
 float osc1Detune = 1.0; // can range 1.0 to 0.85
+osc_mod_t osc1Mod = Mod_FM;
 
 int osc2Waveform = WAVEFORM_SAWTOOTH;
 float osc2Amplitude = 1.0;
 int osc2Octave = 0;
 float osc2Detune = 1.0; // can range 1.0 to 0.85
+osc_mod_t osc2Mod = Mod_FM;
 
 // LFO settings
 int lfo1Waveform = WAVEFORM_SINE;
@@ -630,13 +637,25 @@ void updateFilter() {
 void updateOsc1() {
   waveformMod1.begin(osc1Waveform);
   waveformMod1.amplitude(osc1Amplitude);
-  //waveformMod1.pulseWidth(osc1PWM);
+  if (osc1Mod == Mod_FM) {
+    //TODO: consider allowing freq mod range to be changed
+    waveformMod1.frequencyModulation(12);
+  }
+  else {
+    //TODO: consider allowing phase mod range to be changed
+    waveformMod1.phaseModulation(9000);
+  }
 }
 
 void updateOsc2() {
   waveformMod2.begin(osc2Waveform);
   waveformMod2.amplitude(osc2Amplitude);
-  //waveformMod2.pulseWidth(osc2PWM);
+  if (osc2Mod == Mod_FM) {
+    waveformMod2.frequencyModulation(12);
+  }
+  else {
+    waveformMod2.phaseModulation(9000);
+  }
 }
 
 void updateLFO1() {
@@ -899,6 +918,11 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       Serial.printf("Osc1 detune = %.2f\n", osc1Detune);
       break;
 
+    case 14:
+      Serial.printf("Osc1 modulation = %s\n", value == 0 ? "FM" : "PM");
+      // 0 = FM, 1 = PM
+      break;
+
     // Osc2 has wave (above), Freq, Ampl, Octave, FineTune
     case 119:
       osc2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
@@ -928,6 +952,11 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     case 27:
       osc2Detune = mapf(value, 0, 127, 1.0, 0.85);
       Serial.printf("Osc2 detune = %.2f\n", osc2Detune);
+      break;
+
+    case 15:
+      Serial.printf("Osc2 modulation = %s\n", value == 0 ? "FM" : "PM");
+      // 0 = FM, 1 = PM
       break;
 
     // ADSR for filter
