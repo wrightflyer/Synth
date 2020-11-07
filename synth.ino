@@ -1,3 +1,4 @@
+#include <synth_wavetable.h>
 #include "NoteData.h"
 #include <MIDI.h>
 #include <ILI9341_t3.h>
@@ -12,49 +13,55 @@
 #include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveform       LFO1;           //xy=55,143
-AudioSynthWaveform       LFO2;           //xy=57,197
-AudioAmplifier           LFO1switch;           //xy=187.50000381469727,142.50000190734863
-AudioAmplifier           LFO2switch; //xy=193.75,196.25000190734863
-AudioSynthWaveformDc     dc1;            //xy=349.24998474121094,297.6071557998657
-AudioSynthWaveformModulated waveformMod1;   //xy=359.50000762939453,147.75000190734863
-AudioSynthWaveformModulated waveformMod2;   //xy=360.50000762939453,190.75000190734863
-AudioSynthNoisePink      pink1;          //xy=492.6428737640381,228.89285278320312
-AudioEffectEnvelope      envelope2;      //xy=500.17857360839844,296.35713386535645
-AudioAmplifier           Osc1switch;           //xy=521.4285714285713,147.14285714285714
-AudioAmplifier           Osc2switch; //xy=524.2857208251953,187.14287567138672
-AudioAmplifier           fModSwitch;           //xy=658.2857437133789,294.32142066955566
-AudioMixer4              mixer1;         //xy=675.7857818603516,194.17855834960938
-AudioFilterStateVariable filter1;        //xy=814.3571281433105,257.46426010131836
-AudioMixer4              Filter_Select;  //xy=1020.7857818603516,231.8928337097168
-AudioEffectEnvelope      envelope1;      //xy=1178.7857818603516,231.8928337097168
-AudioEffectChorus        chorus;    //xy=1336.5357971191406,231.14283752441406
-AudioOutputI2S           i2s1;           //xy=1508.035800933838,230.8928346633911
+AudioSynthWaveform       LFO1;           //xy=55,152
+AudioSynthWaveform       LFO2;           //xy=57,206
+AudioAmplifier           LFO1switch;     //xy=187,151
+AudioAmplifier           LFO2switch;     //xy=193,205
+AudioSynthSimpleDrum     drum1;          //xy=254,307
+AudioSynthWavetable      wavetable1;     //xy=265,268
+AudioSynthWaveformDc     dc1;            //xy=354,362
+AudioSynthWaveformModulated waveformMod1;   //xy=359,156
+AudioSynthWaveformModulated waveformMod2;   //xy=360,199
+AudioMixer4              mixer2;         //xy=423,287
+AudioSynthNoisePink      pink1;          //xy=492,237
+AudioEffectEnvelope      envelope2;      //xy=505,361
+AudioAmplifier           Osc1switch;     //xy=521,156
+AudioAmplifier           Osc2switch;     //xy=524,196
+AudioAmplifier           fModSwitch;     //xy=663,359
+AudioMixer4              mixer1;         //xy=680,259
+AudioFilterStateVariable filter1;        //xy=819,322
+AudioMixer4              Filter_Select;  //xy=1025,296
+AudioEffectEnvelope      envelope1;      //xy=1183,296
+AudioEffectChorus        chorus;         //xy=1341,296
+AudioOutputI2S           i2s1;           //xy=1513,295
 AudioConnection          patchCord1(LFO1, LFO1switch);
 AudioConnection          patchCord2(LFO2, LFO2switch);
 AudioConnection          patchCord3(LFO1switch, 0, waveformMod1, 0);
 AudioConnection          patchCord4(LFO2switch, 0, waveformMod2, 0);
-AudioConnection          patchCord5(dc1, envelope2);
-AudioConnection          patchCord6(waveformMod1, Osc1switch);
-AudioConnection          patchCord7(waveformMod2, Osc2switch);
-AudioConnection          patchCord8(pink1, 0, mixer1, 2);
-AudioConnection          patchCord9(envelope2, fModSwitch);
-AudioConnection          patchCord10(Osc1switch, 0, mixer1, 0);
-AudioConnection          patchCord11(Osc2switch, 0, mixer1, 1);
-AudioConnection          patchCord12(fModSwitch, 0, filter1, 1);
-AudioConnection          patchCord13(mixer1, 0, filter1, 0);
-AudioConnection          patchCord14(mixer1, 0, Filter_Select, 3);
-AudioConnection          patchCord15(filter1, 0, Filter_Select, 0);
-AudioConnection          patchCord16(filter1, 1, Filter_Select, 1);
-AudioConnection          patchCord17(filter1, 2, Filter_Select, 2);
-AudioConnection          patchCord18(Filter_Select, envelope1);
-AudioConnection          patchCord19(envelope1, chorus);
-AudioConnection          patchCord20(chorus, 0, i2s1, 0);
-AudioConnection          patchCord21(chorus, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=697.75,78.25000286102295
+AudioConnection          patchCord5(drum1, 0, mixer2, 1);
+AudioConnection          patchCord6(wavetable1, 0, mixer2, 0);
+AudioConnection          patchCord7(dc1, envelope2);
+AudioConnection          patchCord8(waveformMod1, Osc1switch);
+AudioConnection          patchCord9(waveformMod2, Osc2switch);
+AudioConnection          patchCord10(mixer2, 0, mixer1, 3);
+AudioConnection          patchCord11(pink1, 0, mixer1, 2);
+AudioConnection          patchCord12(envelope2, fModSwitch);
+AudioConnection          patchCord13(Osc1switch, 0, mixer1, 0);
+AudioConnection          patchCord14(Osc2switch, 0, mixer1, 1);
+AudioConnection          patchCord15(fModSwitch, 0, filter1, 1);
+AudioConnection          patchCord16(mixer1, 0, filter1, 0);
+AudioConnection          patchCord17(mixer1, 0, Filter_Select, 3);
+AudioConnection          patchCord18(filter1, 0, Filter_Select, 0);
+AudioConnection          patchCord19(filter1, 1, Filter_Select, 1);
+AudioConnection          patchCord20(filter1, 2, Filter_Select, 2);
+AudioConnection          patchCord21(Filter_Select, envelope1);
+AudioConnection          patchCord22(envelope1, chorus);
+AudioConnection          patchCord23(chorus, 0, i2s1, 0);
+AudioConnection          patchCord24(chorus, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=787,171
 // GUItool: end automatically generated code
 
-extern const unsigned short amelia320[];
+//extern const unsigned short amelia320[];
 
 #define LED_PIN 13
 #define TFT_DC  9
@@ -222,12 +229,14 @@ int globalNote;
 int osc1Waveform = WAVEFORM_SINE;
 float osc1Amplitude = 1.0;
 int osc1Octave = 0;
+int osc1Semis = 0;
 float osc1Detune = 1.0; // can range 1.0 to 0.85
 osc_mod_t osc1Mod = Mod_FM;
 
 int osc2Waveform = WAVEFORM_SAWTOOTH;
 float osc2Amplitude = 1.0;
 int osc2Octave = 0;
+int osc2Semis = 0;
 float osc2Detune = 1.0; // can range 1.0 to 0.85
 osc_mod_t osc2Mod = Mod_FM;
 
@@ -294,12 +303,12 @@ int encVal = 0;
 
 void dumpPatch() {
   Serial.println("====================================");
-  Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, detune=%.2f\n",
-                  waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Detune);
+  Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune=%.2f\n",
+                  waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Semis, osc1Detune);
   Serial.printf( "LFO1: wave=%s, freq=%.2fHz, ampl=%.2f, PWM=%.2f\n\n",
                   waves[lfo1Waveform], lfo1Freq, lfo1Amplitude, lfo1PWM);
-  Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, detune= %.2f\n",
-                  waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Detune);
+  Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune= %.2f\n",
+                  waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Semis, osc2Detune);
   Serial.printf( "LFO2: wave=%s, freq=%.2fHz, ampl=%.2f, PWM=%.2f\n\n",
                   waves[lfo2Waveform], lfo2Freq, lfo2Amplitude, lfo2PWM);
   Serial.printf( "Filter: band=%s, freq=%.2fHz, res=%.2f, DC=%.2f, modulated=%u\n\n",
@@ -361,6 +370,7 @@ void oscillatorsOn() {
   note = globalNote;  
 
   note += osc1Octave; // -24, -12, 0, 12 or 24
+  note += osc1Semis;
   if (note < 0) {
     note = 0;
   }
@@ -373,8 +383,11 @@ void oscillatorsOn() {
   Serial.printf("so freq1 = %.2fHz, ", freq);
   waveformMod1.frequency(freq);
 
+  //wavetable1.playFrequency(freq, 127);
+
   note = globalNote;
   note += osc2Octave; // -24, -12, 0, 12 or 24
+  note += osc2Semis;
   if (note < 0) {
     note = 0;
   }
@@ -394,7 +407,8 @@ void oscillatorsOn() {
 
 void oscillatorsOff() {
   envelope1.noteOff();
-  envelope2.noteOff();  
+  envelope2.noteOff();
+  wavetable1.stop();
 }
 
 void sortNotes() {
@@ -502,7 +516,8 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
   }
   else {
     blackKey(keybd[note - 48].offset, false);
-  }  digitalWrite(LED_PIN, LOW);
+  }
+  digitalWrite(LED_PIN, LOW);
   arpNumDown--;
   if (!arpLatch) {
     // remove the off note from the array
@@ -540,6 +555,9 @@ void updateMix(Mix_change_t change) {
   mixer1.gain(0, osc1Amp);  
   mixer1.gain(1, osc2Amp);
   mixer1.gain(2, noiseAmp);
+  mixer1.gain(3, 1.0); // let drums/wavetable through
+  mixer2.gain(0, 1.0); // wavetable
+  mixer2.gain(1, 1.0); // drums
   if ((change == W1) || (change == AllMix)) {
     w1_val = BAR_HEIGHT - mapf(osc1Amp, 0.0, 1.0, 0, BAR_HEIGHT);
     drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, w1_val, (change == AllMix) ? "1" : NULL);
@@ -742,13 +760,13 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     // 107, 108, 109 are for filter (band, freq, res)
     case 107:
-      if (value == 127) {
+      if (value == 0) {
         filtBand = FILT_OFF;
       }
-      else if (value < 43) {
+      else if (value == 1) {
         filtBand= LPF;
       }
-      else if ((value >= 43) && (value < 86)) {
+      else if (value = 2) {
         filtBand= BPF;
       }
       else {
@@ -776,36 +794,36 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     case 116:
     case 117:
       int change;
-      switch (value / 16) {
-        case 0:
+      switch (value) {
+        case 1:
           change = WAVEFORM_SINE;
           break;
-        case 1:
+        case 2:
           change = WAVEFORM_SAWTOOTH;
           break;
-        case 2:
+        case 3:
           change = WAVEFORM_SAWTOOTH_REVERSE;
           break;
-        case 3:
+        case 4:
           change = WAVEFORM_SQUARE;
           break;
-        case 4:
+        case 5:
           change = WAVEFORM_TRIANGLE;
           break;
-        case 5:
+        case 6:
           change = WAVEFORM_SAMPLE_HOLD;
           break;
-        case 6:
+        case 7:
           change = WAVEFORM_ARBITRARY;
           break;
-        case 7:
+        case 8:
           change = WAVEFORM_PULSE;
           break;
       }
-      Serial.printf("Wave: %s (", (value == 127) ? "Off" : waves[change]);
+      Serial.printf("Wave: %s (", (value == 0) ? "Off" : waves[change]);
       if (control == 110) {
         Serial.println("LFO1)");
-        if (value == 127) {
+        if (value == 0) {
           LFO1switch.gain(0);          
         }
         else {
@@ -857,7 +875,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 114:
-      lfo1Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      lfo1Amplitude = mapf(value, 0, 127, 0.0, 0.4);
       Serial.printf("LFO1 amplitude = %.2f\n", lfo1Amplitude);
       updateLFO1();
       break;
@@ -876,7 +894,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 115:
-      lfo2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
+      lfo2Amplitude = mapf(value, 0, 127, 0.0, 0.4);
       Serial.printf("LFO2 amplitude = %.2f\n", lfo2Amplitude);
       updateLFO2();
       break;
@@ -887,27 +905,27 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateLFO2();
       break;
 
-    // Osc1 has wave (above), Ampl, Octave, FineTune
+    // Osc1 has wave (above), Semis, Octave, FineTune
     case 118:
-      osc1Amplitude = mapf(value, 0, 127, 0.0, 1.0);
-      Serial.printf("Osc1 amplitude = %.2f\n", osc1Amplitude);
+      osc1Semis = mapf(value, 0.0, 127, 0, 12);
+      Serial.printf("Osc1 semis = %u\n", osc1Semis);
       updateOsc1();
       break;
 
     case 23:
-      if (value < 26) {
+      if (value == 0) {
         osc1Octave = -24;
       }
-      else if ((value >= 26) && (value < 52)) {
+      else if (value == 1) {
         osc1Octave = -12;
       }
-      else if ((value >= 52) && (value < 78)) {
+      else if (value == 2) {
         osc1Octave = 0;
       }
-      else if ((value >= 78) && (value < 104)) {
+      else if (value == 3) {
         osc1Octave = 12;
       }
-      else if (value >= 104) {
+      else if (value == 4) {
         osc1Octave = 24;
       }
       Serial.printf("Osc1 Octave: %d\n", osc1Octave);
@@ -925,25 +943,25 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     // Osc2 has wave (above), Freq, Ampl, Octave, FineTune
     case 119:
-      osc2Amplitude = mapf(value, 0, 127, 0.0, 1.0);
-      Serial.printf("Osc2 amplitude = %.2f\n", osc2Amplitude);
+      osc2Semis = mapf(value, 0, 127, 0.0, 12);
+      Serial.printf("Osc2 amplitude = %u\n", osc2Semis);
       updateOsc2();
       break;
 
     case 26:
-      if (value < 26) {
+      if (value == 0) {
         osc2Octave = -24;
       }
-      else if ((value >= 26) && (value < 52)) {
+      else if (value == 1) {
         osc2Octave = -12;
       }
-      else if ((value >= 52) && (value < 78)) {
+      else if (value == 2) {
         osc2Octave = 0;
       }
-      else if ((value >= 78) && (value < 104)) {
+      else if (value == 3) {
         osc2Octave = 12;
       }
-      else if (value >= 104) {
+      else if (value == 4) {
         osc2Octave = 24;
       }
       Serial.printf("Osc2 Octave: %d\n", osc2Octave);
@@ -1001,28 +1019,28 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 85:
-      if (value < 24) {
+      if (value == 0) {
         arpMode = Arp_Off;
         Serial.println("Arp Off");
         oscillatorsOff();
         arpStoreIndex = 0;
         arpPlayIndex = 0;
       }
-      else if (value < 48) {
+      else if (value == 1) {
         arpMode = Arp_Up;
         Serial.println("Arp Up");
         arpPlayIndex = 0;
         arpDelayActive = false;
         arpPlayOctave = 1;
       }
-      else if (value < 72) {
+      else if (value == 2) {
         arpMode = Arp_Down;
         Serial.println("Arp Down");
         arpPlayIndex = 0;
         arpDelayActive = false;
         arpPlayOctave = arpOctave;
       }
-      else if (value < 96) {
+      else if (value == 3) {
         arpMode = Arp_UpDown;
         Serial.println("Arp Up/Down");
         arpPlayIndex = 0;
@@ -1037,23 +1055,12 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 86:
-      if (value < 24) {
-        arpOctave = 0;
-      }
-      else if (value < 48) {
-        arpOctave = 1;;
-      }
-      else if (value < 72) {
-        arpOctave = 2;
-      }
-      else if (value < 96) {
-        arpOctave = 3;
-      }
+      arpOctave = value - 1;
       Serial.printf("Arp Octaves = %d\n", arpOctave + 1);
       break;
 
     case 87:
-      arpLatch = value; // 0 /1
+      arpLatch = (value != 0) ? 1 : 0; // 0 /1
       if (value == 0) {
         arpPlayIndex = 0;
         arpStoreIndex = 0;
@@ -1079,16 +1086,16 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 91:
-      if (value < 24) {
+      if (value == 0) {
         chorusVoices = 0;
       }
-      else if (value < 48) {
+      else if (value == 1) {
         chorusVoices = 2;
       }
-      else if (value < 72) {
+      else if (value == 2) {
         chorusVoices = 4;
       }
-      else if (value < 96) {
+      else if (value == 3) {
         chorusVoices = 6;
       }
       Serial.printf("Chorus = %u\n", chorusVoices);
@@ -1113,7 +1120,7 @@ void setup() {
   ts.begin();
   ts.setRotation(3);
   // show the pretty kitty
-  tft.writeRect(0, 0, 320, 240, amelia320);
+  //tft.writeRect(0, 0, 320, 240, amelia320);
   // and give the world a chance to marvel in her glory
   //delay(4000);
   // then clear the decks  tft.fillScreen(ILI9341_LIGHTGREY);
@@ -1163,6 +1170,8 @@ void setup() {
   //MIDI.setHandleNoteOff(OnNoteOff);
   //MIDI.setHandleNoteOn(OnNoteOn);
   //MIDI.setHandleControlChange(OnControlChange);
+  //wavetable1.setInstrument(ChurchOrgan);
+  wavetable1.amplitude(1);
 }
 
 void loop() {

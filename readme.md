@@ -21,6 +21,12 @@ Later I discovered "Ctrlr" which does the same but in a prettier way...
 
 ![keyb/controller layout](synthctrlr.png)
 
+Having received a bargain Novation Remote from ebay (£32!!) then I used
+its editor to define this control layout that hopefully matches the Ctrlr
+layout above:
+
+![Novation layout](novation.png)
+
 And this is a rough (very rough!) layout diagram to show how some
 of the bits connect together (I won't call it "schematic" as it doesn't
 deserve that title!):
