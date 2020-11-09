@@ -1,5 +1,6 @@
 #include <synth_wavetable.h>
 #include "NoteData.h"
+#include "ChurchOrg1_samples.h"
 #include <MIDI.h>
 #include <ILI9341_t3.h>
 #include <font_Arial.h>
@@ -11,7 +12,6 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
-
 // GUItool: begin automatically generated code
 AudioSynthWaveform       LFO1;           //xy=55,152
 AudioSynthWaveform       LFO2;           //xy=57,206
@@ -242,17 +242,17 @@ osc_mod_t osc2Mod = Mod_FM;
 
 // LFO settings
 int lfo1Waveform = WAVEFORM_SINE;
-float lfo1Freq = 13.0;
-float lfo1Amplitude = 0.02;
+float lfo1Freq = 0.0;
+float lfo1Amplitude = 0.0;
 float lfo1PWM = 0.0;
 
 int lfo2Waveform = WAVEFORM_SINE;
-float lfo2Freq = 6.0;
-float lfo2Amplitude = 0.02;
+float lfo2Freq = 0.0;
+float lfo2Amplitude = 0.0;
 float lfo2PWM = 0.0;
 
 // noise settings
-float noiseAmplitude = 1.0;
+float noiseAmplitude = 0.0;
 
 // Mixer settings
 float osc1Amp = 1.0;
@@ -383,7 +383,7 @@ void oscillatorsOn() {
   Serial.printf("so freq1 = %.2fHz, ", freq);
   waveformMod1.frequency(freq);
 
-  //wavetable1.playFrequency(freq, 127);
+//  wavetable1.playFrequency(freq, 127);
 
   note = globalNote;
   note += osc2Octave; // -24, -12, 0, 12 or 24
@@ -712,24 +712,25 @@ void updateChorus() {
 }
 
 void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {
+  int n;
   Serial.printf("CC: %u = %u ==> ", control, value);
   switch(control) {
     // 100, 101, 102 are Mixer controls for OSC1, OSC2 and Noise
     case 100:
       osc1Amp =  velocity2amplitude[value];
-      Serial.printf("Osc1 amplitude = %.2f\n", osc1Amp);
+      Serial.printf("Mix: Osc1 amplitude = %.2f\n", osc1Amp);
       updateMix(W1);
       break;
 
     case 101:
       osc2Amp = velocity2amplitude[value];
-      Serial.printf("Osc2 amplitude = %.2f\n", osc2Amp);
+      Serial.printf("Mix: Osc2 amplitude = %.2f\n", osc2Amp);
       updateMix(W2);
       break;
 
     case 102:
       noiseAmp = velocity2amplitude[value];
-      Serial.printf("Noise amplitude = %.2f\n", noiseAmp);
+      Serial.printf("Mix: Noise amplitude = %.2f\n", noiseAmp);
       updateMix(Noise);
       break;
 
@@ -760,6 +761,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     // 107, 108, 109 are for filter (band, freq, res)
     case 107:
+      value /= 20;
       if (value == 0) {
         filtBand = FILT_OFF;
       }
@@ -794,8 +796,13 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     case 116:
     case 117:
       int change;
+      value /= 10;
       switch (value) {
+        case 0:
+          // nothing for now as it'll be used to disable source below
+          break;
         case 1:
+        default:
           change = WAVEFORM_SINE;
           break;
         case 2:
@@ -834,7 +841,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       if (control == 111) {
         Serial.println("LFO2)");
-        if (value == 127) {
+        if (value == 0) {
           LFO2switch.gain(0);
         }
         else {
@@ -845,7 +852,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       if (control == 116) {
         Serial.println("OSC1)");
-        if (value == 127) {
+        if (value == 0) {
           Osc1switch.gain(0);
         }
         else {
@@ -856,7 +863,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       if (control == 117) {
         Serial.println("OSC2)");
-        if (value == 127) {
+        if (value == 0) {
           Osc2switch.gain(0);
         }
         else {
@@ -913,21 +920,9 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 23:
-      if (value == 0) {
-        osc1Octave = -24;
-      }
-      else if (value == 1) {
-        osc1Octave = -12;
-      }
-      else if (value == 2) {
-        osc1Octave = 0;
-      }
-      else if (value == 3) {
-        osc1Octave = 12;
-      }
-      else if (value == 4) {
-        osc1Octave = 24;
-      }
+      value = (value > 48) ? 48 : value;
+      n = (value / 12) * 12;
+      osc1Octave = n - 24;
       Serial.printf("Osc1 Octave: %d\n", osc1Octave);
       break;
 
@@ -938,32 +933,26 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     case 14:
       Serial.printf("Osc1 modulation = %s\n", value == 0 ? "FM" : "PM");
-      // 0 = FM, 1 = PM
+      // 0..63 = FM, 64..127 = PM
+      if (value < 64) {
+        osc1Mod = Mod_FM;
+      }
+      else {
+        osc1Mod = Mod_PM;
+      }
       break;
 
     // Osc2 has wave (above), Freq, Ampl, Octave, FineTune
     case 119:
       osc2Semis = mapf(value, 0, 127, 0.0, 12);
-      Serial.printf("Osc2 amplitude = %u\n", osc2Semis);
+      Serial.printf("Osc2 semis = %u\n", osc2Semis);
       updateOsc2();
       break;
 
     case 26:
-      if (value == 0) {
-        osc2Octave = -24;
-      }
-      else if (value == 1) {
-        osc2Octave = -12;
-      }
-      else if (value == 2) {
-        osc2Octave = 0;
-      }
-      else if (value == 3) {
-        osc2Octave = 12;
-      }
-      else if (value == 4) {
-        osc2Octave = 24;
-      }
+      value = (value > 48) ? 48 : value;
+      n = (value / 12) * 12;
+      osc2Octave = n - 24;
       Serial.printf("Osc2 Octave: %d\n", osc2Octave);
       break;
 
@@ -974,7 +963,13 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     case 15:
       Serial.printf("Osc2 modulation = %s\n", value == 0 ? "FM" : "PM");
-      // 0 = FM, 1 = PM
+      // 0..63 = FM, 64..127 = PM
+      if (value < 64) {
+        osc2Mod = Mod_FM;
+      }
+      else {
+        osc2Mod = Mod_PM;
+      }
       break;
 
     // ADSR for filter
@@ -1010,7 +1005,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     case 31:
       // use amp as a 0/1 switch for filter DC modulation
-      filtMod = (value == 0) ? 0 : 1;
+      filtMod = (value < 64) ? 0 : 1;
       Serial.printf("Modulation = %d\n", filtMod);
       updateFiltADSR();
       if (filtMod == 0) {
@@ -1019,6 +1014,8 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 85:
+      value /= 20;
+      value *= 20;
       if (value == 0) {
         arpMode = Arp_Off;
         Serial.println("Arp Off");
@@ -1026,21 +1023,21 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
         arpStoreIndex = 0;
         arpPlayIndex = 0;
       }
-      else if (value == 1) {
+      else if (value == 20) {
         arpMode = Arp_Up;
         Serial.println("Arp Up");
         arpPlayIndex = 0;
         arpDelayActive = false;
         arpPlayOctave = 1;
       }
-      else if (value == 2) {
+      else if (value == 40) {
         arpMode = Arp_Down;
         Serial.println("Arp Down");
         arpPlayIndex = 0;
         arpDelayActive = false;
         arpPlayOctave = arpOctave;
       }
-      else if (value == 3) {
+      else if (value == 60) {
         arpMode = Arp_UpDown;
         Serial.println("Arp Up/Down");
         arpPlayIndex = 0;
@@ -1055,12 +1052,12 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 86:
-      arpOctave = value - 1;
+      arpOctave = (value / 20);
       Serial.printf("Arp Octaves = %d\n", arpOctave + 1);
       break;
 
     case 87:
-      arpLatch = (value != 0) ? 1 : 0; // 0 /1
+      arpLatch = (value >= 64) ? 1 : 0; // 0 /1
       if (value == 0) {
         arpPlayIndex = 0;
         arpStoreIndex = 0;
@@ -1086,20 +1083,31 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       break;
 
     case 91:
+      value /= 20;
+      value *= 20;
       if (value == 0) {
         chorusVoices = 0;
       }
-      else if (value == 1) {
+      else if (value == 20) {
         chorusVoices = 2;
       }
-      else if (value == 2) {
+      else if (value == 40) {
         chorusVoices = 4;
       }
-      else if (value == 3) {
+      else if (value == 60) {
         chorusVoices = 6;
       }
       Serial.printf("Chorus = %u\n", chorusVoices);
       updateChorus();
+      break;
+
+    case 123:
+      // MIDI PANIC!!
+      arpPlayIndex = 0;
+      arpStoreIndex = 0;
+      arpPlayOctave = 1;
+      arpLatch = 0;
+      oscillatorsOff();
       break;
 
     default:
@@ -1158,6 +1166,7 @@ void setup() {
   updateFilterBand();
   updateFilter();
   initChorus();
+  updateChorus();
   arpMode = Arp_Off;
   arpLatch = false;
   arpOctave = 0;
@@ -1170,7 +1179,7 @@ void setup() {
   //MIDI.setHandleNoteOff(OnNoteOff);
   //MIDI.setHandleNoteOn(OnNoteOn);
   //MIDI.setHandleControlChange(OnControlChange);
-  //wavetable1.setInstrument(ChurchOrgan);
+  wavetable1.setInstrument(ChurchOrg1);
   wavetable1.amplitude(1);
 }
 
