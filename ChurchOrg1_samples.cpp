@@ -1,6 +1,6 @@
 #include "ChurchOrg1_samples.h"
 
-static const uint32_t PROGMEM sample_0_ChurchOrg1_C_ORG46A[1152] = {
+static const PROGMEM uint32_t sample_0_ChurchOrg1_C_ORG46A[1152] = {
 0x00080000,0x003d002e,0x0050002d,0x003d0070,0x007a002d,0x00d30096,0x00e800e2,0xffdc00a6,
 0x00760084,0x0025ffd4,0xff4effb7,0xffbfff64,0x00d10001,0x01c5017d,0x00d101ff,0x00910164,
 0x01cb0098,0x0204016c,0x0274023b,0x019101ca,0x008800d6,0xff18ffda,0xfeadffe9,0x0073ff7d,
@@ -139,7 +139,7 @@ static const uint32_t PROGMEM sample_0_ChurchOrg1_C_ORG46A[1152] = {
 0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
 };
 
-static const uint32_t PROGMEM sample_1_ChurchOrg1_C_ORG56A[896] = {
+static const PROGMEM uint32_t sample_1_ChurchOrg1_C_ORG56A[896] = {
 0x00030000,0x0003ffff,0xfff2fff7,0xffcdffdd,0xff8bffaa,0xff3fff67,0xfef6ff17,0xfeb3fece,
 0xfe8ffe96,0xfe91fe81,0xfebafe9b,0xff0ffeda,0xff82ff42,0x0016ffbb,0x00c90063,0x01680112,
 0x019c0193,0x0132017d,0x006500ce,0xfeeeffc0,0xfd31fde3,0xfccbfcd5,0xfd7bfcf0,0xfe58fdee,
@@ -243,7 +243,7 @@ static const uint32_t PROGMEM sample_1_ChurchOrg1_C_ORG56A[896] = {
 0x00000000,0x00000000,0x00000000,
 };
 
-static const uint32_t PROGMEM sample_2_ChurchOrg1_C_ORG66A[512] = {
+static const PROGMEM uint32_t sample_2_ChurchOrg1_C_ORG66A[512] = {
 0xffde0000,0xffa1ffc0,0xfffdffa1,0x00f8008e,0x01a1017d,0x01e301bb,0x03840310,0x036e02a9,
 0x044c050a,0x048703ea,0x021e03a1,0x018a027f,0xfd16ff52,0xf86df93b,0xf707f872,0xf9c6f83a,
 0xfc7cfb52,0xff84fee4,0xfe61feb0,0xff08fee0,0xffd9fe7f,0x062902ce,0x05af06b7,0xfeab035b,
@@ -302,7 +302,7 @@ static const uint32_t PROGMEM sample_2_ChurchOrg1_C_ORG66A[512] = {
 
 };
 
-static const uint32_t PROGMEM sample_3_ChurchOrg1_C_ORG78A[640] = {
+static const PROGMEM uint32_t sample_3_ChurchOrg1_C_ORG78A[640] = {
 0x00030000,0x00990020,0x00d600f6,0x0083005f,0x015b012e,0xfef8004b,0xfefafe7b,0xfdc7fed9,
 0xfdedfd10,0xffd5ff7f,0xfe60fe9e,0x01fa0013,0x01500260,0x021800e6,0x016402a3,0x0001ffa3,
 0x052702b0,0x040104f7,0x06ad0491,0x053e0754,0x020a0295,0x014f02a2,0xf853fcb5,0xf803f73c,
@@ -385,7 +385,7 @@ static const uint32_t PROGMEM sample_3_ChurchOrg1_C_ORG78A[640] = {
 0x9731b783,0xc9bdbba6,0xe549cefa,0x0000138d,0x00000000,
 };
 
-static const uint32_t PROGMEM sample_4_ChurchOrg1_C_ORG90A[512] = {
+static const PROGMEM uint32_t sample_4_ChurchOrg1_C_ORG90A[512] = {
 0xfff00000,0xffa2ffa9,0xffceff02,0x00af00a4,0xffec00ae,0xfd71ffb4,0xfc8afbcc,0x00b7ffa2,
 0xfee1ff10,0xfd0cfd76,0x00e3fce4,0x065c05fe,0x02aa0592,0x015f0234,0xfdc3ff74,0x018dfd1d,
 0xff7702cd,0x0019fd10,0xff6d0284,0x063001f5,0x00d3026d,0x0832077c,0xf197f969,0x08680046,
@@ -575,7 +575,7 @@ static const PROGMEM AudioSynthWavetable::sample_data ChurchOrg1_samples[5] = {
 	},
 };
 
-static const uint8_t PROGMEM ChurchOrg1_ranges[] = {52, 60, 73, 86, 127, };
+static const PROGMEM uint8_t ChurchOrg1_ranges[] = {52, 60, 73, 86, 127, };
 
-const AudioSynthWavetable::instrument_data PROGMEM ChurchOrg1 = {5, ChurchOrg1_ranges, ChurchOrg1_samples };
+const PROGMEM AudioSynthWavetable::instrument_data ChurchOrg1 = {5, ChurchOrg1_ranges, ChurchOrg1_samples };
 

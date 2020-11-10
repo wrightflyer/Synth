@@ -1,3 +1,3 @@
 #pragma once
 #include <Audio.h>
-extern const AudioSynthWavetable::instrument_data PROGMEM ChurchOrg1;
+extern const PROGMEM AudioSynthWavetable::instrument_data ChurchOrg1;

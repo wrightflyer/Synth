@@ -252,7 +252,7 @@ float lfo2Amplitude = 0.0;
 float lfo2PWM = 0.0;
 
 // noise settings
-float noiseAmplitude = 0.0;
+float noiseAmplitude = 1.0;
 
 // Mixer settings
 float osc1Amp = 1.0;
