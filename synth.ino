@@ -231,6 +231,7 @@ float osc1Amplitude = 1.0;
 int osc1Octave = 0;
 int osc1Semis = 0;
 float osc1Detune = 1.0; // can range 1.0 to 0.85
+float osc1PB = 1.0;
 osc_mod_t osc1Mod = Mod_FM;
 
 int osc2Waveform = WAVEFORM_SAWTOOTH;
@@ -238,6 +239,7 @@ float osc2Amplitude = 1.0;
 int osc2Octave = 0;
 int osc2Semis = 0;
 float osc2Detune = 1.0; // can range 1.0 to 0.85
+float osc2PB = 1.0;
 osc_mod_t osc2Mod = Mod_FM;
 
 // LFO settings
@@ -380,6 +382,7 @@ void oscillatorsOn() {
   Serial.printf("Osc1 note=%d ", note);
   float freq = tune_frequencies2_PGM[note];
   freq *= osc1Detune; // mult 0.85 .. 1.0
+  freq *= osc1PB;
   Serial.printf("so freq1 = %.2fHz, ", freq);
   waveformMod1.frequency(freq);
 
@@ -397,12 +400,14 @@ void oscillatorsOn() {
   Serial.printf("Osc2 note=%d ", note);
   freq = tune_frequencies2_PGM[note];
   freq *= osc2Detune; // mult 0.85 .. 1.0
+  freq *= osc2PB;
   Serial.printf("freq2 = %.2fHz\n", freq);
   waveformMod2.frequency(freq);
   // sound ADSR
   envelope1.noteOn();
   // filter ADSR
   envelope2.noteOn();
+//  Serial.println("Both Env triggered");
 }
 
 void oscillatorsOff() {
@@ -661,7 +666,7 @@ void updateOsc1() {
   }
   else {
     //TODO: consider allowing phase mod range to be changed
-    waveformMod1.phaseModulation(9000);
+    waveformMod1.phaseModulation(180);
   }
 }
 
@@ -672,7 +677,7 @@ void updateOsc2() {
     waveformMod2.frequencyModulation(12);
   }
   else {
-    waveformMod2.phaseModulation(9000);
+    waveformMod2.phaseModulation(180);
   }
 }
 
@@ -715,6 +720,9 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
   int n;
   Serial.printf("CC: %u = %u ==> ", control, value);
   switch(control) {
+    case 1:
+      Serial.println("Mod wheel");
+      break;
     // 100, 101, 102 are Mixer controls for OSC1, OSC2 and Noise
     case 100:
       osc1Amp =  velocity2amplitude[value];
@@ -1116,6 +1124,25 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
   }
 }
 
+void onPitchChange(byte channel, int pitch) {
+  float change = 0.0;
+  Serial.printf("Pitch change: %d\n", pitch);
+  if (pitch == 0) {
+    osc1PB = 1.0;
+    osc2PB = 1.0;
+  }
+  else {
+    change = (0.5 / 8192) * pitch;
+    osc1PB = 1.0 + change;
+    osc2PB = 1.0 + change;
+  }
+  Serial.printf("Pitch change: %d so bend = %.05f, osc1PB = %.02f, osc2PB = %.02f\n", pitch, change, osc1PB, osc2PB);
+  if (arpNumDown != 0) {
+    // something already playing so retrigger with new freq
+    oscillatorsOn();
+  }
+}
+
 void setup() {
   pinMode(LED_PIN, OUTPUT);
   pinMode(JOY_SW, INPUT_PULLUP);
@@ -1176,6 +1203,7 @@ void setup() {
   usbMIDI.setHandleNoteOff(OnNoteOff);
   usbMIDI.setHandleNoteOn(OnNoteOn);
   usbMIDI.setHandleControlChange(OnControlChange);
+  usbMIDI.setHandlePitchChange(onPitchChange);
   //MIDI.setHandleNoteOff(OnNoteOff);
   //MIDI.setHandleNoteOn(OnNoteOn);
   //MIDI.setHandleControlChange(OnControlChange);
