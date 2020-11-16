@@ -1,6 +1,6 @@
 #include <synth_wavetable.h>
 #include "NoteData.h"
-#include "ChurchOrg1_samples.h"
+#include "GMinst.h"
 #include <MIDI.h>
 #include <ILI9341_t3.h>
 #include <font_Arial.h>
@@ -1207,7 +1207,7 @@ void setup() {
   //MIDI.setHandleNoteOff(OnNoteOff);
   //MIDI.setHandleNoteOn(OnNoteOn);
   //MIDI.setHandleControlChange(OnControlChange);
-  wavetable1.setInstrument(ChurchOrg1);
+  wavetable1.setInstrument(GMinst[19]); // should be Church Organ
   wavetable1.amplitude(1);
 }
 
