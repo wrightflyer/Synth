@@ -87,9 +87,10 @@ AudioControlSGTL5000     sgtl5000_1;     //xy=787,171
 
 typedef enum {
   AllMix,
-  W1,
-  W2,
-  Noise
+  OSC1,
+  OSC2,
+  Noise,
+  WaveTable
 } Mix_change_t;
 
 typedef enum {
@@ -218,6 +219,15 @@ char * arpModes[] = {
   "Random"
 };
 
+char * instrumentNames[] = {
+  "Piano",
+  "Church Organ",
+  "Flute",
+  "Violin",
+  "Guitar",
+  "Fantasy"
+};
+
 // Number of samples in each delay line
 #define CHORUS_DELAY_LENGTH (32*AUDIO_BLOCK_SAMPLES)
 // Allocate the delay lines for left and right channels
@@ -242,6 +252,13 @@ float osc2Detune = 1.0; // can range 1.0 to 0.85
 float osc2PB = 1.0;
 osc_mod_t osc2Mod = Mod_FM;
 
+// noise settings
+float noiseAmplitude = 1.0;
+
+// wavetable
+int waveInstrument = 0; // piano
+float waveAmplitude = 1.0;
+
 // LFO settings
 int lfo1Waveform = WAVEFORM_SINE;
 float lfo1Freq = 0.0;
@@ -253,13 +270,11 @@ float lfo2Freq = 0.0;
 float lfo2Amplitude = 0.0;
 float lfo2PWM = 0.0;
 
-// noise settings
-float noiseAmplitude = 1.0;
-
 // Mixer settings
 float osc1Amp = 1.0;
-float osc2Amp = 0.4;
-float noiseAmp = 0.2;
+float osc2Amp = 0.0;
+float noiseAmp = 0.0;
+float waveAmp = 0.0;
 
 // ADSR envelope settings
 float envAttack = 10.5;
@@ -319,8 +334,8 @@ void dumpPatch() {
                   envAttack, envDecay, envSustain, envRelease);
   Serial.printf( "Filter ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n\n",
                   filtEnvA, filtEnvD, filtEnvS, filtEnvR);
-  Serial.printf( "Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f\n\n",
-                  osc1Amp, osc2Amp, noiseAmp);
+  Serial.printf( "Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f, wavetab=%.2f\n\n",
+                  osc1Amp, osc2Amp, noiseAmp, waveAmp);
   Serial.printf( " Arpeggiator: arpMode=%s, arpPeriod=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\n",
                   arpModes[arpMode], arpPeriod, arpOctave, arpLatch, arpDelay, arpTranspose);
   Serial.println("====================================");
@@ -386,7 +401,7 @@ void oscillatorsOn() {
   Serial.printf("so freq1 = %.2fHz, ", freq);
   waveformMod1.frequency(freq);
 
-//  wavetable1.playFrequency(freq, 127);
+  wavetable1.playFrequency(freq, 127);
 
   note = globalNote;
   note += osc2Octave; // -24, -12, 0, 12 or 24
@@ -560,14 +575,14 @@ void updateMix(Mix_change_t change) {
   mixer1.gain(0, osc1Amp);  
   mixer1.gain(1, osc2Amp);
   mixer1.gain(2, noiseAmp);
-  mixer1.gain(3, 1.0); // let drums/wavetable through
-  mixer2.gain(0, 1.0); // wavetable
-  mixer2.gain(1, 1.0); // drums
-  if ((change == W1) || (change == AllMix)) {
+  mixer1.gain(3, waveAmp); // let drums/wavetable through
+  mixer2.gain(0, 1.0); // wavetable - always available
+  mixer2.gain(1, 1.0); // drums - always available
+  if ((change == OSC1) || (change == AllMix)) {
     w1_val = BAR_HEIGHT - mapf(osc1Amp, 0.0, 1.0, 0, BAR_HEIGHT);
     drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, w1_val, (change == AllMix) ? "1" : NULL);
   }
-  if ((change == W2) || (change == AllMix)) {
+  if ((change == OSC2) || (change == AllMix)) {
     w2_val = BAR_HEIGHT - mapf(osc2Amp, 0.0, 1.0, 0, BAR_HEIGHT);
     drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, w2_val, (change == AllMix) ? "2" : NULL);
   }
@@ -576,8 +591,8 @@ void updateMix(Mix_change_t change) {
     drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, noise_val, (change == AllMix) ? "N" : NULL);
   }
   #if 0
-  Serial.printf("Mixer: Osc1 = %.02f, Osc2 = %.02f, Noise = %.02f, w1 = %u, w2 = %u, noise =%u\n", 
-    osc1Amp, osc2Amp, noiseAmp, w1_val, w2_val, noise_val);
+  Serial.printf("Mixer: Osc1 = %.02f, Osc2 = %.02f, Noise = %.02f, WaveTab=%.02f, w1 = %u, w2 = %u, noise =%u\n", 
+    osc1Amp, osc2Amp, noiseAmp, waveAmp, w1_val, w2_val, noise_val);
     #endif
 }
 
@@ -699,6 +714,11 @@ void updateNoise() {
   pink1.amplitude(noiseAmplitude);
 }
 
+void updateWave() {
+  wavetable1.amplitude(waveAmplitude);
+  wavetable1.setInstrument(*GMinst[waveInstrument]);
+}
+
 void initChorus() {
   chorusVoices = 0; // off by default
 
@@ -723,17 +743,23 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     case 1:
       Serial.println("Mod wheel");
       break;
-    // 100, 101, 102 are Mixer controls for OSC1, OSC2 and Noise
-    case 100:
+    // 76, 76, 102, 77 are Mixer controls for OSC1, OSC2, Noise, Wavetable
+    case 75:
       osc1Amp =  velocity2amplitude[value];
       Serial.printf("Mix: Osc1 amplitude = %.2f\n", osc1Amp);
-      updateMix(W1);
+      updateMix(OSC1);
       break;
 
-    case 101:
+    case 76:
       osc2Amp = velocity2amplitude[value];
       Serial.printf("Mix: Osc2 amplitude = %.2f\n", osc2Amp);
-      updateMix(W2);
+      updateMix(OSC2);
+      break;
+
+    case 77:
+      waveAmp = velocity2amplitude[value];
+      Serial.printf("Mix: Wavetable amplitude = %.2f\n", waveAmp);
+      updateMix(WaveTable);
       break;
 
     case 102:
@@ -1143,12 +1169,18 @@ void onPitchChange(byte channel, int pitch) {
   }
 }
 
+void onProgramChange(byte channel, byte program) {
+  waveInstrument = program % 6; // currently so limit 0..5
+  Serial.printf("Progran change: %u = %s\n", waveInstrument, instrumentNames[waveInstrument]);
+  updateWave();
+}
+
 void setup() {
   pinMode(LED_PIN, OUTPUT);
   pinMode(JOY_SW, INPUT_PULLUP);
   Serial.begin(9600);
   Serial1.begin(31250);
-  Serial.println("Alive");
+  Serial.println("The bastard is Alive!");
   MIDI.begin(); 
   tft.begin();
   tft.setRotation(3);
@@ -1187,6 +1219,7 @@ void setup() {
   updateNoise(); // this probably fixed at 1.0 (mixer varies level)
   updateLFO1();
   updateLFO2();
+//  updateWave();
   updateMix(AllMix);
   updateADSR(AllADSR);
   updateFiltADSR();
@@ -1204,11 +1237,10 @@ void setup() {
   usbMIDI.setHandleNoteOn(OnNoteOn);
   usbMIDI.setHandleControlChange(OnControlChange);
   usbMIDI.setHandlePitchChange(onPitchChange);
+  usbMIDI.setHandleProgramChange(onProgramChange);
   //MIDI.setHandleNoteOff(OnNoteOff);
   //MIDI.setHandleNoteOn(OnNoteOn);
   //MIDI.setHandleControlChange(OnControlChange);
-  wavetable1.setInstrument(GMinst[19]); // should be Church Organ
-  wavetable1.amplitude(1);
 }
 
 void loop() {
