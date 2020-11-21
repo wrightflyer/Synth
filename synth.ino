@@ -225,7 +225,13 @@ char * instrumentNames[] = {
   "Flute",
   "Violin",
   "Guitar",
-  "Fantasy"
+  "SpaceVoices",
+  "Harpsichord",
+  "Glockenspiel",
+  "Tubularbells",
+  "ChoirAahs",
+  "Synth Drum",
+  "Steel Drums"
 };
 
 // Number of samples in each delay line
@@ -1158,7 +1164,9 @@ void onPitchChange(byte channel, int pitch) {
     osc2PB = 1.0;
   }
   else {
+    // pitch is -8192 to +8192 so convert that to -0.5 to +0.5
     change = (0.5 / 8192) * pitch;
+    // so swing from 0.5 to 1.5
     osc1PB = 1.0 + change;
     osc2PB = 1.0 + change;
   }
@@ -1170,7 +1178,7 @@ void onPitchChange(byte channel, int pitch) {
 }
 
 void onProgramChange(byte channel, byte program) {
-  waveInstrument = program % 6; // currently so limit 0..5
+  waveInstrument = program % 12; // currently so limit 0..11
   Serial.printf("Progran change: %u = %s\n", waveInstrument, instrumentNames[waveInstrument]);
   updateWave();
 }
@@ -1219,7 +1227,7 @@ void setup() {
   updateNoise(); // this probably fixed at 1.0 (mixer varies level)
   updateLFO1();
   updateLFO2();
-//  updateWave();
+  updateWave();
   updateMix(AllMix);
   updateADSR(AllADSR);
   updateFiltADSR();
