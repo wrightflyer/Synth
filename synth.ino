@@ -231,7 +231,21 @@ char * instrumentNames[] = {
   "Tubularbells",
   "ChoirAahs",
   "Synth Drum",
-  "Steel Drums"
+  "Steel Drums",
+  "Banjo",
+  "Bird",
+  "BottleBlow",
+  "Brightness",
+  "Clarinet",
+  "Epiano2",
+  "EchoDrops",
+  "Harp",
+  "Honkytonk",
+  "Marimba",
+  "OrchestraHit",
+  "PanFlute",
+  "StarTheme",
+  "Xylophone"
 };
 
 // Number of samples in each delay line
@@ -494,11 +508,13 @@ end procedure
 void OnNoteOn(byte channel, byte note, byte velocity) {
   Serial.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
   digitalWrite(LED_PIN, HIGH);
-  if (keybd[note - 48].type == 0) {
-    whiteKey((int)keybd[note - 48].offset, true);
-  }
-  else {
-    blackKey((int)keybd[note - 48].offset, true);
+  if (note >= 48) {
+    if (keybd[note - 48].type == 0) {
+      whiteKey((int)keybd[note - 48].offset, true);
+    }
+    else {
+      blackKey((int)keybd[note - 48].offset, true);
+    }
   }
   globalNote = note;
   arpNumDown++;
@@ -537,11 +553,13 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
 }
 
 void OnNoteOff(byte channel, byte note, byte velocity) {
-  if (keybd[note - 48].type == 0) {
-    whiteKey(keybd[note - 48].offset, false);
-  }
-  else {
-    blackKey(keybd[note - 48].offset, false);
+  if (note >= 48) {
+    if (keybd[note - 48].type == 0) {
+      whiteKey(keybd[note - 48].offset, false);
+    }
+    else {
+      blackKey(keybd[note - 48].offset, false);
+    }
   }
   digitalWrite(LED_PIN, LOW);
   arpNumDown--;
@@ -1178,7 +1196,7 @@ void onPitchChange(byte channel, int pitch) {
 }
 
 void onProgramChange(byte channel, byte program) {
-  waveInstrument = program % 12; // currently so limit 0..11
+  waveInstrument = program % 26; // currently so limit 0..25
   Serial.printf("Progran change: %u = %s\n", waveInstrument, instrumentNames[waveInstrument]);
   updateWave();
 }
