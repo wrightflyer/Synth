@@ -26,6 +26,27 @@
 #include "PanFlute_samples.h"
 #include "StarTheme_samples.h"
 #include "Xylophone_samples.h"
+#include "Bandoneon_samples.h"
+#include "BaritoneSax_samples.h"
+#include "Bassoon_samples.h"
+#include "BowedGlass_samples.h"
+#include "BreathNoise_samples.h"
+#include "ChurchBell_samples.h"
+#include "Clav_samples.h"
+#include "EPiano1_samples.h"
+#include "GtHarmonics_samples.h"
+#include "Harmonica_samples.h"
+#include "Helicopter_samples.h"
+#include "Kalimba_samples.h"
+#include "MusicBox_samples.h"
+#include "PizzicatoStr_samples.h"
+#include "ReedOrgan_samples.h"
+#include "Santur_samples.h"
+#include "Sitar_samples.h"
+#include "Taiko_samples.h"
+#include "Telephone1_samples.h"
+#include "TinkleBell_samples.h"
+#include "Whistle_samples.h"
 
 // the following are some of the 128 instruments in the General MIDI 
 // instrument bank
@@ -38,7 +59,6 @@ const PROGMEM AudioSynthWavetable::instrument_data * GMinst[] = {
     &SpaceVoice,
     &Harpsichord,
     &Glockenspiel,
-    &Tubularbell,
     &ChoirAahs,
     &SynthDrum,
     &SteelDrums,
@@ -55,5 +75,27 @@ const PROGMEM AudioSynthWavetable::instrument_data * GMinst[] = {
     &OrchestraHit,
     &PanFlute,
     &StarTheme,
-    &Xylophone
+    &Xylophone,
+    &Bandoneon,
+    &BaritoneSax,
+    &Bassoon,
+    &BowedGlass,
+    &BreathNoise,
+    &ChurchBell,
+    &Clav,
+    &EPiano1,
+    &GtHarmonics,
+    &Harmonica,
+    &Helicopter,
+    &Kalimba,
+    &MusicBox,
+    &PizzicatoStr,
+    &ReedOrgan,
+    &Santur,
+    &Sitar,
+    &Taiko,
+    &Telephone1,
+    &TinkleBell,
+    &Whistle,
+    &Tubularbell
 };

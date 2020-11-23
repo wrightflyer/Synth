@@ -225,11 +225,10 @@ char * instrumentNames[] = {
   "Flute",
   "Violin",
   "Guitar",
-  "SpaceVoices",
+  "Space Voices",
   "Harpsichord",
   "Glockenspiel",
-  "Tubularbells",
-  "ChoirAahs",
+  "Choir Aahs",
   "Synth Drum",
   "Steel Drums",
   "Banjo",
@@ -237,15 +236,52 @@ char * instrumentNames[] = {
   "BottleBlow",
   "Brightness",
   "Clarinet",
-  "Epiano2",
-  "EchoDrops",
+  "Electric Piano 2",
+  "Echo Drops",
   "Harp",
-  "Honkytonk",
+  "Honky Tonk",
   "Marimba",
-  "OrchestraHit",
-  "PanFlute",
-  "StarTheme",
-  "Xylophone"
+  "Orchestra Hit",
+  "Pan Flute",
+  "Star Theme",
+  "Xylophone",
+  "Bandoneon",
+  "Baritone Sax",
+  "Bassoon",
+  "Bowed Glass",
+  "Breath Noise",
+  "Church Bell",
+  "Clavinet",
+  "Eelectric Piano 1",
+  "Guitar Harmonics",
+  "Harmonica",
+  "Helicopter",
+  "Kalimba",
+  "Music Box",
+  "Pizzicato Strings",
+  "Reed Organ",
+  "Santur",
+  "Sitar",
+  "Taiko",
+  "Telephone",
+  "Tinkle Bell",
+  "Whistle",
+  "Tubular Bells"
+};
+
+char * noteNames[] = {
+  "C",
+  "C# / Db",
+  "D",
+  "D# / Eb",
+  "E",
+  "F",
+  "F# / Gb",
+  "G",
+  "G# / Ab",
+  "A",
+  "A# / Bb",
+  "B"
 };
 
 // Number of samples in each delay line
@@ -414,7 +450,7 @@ void oscillatorsOn() {
   if (note > 127) {
     note = 127;
   }
-  Serial.printf("Osc1 note=%d ", note);
+  Serial.printf("Osc1 note=%d (%s%u) ", note, noteNames[note %12], (note / 12) - 1);
   float freq = tune_frequencies2_PGM[note];
   freq *= osc1Detune; // mult 0.85 .. 1.0
   freq *= osc1PB;
@@ -432,7 +468,7 @@ void oscillatorsOn() {
   if (note > 127) {
     note = 127;
   }
-  Serial.printf("Osc2 note=%d ", note);
+  Serial.printf("Osc2 note=%d (%s%u) ", note, noteNames[note %12], (note / 12) - 1);
   freq = tune_frequencies2_PGM[note];
   freq *= osc2Detune; // mult 0.85 .. 1.0
   freq *= osc2PB;
@@ -1196,7 +1232,7 @@ void onPitchChange(byte channel, int pitch) {
 }
 
 void onProgramChange(byte channel, byte program) {
-  waveInstrument = program % 26; // currently so limit 0..25
+  waveInstrument = program % 47; // currently so limit 0..48
   Serial.printf("Progran change: %u = %s\n", waveInstrument, instrumentNames[waveInstrument]);
   updateWave();
 }
