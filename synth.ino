@@ -614,6 +614,14 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
     Serial.println(); // finish note info logging
     // just consider adding notes to be played to the Arp array
 
+    if ((arpMode == Arp_Scale) && (arpStoreIndex != 0)) {
+      // already playing a scale so clear all notes to allow
+      // new one to be added
+      arpStoreIndex = 0;
+      arpPlayIndex = 0;
+      arpPlayOctave = 1;
+    }
+
 #if 0
     if (arpNumDown == 1) {
       // start of new group
