@@ -113,7 +113,8 @@ typedef enum {
   Arp_Up,
   Arp_Down,
   Arp_UpDown,
-  Arp_Random
+  Arp_Random,
+  Arp_Scale
 } arp_mode_t;
 
 typedef enum {
@@ -175,53 +176,35 @@ scale_t scaleModes[] = {
   { "Enigmatic",      7, {1, 3, 2, 2, 2, 1, 1} },
   { "Flamenco",       7, {1, 3, 1, 2, 1, 3, 1} },
   { "Half Dimnished", 7, {2, 1, 2, 1, 2, 2, 2} },
+  { "Harmonic Maj",   7, {2, 2, 1, 2, 1, 3, 1} },
+  { "Harmonic Min",   7, {2, 1, 2, 2, 1, 3, 1} },
+  { "Hirajoshi",      5, {4, 2, 1, 4, 1} },
+  { "Hungarian Gyp",  7, {2, 1, 3, 1, 1, 3, 1} },
+  { "Hungarian Maj",  7, {3, 1, 2, 1, 2, 1, 2} },
+  { "Insen",          5, {1, 4, 2, 4, 2} },
+  { "Istrian",        4, {1, 2, 1, 2} },
+  { "Iwato",          5, {1, 4, 1, 4, 2} },
+  { "Lydian (Aug)",   7, {2, 2, 2, 2, 1, 2, 1} },
+  { "Major BeBop",    8, {2, 2, 1, 2, 1, 1, 2, 1} },
+  { "Major Locrian",  7, {2, 2, 1, 1, 2, 2, 2} },
+  { "Major Pent",     5, {2, 2, 3, 2, 3} },
+  { "Melodic Min Asc",7, {2, 1, 2, 2, 2, 2, 1} },
+  { "Melodic Min Des",7, {2, 2, 1, 2, 2, 1, 2} },
+  { "Minor Pent",     5, {3, 2, 2, 3, 2} },
+  { "Neapolitan Maj", 7, {1, 2, 2, 2, 2, 2, 1} },
+  { "Neapolitan Min", 7, {1, 2, 2, 2, 1, 3, 1} },
+  { "Octanoic",       8, {2, 1, 2, 1, 2, 1, 2, 1} },
+  { "Persian",        7, {1, 3, 1, 1, 2, 3, 1} },
+  { "Phygrian Dom",   7, {1, 3, 1, 2, 1, 2, 2} },
+  { "Prometheus",     6, {2, 2, 2, 3, 1, 2} },
+  { "Harmonics",      6, {3, 1, 1, 2, 2, 3} },
+  { "Tritone",        6, {1, 2, 3, 1, 3, 2} },
+  { "2semi Tritone",  5, {1, 1, 4, 1, 1} },
+  { "Ukranian",       7, {2, 1, 3, 1, 2, 1, 2} },
+  { "Whole Tone",     6, {2, 2, 2, 2, 2, 2} },
+  { "Yo",             5, {3, 2, 2, 3, 2} }
 };
-
-char * modeNames[] = {
-  "Ionian (Major)", // T T S T T T S   ie 2, 2, 1, 2, 2, 2, 1
-  "Dorian",         // T S T T T S T   ie 2, 1, 2, 2, 2, 1, 2
-  "Phygrian",       // S T T T S T T   ie 1, 2, 2, 2, 1, 2, 2
-  "Lydian",         // T T T S T T S   ie 2, 2, 2, 1, 2, 2, 1
-  "Mixolydian",     // T T S T T S T   ie 2, 2, 1, 2, 2, 1, 2
-  "Aeolian (Minor)",// T S T T S T T   ie 2, 1, 2, 2, 1, 2, 2
-  "Locrian",        // S T T S T T T   ie 1, 2, 2, 1, 2, 2, 2
-
-  "Augmented",      // TS S TS S TS S    ie 3, 1, 3, 1, 3, 1
-  "BeBop",          // T T S T T S S S   ie 2, 2, 1, 2, 2, 1, 1, 1
-  "Blues",          // TS T S S TS T   ie 3, 2, 1, 1, 3, 2
-  "Chromatic",      // S S S S S S S S S S S S   ie 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-  "Double Harmonic",// S TS S T S TS S   ie 1, 3, 1, 2, 1, 3, 1
-  "Enigmatic",      // S TS T T T S S    ie 1, 3, 2, 2, 2, 1, 1
-  "Flamenco",       // S TS S T S TS S   ie 1, 3, 1, 2, 1, 3, 1
-  "Half Dimin",     // T S T S T T T    ie 2, 1, 2, 1, 2, 2, 2
-  "Harmonic Maj",   // T T S T S TS S   ie 2, 2, 1, 2, 1, 3, 1
-  "Harmonic Min",   // T S T T S TS S   ie 2, 1, 2, 2, 1, 3, 1
-  "Hirajoshi",      // TT T S TT S   ie 4, 2, 1, 4, 1
-  "Hungarian Gyp",  // T S TS S S TS S   ie 2, 1, 3, 1, 1, 3, 1
-  "Hungarian Maj",  // TS S T S T S T   ie 3, 1, 2, 1, 2, 1, 2
-  "Insen",          // S TT T TT T   ie 1, 4, 2, 4, 2
-  "Istrian",        // S T S T   ie 1, 2, 1, 2
-  "Iwato",          // S TT S TT T   ie 1, 4, 1, 4, 2
-  "Lydian (Aug)",   // T T T T S T S  ie 2, 2, 2, 2, 1, 2, 1
-  "Major BeBop",    // T T S T S S T S   ie 2, 2, 1, 2, 1, 1, 2, 1
-  "Major Locrian",  // T T S S T T T   ie 2, 2, 1, 1, 2, 2, 2
-  "Major Pent",     // T T TS T TS    ie 2, 2, 3, 2, 3
-  "Melodic Min Asc",// T S T T T T S   ie 2, 1, 2, 2, 2, 2, 1
-  "Melodic Min Des",// T T S T T S T   ie 2, 2, 1, 2, 2, 1, 2
-  "Minor Pent",     // TS T T TS T    ie 3, 2, 2, 3, 2
-  "Neapolitan Maj", // S T T T T T S   ie 1, 2, 2, 2, 2, 2, 1
-  "Neapolitan Min", // S T T T S TS S   ie 1, 2, 2, 2, 1, 3, 1
-  "Octanoic",       // T S T S T S T S   ie 2, 1, 2, 1, 2, 1, 2, 1
-  "Persian",        // S TS S S T TS S   ie 1, 3, 1, 1, 2, 3, 1
-  "Phygrian Dom",   // S TS ST S T T    ie 1, 3, 1, 2, 1, 2, 2
-  "Prometheus",     // T T T TS S T    ie 2, 2, 2, 3, 1, 2
-  "Harmonics",      // TS S S T T TS   ie 3, 1, 1, 2, 2, 3
-  "Tritone",        // S TS T S TS T   ie 1, 2, 3, 1, 3, 2
-  "2semi Tritone",  // S S TT S S    ie 1, 1, 4, 1, 1
-  "Ukranian",       // T S TS S T S T   ie 2, 1, 3, 1, 2, 1, 2
-  "Whole Tone",     // T T T T T T    ie 2, 2, 2, 2, 2, 2
-  "Yo"              // TS T T TS T   ie 3, 2, 2, 3, 2
-};
+int arpScaleMode;
 
 // keys from 48 up - black (1) or white (0)
 const keyb_t keybd[] = {
@@ -429,7 +412,7 @@ bool arpLatch;
 float arpDelay;
 bool arpDelayActive;
 int arpTranspose;
-byte arpNotes[8]; // Arpeggiate up to 8 notes
+byte arpNotes[20]; // Arpeggiate up to 20 notes
 int arpStoreIndex;
 int arpPlayIndex;
 int arpNumDown;
@@ -627,7 +610,7 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   if (arpMode == Arp_Off) {
     oscillatorsOn();
   }
-  else if (arpStoreIndex < 8) {
+  else if (arpStoreIndex < 20) {
     Serial.println(); // finish note info logging
     // just consider adding notes to be played to the Arp array
 
@@ -651,8 +634,18 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
     }
     // if not already in the array then add it (and sort into ascending order)
     if (!already) {
+      // usually just add one note to the sequence
       arpNotes[arpStoreIndex] = note;
       arpStoreIndex++;
+      // but want a whole scale if in scale mode...
+      if (arpMode == Arp_Scale) {
+        int currNote = note;
+        // but if Scale mode add all the other notes of this scale...
+        for (int n = 0; n < scaleModes[arpScaleMode].entries; n++) {
+          currNote += scaleModes[arpScaleMode].offsets[n];
+          arpNotes[arpStoreIndex++] = currNote;
+        }
+      }
       sortNotes();
     }
   }
@@ -1209,9 +1202,16 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
         arpDelayActive = false;
         arpPlayOctave = 1;
       }
-      else {
+      else if (value == 80) {
         arpMode = Arp_Random;
         Serial.println("Arp Random");
+      }
+      else if (value == 100) {
+        Serial.println("Arp Scales");
+        arpMode = Arp_Scale;
+        arpPlayIndex = 0;
+        arpDelayActive = false;
+        arpPlayOctave = 1;
       }
       break;
 
@@ -1263,6 +1263,11 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       Serial.printf("Chorus = %u\n", chorusVoices);
       updateChorus();
+      break;
+
+    case 92:
+      arpScaleMode = value;
+      Serial.printf("Scale = %s\n", scaleModes[value].name);
       break;
 
     case 123:
@@ -1565,6 +1570,7 @@ void loop() {
         oscillatorsOn(); // start new note ("globalNote") from ARP array
         switch(arpMode) {
           case Arp_Up:
+          case Arp_Scale:
             arpPlayIndex++;
             if (arpPlayIndex >= arpStoreIndex) {
               arpPlayIndex = 0;
