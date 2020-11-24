@@ -153,6 +153,76 @@ typedef struct {
   float offset;
 } keyb_t;
 
+typedef struct {
+  char name[20]; // max is actually 15
+  int entries;
+  char offsets[14]; // max actually 12
+} scale_t;
+
+scale_t scaleModes[] = {
+  { "Ionian (Major)", 7, {2, 2, 1, 2, 2, 2, 1} },
+  { "Dorian",         7, {2, 1, 2, 2, 2, 1, 2} },
+  { "Phygrian",       7, {1, 2, 2, 2, 1, 2, 2} },
+  { "Lydian",         7, {2, 2, 2, 1, 2, 2, 1} },
+  { "Mixolydian",     7, {2, 2, 1, 2, 2, 1, 2} },
+  { "Aeolian (Minor)",7, {2, 1, 2, 2, 1, 2, 2} },
+  { "Locrian",        7, {1, 2, 2, 1, 2, 2, 2} },
+  { "Augmented",      6, {3, 1, 3, 1, 3, 1} },
+  { "BeBop",          8, {2, 2, 1, 2, 2, 1, 1, 1} },
+  { "Blues",          6, {3, 2, 1, 1, 3, 2} },
+  { "Chromatic",      12, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} },
+  { "Double Harmonic",7, {1, 3, 1, 2, 1, 3, 1} },
+  { "Enigmatic",      7, {1, 3, 2, 2, 2, 1, 1} },
+  { "Flamenco",       7, {1, 3, 1, 2, 1, 3, 1} },
+  { "Half Dimnished", 7, {2, 1, 2, 1, 2, 2, 2} },
+};
+
+char * modeNames[] = {
+  "Ionian (Major)", // T T S T T T S   ie 2, 2, 1, 2, 2, 2, 1
+  "Dorian",         // T S T T T S T   ie 2, 1, 2, 2, 2, 1, 2
+  "Phygrian",       // S T T T S T T   ie 1, 2, 2, 2, 1, 2, 2
+  "Lydian",         // T T T S T T S   ie 2, 2, 2, 1, 2, 2, 1
+  "Mixolydian",     // T T S T T S T   ie 2, 2, 1, 2, 2, 1, 2
+  "Aeolian (Minor)",// T S T T S T T   ie 2, 1, 2, 2, 1, 2, 2
+  "Locrian",        // S T T S T T T   ie 1, 2, 2, 1, 2, 2, 2
+
+  "Augmented",      // TS S TS S TS S    ie 3, 1, 3, 1, 3, 1
+  "BeBop",          // T T S T T S S S   ie 2, 2, 1, 2, 2, 1, 1, 1
+  "Blues",          // TS T S S TS T   ie 3, 2, 1, 1, 3, 2
+  "Chromatic",      // S S S S S S S S S S S S   ie 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+  "Double Harmonic",// S TS S T S TS S   ie 1, 3, 1, 2, 1, 3, 1
+  "Enigmatic",      // S TS T T T S S    ie 1, 3, 2, 2, 2, 1, 1
+  "Flamenco",       // S TS S T S TS S   ie 1, 3, 1, 2, 1, 3, 1
+  "Half Dimin",     // T S T S T T T    ie 2, 1, 2, 1, 2, 2, 2
+  "Harmonic Maj",   // T T S T S TS S   ie 2, 2, 1, 2, 1, 3, 1
+  "Harmonic Min",   // T S T T S TS S   ie 2, 1, 2, 2, 1, 3, 1
+  "Hirajoshi",      // TT T S TT S   ie 4, 2, 1, 4, 1
+  "Hungarian Gyp",  // T S TS S S TS S   ie 2, 1, 3, 1, 1, 3, 1
+  "Hungarian Maj",  // TS S T S T S T   ie 3, 1, 2, 1, 2, 1, 2
+  "Insen",          // S TT T TT T   ie 1, 4, 2, 4, 2
+  "Istrian",        // S T S T   ie 1, 2, 1, 2
+  "Iwato",          // S TT S TT T   ie 1, 4, 1, 4, 2
+  "Lydian (Aug)",   // T T T T S T S  ie 2, 2, 2, 2, 1, 2, 1
+  "Major BeBop",    // T T S T S S T S   ie 2, 2, 1, 2, 1, 1, 2, 1
+  "Major Locrian",  // T T S S T T T   ie 2, 2, 1, 1, 2, 2, 2
+  "Major Pent",     // T T TS T TS    ie 2, 2, 3, 2, 3
+  "Melodic Min Asc",// T S T T T T S   ie 2, 1, 2, 2, 2, 2, 1
+  "Melodic Min Des",// T T S T T S T   ie 2, 2, 1, 2, 2, 1, 2
+  "Minor Pent",     // TS T T TS T    ie 3, 2, 2, 3, 2
+  "Neapolitan Maj", // S T T T T T S   ie 1, 2, 2, 2, 2, 2, 1
+  "Neapolitan Min", // S T T T S TS S   ie 1, 2, 2, 2, 1, 3, 1
+  "Octanoic",       // T S T S T S T S   ie 2, 1, 2, 1, 2, 1, 2, 1
+  "Persian",        // S TS S S T TS S   ie 1, 3, 1, 1, 2, 3, 1
+  "Phygrian Dom",   // S TS ST S T T    ie 1, 3, 1, 2, 1, 2, 2
+  "Prometheus",     // T T T TS S T    ie 2, 2, 2, 3, 1, 2
+  "Harmonics",      // TS S S T T TS   ie 3, 1, 1, 2, 2, 3
+  "Tritone",        // S TS T S TS T   ie 1, 2, 3, 1, 3, 2
+  "2semi Tritone",  // S S TT S S    ie 1, 1, 4, 1, 1
+  "Ukranian",       // T S TS S T S T   ie 2, 1, 3, 1, 2, 1, 2
+  "Whole Tone",     // T T T T T T    ie 2, 2, 2, 2, 2, 2
+  "Yo"              // TS T T TS T   ie 3, 2, 2, 3, 2
+};
+
 // keys from 48 up - black (1) or white (0)
 const keyb_t keybd[] = {
   { 0, 0 },
