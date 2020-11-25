@@ -158,9 +158,9 @@ typedef struct {
   char name[20]; // max is actually 15
   int entries;
   char offsets[14]; // max actually 12
-} scale_t;
+} scale_chord_t;
 
-scale_t scaleModes[] = {
+const scale_chord_t scaleModes[] = {
   { "Ionian (Major)", 7, {2, 2, 1, 2, 2, 2, 1} },
   { "Dorian",         7, {2, 1, 2, 2, 2, 1, 2} },
   { "Phygrian",       7, {1, 2, 2, 2, 1, 2, 2} },
@@ -205,6 +205,22 @@ scale_t scaleModes[] = {
   { "Yo",             5, {3, 2, 2, 3, 2} }
 };
 int arpScaleMode;
+
+const scale_chord_t chordPatterns[] = {
+  { "Major Triad", 2, {4, 7}},
+  { "Major 6th",   3, {4, 7, 9}},
+  { "Dom 7th",     3, {4, 7, 10}},
+  { "Major 7th",   3, {4, 7, 11}},
+  { "Aug Triad",   2, {4, 8}},
+  { "Aug 7th",     3, {4, 8, 10}},
+  { "Minor Triad", 2, {3, 7}},
+  { "Minor 6th",   3, {3, 7, 9}},
+  { "Minor 7th",   3, {3, 7, 10}},
+  { "Min-Maj 7th", 3, {3, 7, 11}},
+  { "Dim Triad",   2, {3, 6}},
+  { "Dim 7th",     3, {3, 6, 9}},
+  { "Half  Dim 7th",3,{3, 6, 10}}
+};
 
 // keys from 48 up - black (1) or white (0)
 const keyb_t keybd[] = {
@@ -319,6 +335,41 @@ char * instrumentNames[] = {
   "Telephone",
   "Tinkle Bell",
   "Whistle",
+  "Applause",
+  "Contrabass",
+  "Crystal",
+  "English Horn",
+  "Goblin",
+  "MeloTom 1",
+  "Oboe",
+  "Organ 2",
+  "Piccolo",
+  "Recorder",
+  "Reverse Cymbal",
+  "Shamisen",
+  "AccordionFr",
+  "AltoSax",
+  "Cello",
+  "ChifferLead",
+  "Fiddle",
+  "FingeredBs",
+  "Koto",
+  "MutedGt",
+  "Ocarina",
+  "Organ3",
+  "Shanai",
+  "SoloVox",
+  "TenorSax",
+  "Atmosphere",
+  "Bagpipe",
+  "Fantasia",
+  "IceRain",
+  "Seashore",
+  "SlapBass2",
+  "SynVox",
+  "Tuba",
+  "Viola",
+  "VoiceOohs",
   "Tubular Bells"
 };
 
@@ -371,12 +422,12 @@ float waveAmplitude = 1.0;
 // LFO settings
 int lfo1Waveform = WAVEFORM_SINE;
 float lfo1Freq = 0.0;
-float lfo1Amplitude = 0.0;
+float lfo1Depth = 0.0;
 float lfo1PWM = 0.0;
 
 int lfo2Waveform = WAVEFORM_SINE;
 float lfo2Freq = 0.0;
-float lfo2Amplitude = 0.0;
+float lfo2Depth = 0.0;
 float lfo2PWM = 0.0;
 
 // Mixer settings
@@ -431,12 +482,12 @@ void dumpPatch() {
   Serial.println("====================================");
   Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune=%.2f\n",
                   waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Semis, osc1Detune);
-  Serial.printf( "LFO1: wave=%s, freq=%.2fHz, ampl=%.2f, PWM=%.2f\n\n",
-                  waves[lfo1Waveform], lfo1Freq, lfo1Amplitude, lfo1PWM);
+  Serial.printf( "LFO1: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\n\n",
+                  waves[lfo1Waveform], lfo1Freq, lfo1Depth, lfo1PWM);
   Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune= %.2f\n",
                   waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Semis, osc2Detune);
-  Serial.printf( "LFO2: wave=%s, freq=%.2fHz, ampl=%.2f, PWM=%.2f\n\n",
-                  waves[lfo2Waveform], lfo2Freq, lfo2Amplitude, lfo2PWM);
+  Serial.printf( "LFO2: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\n\n",
+                  waves[lfo2Waveform], lfo2Freq, lfo2Depth, lfo2PWM);
   Serial.printf( "Filter: band=%s, freq=%.2fHz, res=%.2f, DC=%.2f, modulated=%u\n\n",
                   bands[filtBand], filterFreq, filterRes, filtDC, filtMod);
   Serial.printf( "Mix ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n",
@@ -830,14 +881,14 @@ void updateOsc2() {
 void updateLFO1() {
   LFO1.begin(lfo1Waveform);
   LFO1.frequency(lfo1Freq);
-  LFO1.amplitude(lfo1Amplitude);
+  LFO1.amplitude(lfo1Depth);
   LFO1.pulseWidth(lfo1PWM);
 }
 
 void updateLFO2() {
   LFO2.begin(lfo2Waveform);
   LFO2.frequency(lfo2Freq);
-  LFO2.amplitude(lfo2Amplitude);
+  LFO2.amplitude(lfo2Depth);
   LFO2.pulseWidth(lfo2PWM);
 }
 
@@ -1041,14 +1092,19 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     // other LF01 settings
     case 112:
-      lfo1Freq = mapf(value, 0, 127, 0.0, 20.0);
+      if (value < 64) {
+        lfo1Freq = mapf(value, 0, 64, 0.0, 20.0);        
+      }
+      else {
+        lfo1Freq = mapf(value, 64, 127, 20.0, 200.0);
+      }
       Serial.printf("LFO1 freq = %.2fHz\n", lfo1Freq);
       updateLFO1();
       break;
 
     case 114:
-      lfo1Amplitude = mapf(value, 0, 127, 0.0, 0.4);
-      Serial.printf("LFO1 amplitude = %.2f\n", lfo1Amplitude);
+      lfo1Depth = mapf(value, 0, 127, 0.0, 0.2);
+      Serial.printf("LFO1 depth = %.2f\n", lfo1Depth);
       updateLFO1();
       break;
 
@@ -1060,14 +1116,19 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
 
     // other LFO2 settings
     case 113:
-      lfo2Freq = mapf(value, 0, 127, 0.0, 20.0);
+      if (value < 64) {
+        lfo2Freq = mapf(value, 0, 64, 0.0, 20.0);        
+      }
+      else {
+        lfo2Freq = mapf(value, 64, 127, 20.0, 200.0);
+      }
       Serial.printf("LFO2 freq = %.2fHz\n", lfo2Freq);
       updateLFO2();
       break;
 
     case 115:
-      lfo2Amplitude = mapf(value, 0, 127, 0.0, 0.4);
-      Serial.printf("LFO2 amplitude = %.2f\n", lfo2Amplitude);
+      lfo2Depth = mapf(value, 0, 127, 0.0, 0.2);
+      Serial.printf("LFO2 depth = %.2f\n", lfo2Depth);
       updateLFO2();
       break;
 
@@ -1315,7 +1376,7 @@ void onPitchChange(byte channel, int pitch) {
 }
 
 void onProgramChange(byte channel, byte program) {
-  waveInstrument = program % 47; // currently so limit 0..48
+  waveInstrument = program % 82; // currently so limit 0..81
   Serial.printf("Progran change: %u = %s\n", waveInstrument, instrumentNames[waveInstrument]);
   updateWave();
 }

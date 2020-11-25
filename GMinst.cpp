@@ -47,6 +47,41 @@
 #include "Telephone1_samples.h"
 #include "TinkleBell_samples.h"
 #include "Whistle_samples.h"
+#include "Applause_samples.h"
+#include "Contrabass_samples.h"
+#include "Crystal_samples.h"
+#include "EnglishHorn_samples.h"
+#include "Goblin_samples.h"
+#include "MeloTom1_samples.h"
+#include "Oboe_samples.h"
+#include "Organ2_samples.h"
+#include "Piccolo_samples.h"
+#include "Recorder_samples.h"
+#include "ReverseCym_samples.h"
+#include "Shamisen_samples.h"
+#include "AccordionFr_samples.h"
+#include "AltoSax_samples.h"
+#include "Cello_samples.h"
+#include "ChifferLead_samples.h"
+#include "Fiddle_samples.h"
+#include "FingeredBs_samples.h"
+#include "Koto_samples.h"
+#include "MutedGt_samples.h"
+#include "Ocarina_samples.h"
+#include "Organ3_samples.h"
+#include "Shanai_samples.h"
+#include "SoloVox_samples.h"
+#include "TenorSax_samples.h"
+#include "Atmosphere_samples.h"
+#include "Bagpipe_samples.h"
+#include "Fantasia_samples.h"
+#include "IceRain_samples.h"
+#include "Seashore_samples.h"
+#include "SlapBass2_samples.h"
+#include "SynVox_samples.h"
+#include "Tuba_samples.h"
+#include "Viola_samples.h"
+#include "VoiceOohs_samples.h"
 
 // the following are some of the 128 instruments in the General MIDI 
 // instrument bank
@@ -97,5 +132,40 @@ const PROGMEM AudioSynthWavetable::instrument_data * GMinst[] = {
     &Telephone1,
     &TinkleBell,
     &Whistle,
+    &Applause,
+    &Contrabass,
+    &Crystal,
+    &EnglishHorn,
+    &Goblin,
+    &MeloTom1,
+    &Oboe,
+    &Organ2,
+    &Piccolo,
+    &Recorder,
+    &ReverseCym,
+    &Shamisen,
+    &AccordionFr,
+    &AltoSax,
+    &Cello,
+    &ChifferLead,
+    &Fiddle,
+    &FingeredBs,
+    &Koto,
+    &MutedGt,
+    &Ocarina,
+    &Organ3,
+    &Shanai,
+    &SoloVox,
+    &TenorSax,
+	&Atmosphere,
+	&Bagpipe,
+	&Fantasia,
+	&IceRain,
+	&Seashore,
+	&SlapBass2,
+	&SynVox,
+	&Tuba,
+	&Viola,
+	&VoiceOohs,
     &Tubularbell
 };
