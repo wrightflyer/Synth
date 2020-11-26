@@ -82,6 +82,13 @@
 #include "Tuba_samples.h"
 #include "Viola_samples.h"
 #include "VoiceOohs_samples.h"
+#include "5thSawWave_samples.h"
+#include "Charang_samples.h"
+#include "CleanGt_samples.h"
+#include "MutedTrumpet_samples.h"
+#include "Trombone_samples.h"
+#include "Trumpet_samples.h"
+#include "Vibraphone_samples.h"
 
 // the following are some of the 128 instruments in the General MIDI 
 // instrument bank
@@ -157,15 +164,22 @@ const PROGMEM AudioSynthWavetable::instrument_data * GMinst[] = {
     &Shanai,
     &SoloVox,
     &TenorSax,
-	&Atmosphere,
-	&Bagpipe,
-	&Fantasia,
-	&IceRain,
-	&Seashore,
-	&SlapBass2,
-	&SynVox,
-	&Tuba,
-	&Viola,
-	&VoiceOohs,
+    &Atmosphere,
+    &Bagpipe,
+    &Fantasia,
+    &IceRain,
+    &Seashore,
+    &SlapBass2,
+    &SynVox,
+    &Tuba,
+    &Viola,
+    &VoiceOohs,
+    &FifthSawWave,
+    &Charang,
+    &CleanGt,
+    &MutedTrumpet,
+    &Trombone,
+    &Trumpet,
+    &Vibraphone,
     &Tubularbell
 };

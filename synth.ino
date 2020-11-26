@@ -370,6 +370,13 @@ char * instrumentNames[] = {
   "Tuba",
   "Viola",
   "VoiceOohs",
+  "5th Saw Wave",
+  "Charang",
+  "CleanGt",
+  "Muted Trumpet",
+  "Trombone",
+  "Trumpet",
+  "Vibraphone",
   "Tubular Bells"
 };
 
@@ -1376,7 +1383,7 @@ void onPitchChange(byte channel, int pitch) {
 }
 
 void onProgramChange(byte channel, byte program) {
-  waveInstrument = program % 82; // currently so limit 0..81
+  waveInstrument = program % 89; // currently so limit 0..88
   Serial.printf("Progran change: %u = %s\n", waveInstrument, instrumentNames[waveInstrument]);
   updateWave();
 }
