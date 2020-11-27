@@ -1,10 +1,13 @@
 #include <synth_wavetable.h>
+#include "types.h"
+#include "defines.h"
+#include "constdata.h"
+#include "globals.h"
 #include "NoteData.h"
 #include "GMinst.h"
+#include "drawing.h"
 #include <MIDI.h>
 #include <ILI9341_t3.h>
-#include <font_Arial.h>
-#include <font_ArialBold.h>
 #include <XPT2046_Touchscreen.h>
 #include <Encoder.h>
 #include <Audio.h>
@@ -63,64 +66,7 @@ AudioControlSGTL5000     sgtl5000_1;     //xy=787,171
 
 //extern const unsigned short amelia320[];
 
-#define LED_PIN 13
-#define TFT_DC  9
-#define TFT_CS 10
-#define TOUCH_CS 8
-#define JOY_SW 2
-#define JOY_X 8 // pin 22
-#define JOY_Y 5 // pin 19
 
-#define PANEL_H 140
-#define BAR_HEIGHT 100
-#define BAR_WIDTH 20
-#define BAR_OFFSET 15
-#define MIX_PANEL_X 10
-#define MIX_PANEL_Y 20
-#define MIX_PANEL_W 80
-#define ADSR_PANEL_X 120
-#define ADSR_PANEL_Y 20
-#define ADSR_PANEL_W 100
-#define KEYB_X  10
-#define KEYB_Y  200
-#define KEY_WIDTH 12
-
-typedef enum {
-  AllMix,
-  OSC1,
-  OSC2,
-  Noise,
-  WaveTable
-} Mix_change_t;
-
-typedef enum {
-  AllADSR,
-  Attack,
-  Decay,
-  Sustain,
-  Release
-} ADSR_change_t;
-
-typedef enum {
-  FILT_OFF,
-  LPF,
-  BPF,
-  HPF
-} filter_band_t;
-
-typedef enum {
-  Arp_Off,
-  Arp_Up,
-  Arp_Down,
-  Arp_UpDown,
-  Arp_Random,
-  Arp_Scale
-} arp_mode_t;
-
-typedef enum {
-  Mod_FM,
-  Mod_PM
-} osc_mod_t;
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
@@ -149,341 +95,6 @@ MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
         
 ============================================================*/
 
-typedef struct {
-  uint8_t type;
-  float offset;
-} keyb_t;
-
-typedef struct {
-  char name[20]; // max is actually 15
-  int entries;
-  char offsets[14]; // max actually 12
-} scale_chord_t;
-
-const scale_chord_t scaleModes[] = {
-  { "Ionian (Major)", 7, {2, 2, 1, 2, 2, 2, 1} },
-  { "Dorian",         7, {2, 1, 2, 2, 2, 1, 2} },
-  { "Phygrian",       7, {1, 2, 2, 2, 1, 2, 2} },
-  { "Lydian",         7, {2, 2, 2, 1, 2, 2, 1} },
-  { "Mixolydian",     7, {2, 2, 1, 2, 2, 1, 2} },
-  { "Aeolian (Minor)",7, {2, 1, 2, 2, 1, 2, 2} },
-  { "Locrian",        7, {1, 2, 2, 1, 2, 2, 2} },
-  { "Augmented",      6, {3, 1, 3, 1, 3, 1} },
-  { "BeBop",          8, {2, 2, 1, 2, 2, 1, 1, 1} },
-  { "Blues",          6, {3, 2, 1, 1, 3, 2} },
-  { "Chromatic",      12, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} },
-  { "Double Harmonic",7, {1, 3, 1, 2, 1, 3, 1} },
-  { "Enigmatic",      7, {1, 3, 2, 2, 2, 1, 1} },
-  { "Flamenco",       7, {1, 3, 1, 2, 1, 3, 1} },
-  { "Half Dimnished", 7, {2, 1, 2, 1, 2, 2, 2} },
-  { "Harmonic Maj",   7, {2, 2, 1, 2, 1, 3, 1} },
-  { "Harmonic Min",   7, {2, 1, 2, 2, 1, 3, 1} },
-  { "Hirajoshi",      5, {4, 2, 1, 4, 1} },
-  { "Hungarian Gyp",  7, {2, 1, 3, 1, 1, 3, 1} },
-  { "Hungarian Maj",  7, {3, 1, 2, 1, 2, 1, 2} },
-  { "Insen",          5, {1, 4, 2, 4, 2} },
-  { "Istrian",        4, {1, 2, 1, 2} },
-  { "Iwato",          5, {1, 4, 1, 4, 2} },
-  { "Lydian (Aug)",   7, {2, 2, 2, 2, 1, 2, 1} },
-  { "Major BeBop",    8, {2, 2, 1, 2, 1, 1, 2, 1} },
-  { "Major Locrian",  7, {2, 2, 1, 1, 2, 2, 2} },
-  { "Major Pent",     5, {2, 2, 3, 2, 3} },
-  { "Melodic Min Asc",7, {2, 1, 2, 2, 2, 2, 1} },
-  { "Melodic Min Des",7, {2, 2, 1, 2, 2, 1, 2} },
-  { "Minor Pent",     5, {3, 2, 2, 3, 2} },
-  { "Neapolitan Maj", 7, {1, 2, 2, 2, 2, 2, 1} },
-  { "Neapolitan Min", 7, {1, 2, 2, 2, 1, 3, 1} },
-  { "Octanoic",       8, {2, 1, 2, 1, 2, 1, 2, 1} },
-  { "Persian",        7, {1, 3, 1, 1, 2, 3, 1} },
-  { "Phygrian Dom",   7, {1, 3, 1, 2, 1, 2, 2} },
-  { "Prometheus",     6, {2, 2, 2, 3, 1, 2} },
-  { "Harmonics",      6, {3, 1, 1, 2, 2, 3} },
-  { "Tritone",        6, {1, 2, 3, 1, 3, 2} },
-  { "2semi Tritone",  5, {1, 1, 4, 1, 1} },
-  { "Ukranian",       7, {2, 1, 3, 1, 2, 1, 2} },
-  { "Whole Tone",     6, {2, 2, 2, 2, 2, 2} },
-  { "Yo",             5, {3, 2, 2, 3, 2} }
-};
-int arpScaleMode;
-
-const scale_chord_t chordPatterns[] = {
-  { "Major Triad", 2, {4, 7}},
-  { "Major 6th",   3, {4, 7, 9}},
-  { "Dom 7th",     3, {4, 7, 10}},
-  { "Major 7th",   3, {4, 7, 11}},
-  { "Aug Triad",   2, {4, 8}},
-  { "Aug 7th",     3, {4, 8, 10}},
-  { "Minor Triad", 2, {3, 7}},
-  { "Minor 6th",   3, {3, 7, 9}},
-  { "Minor 7th",   3, {3, 7, 10}},
-  { "Min-Maj 7th", 3, {3, 7, 11}},
-  { "Dim Triad",   2, {3, 6}},
-  { "Dim 7th",     3, {3, 6, 9}},
-  { "Half  Dim 7th",3,{3, 6, 10}}
-};
-
-// keys from 48 up - black (1) or white (0)
-const keyb_t keybd[] = {
-  { 0, 0 },
-  { 1, KEY_WIDTH * 0.5 },
-  { 0, KEY_WIDTH },
-  { 1, KEY_WIDTH * 1.5 },
-  { 0, KEY_WIDTH * 2 },
-  { 0, KEY_WIDTH * 3 },
-  { 1, KEY_WIDTH * 3.5 },
-  { 0, KEY_WIDTH * 4 },
-  { 1, KEY_WIDTH * 4.5 },
-  { 0, KEY_WIDTH * 5 },
-  { 1, KEY_WIDTH * 5.5 },
-  { 0, KEY_WIDTH * 6 },
-  { 0, KEY_WIDTH * 7 },
-  { 1, KEY_WIDTH * 7.5 },
-  { 0, KEY_WIDTH * 8 },
-  { 1, KEY_WIDTH * 8.5 },
-  { 0, KEY_WIDTH * 9 },
-  { 0, KEY_WIDTH * 10 },
-  { 1, KEY_WIDTH * 10.5 },
-  { 0, KEY_WIDTH * 11 },
-  { 1, KEY_WIDTH * 11.5 },
-  { 0, KEY_WIDTH * 12 },
-  { 1, KEY_WIDTH * 12.5 },
-  { 0, KEY_WIDTH * 13 },
-  { 0, KEY_WIDTH * 14 },
-  { 1, KEY_WIDTH * 14.5 },
-  { 0, KEY_WIDTH * 15 },
-  { 1, KEY_WIDTH * 15.5 },
-  { 0, KEY_WIDTH * 16 },
-  { 0, KEY_WIDTH * 17 },
-  { 1, KEY_WIDTH * 17.5 },
-  { 0, KEY_WIDTH * 18 },
-  { 1, KEY_WIDTH * 18.5 },
-  { 0, KEY_WIDTH * 19 },
-  { 1, KEY_WIDTH * 19.5 },
-  { 0, KEY_WIDTH * 20 }
-};
-
-char * waves[] = {
-  "Sine",
-  "Saw",
-  "Square",
-  "Triangle",
-  "Arbitrary",
-  "Pulse",
-  "Rev Saw",
-  "S/H"
-};
-
-char * bands[] = {
-  "Off",
-  "LPF",
-  "BPF",
-  "HPF"
-};
-
-char * arpModes[] = {
-  "Off",
-  "Up",
-  "Down",
-  "Up/Down",
-  "Random"
-};
-
-char * instrumentNames[] = {
-  "Piano",
-  "Church Organ",
-  "Flute",
-  "Violin",
-  "Guitar",
-  "Space Voices",
-  "Harpsichord",
-  "Glockenspiel",
-  "Choir Aahs",
-  "Synth Drum",
-  "Steel Drums",
-  "Banjo",
-  "Bird",
-  "BottleBlow",
-  "Brightness",
-  "Clarinet",
-  "Electric Piano 2",
-  "Echo Drops",
-  "Harp",
-  "Honky Tonk",
-  "Marimba",
-  "Orchestra Hit",
-  "Pan Flute",
-  "Star Theme",
-  "Xylophone",
-  "Bandoneon",
-  "Baritone Sax",
-  "Bassoon",
-  "Bowed Glass",
-  "Breath Noise",
-  "Church Bell",
-  "Clavinet",
-  "Eelectric Piano 1",
-  "Guitar Harmonics",
-  "Harmonica",
-  "Helicopter",
-  "Kalimba",
-  "Music Box",
-  "Pizzicato Strings",
-  "Reed Organ",
-  "Santur",
-  "Sitar",
-  "Taiko",
-  "Telephone",
-  "Tinkle Bell",
-  "Whistle",
-  "Applause",
-  "Contrabass",
-  "Crystal",
-  "English Horn",
-  "Goblin",
-  "MeloTom 1",
-  "Oboe",
-  "Organ 2",
-  "Piccolo",
-  "Recorder",
-  "Reverse Cymbal",
-  "Shamisen",
-  "AccordionFr",
-  "AltoSax",
-  "Cello",
-  "ChifferLead",
-  "Fiddle",
-  "FingeredBs",
-  "Koto",
-  "MutedGt",
-  "Ocarina",
-  "Organ3",
-  "Shanai",
-  "SoloVox",
-  "TenorSax",
-  "Atmosphere",
-  "Bagpipe",
-  "Fantasia",
-  "IceRain",
-  "Seashore",
-  "SlapBass2",
-  "SynVox",
-  "Tuba",
-  "Viola",
-  "VoiceOohs",
-  "5th Saw Wave",
-  "Charang",
-  "CleanGt",
-  "Muted Trumpet",
-  "Trombone",
-  "Trumpet",
-  "Vibraphone",
-  "Tubular Bells"
-};
-
-char * noteNames[] = {
-  "C",
-  "C# / Db",
-  "D",
-  "D# / Eb",
-  "E",
-  "F",
-  "F# / Gb",
-  "G",
-  "G# / Ab",
-  "A",
-  "A# / Bb",
-  "B"
-};
-
-// Number of samples in each delay line
-#define CHORUS_DELAY_LENGTH (32*AUDIO_BLOCK_SAMPLES)
-// Allocate the delay lines for left and right channels
-short delayline[CHORUS_DELAY_LENGTH];
-
-int globalNote;
-
-// modulator settings
-int osc1Waveform = WAVEFORM_SINE;
-float osc1Amplitude = 1.0;
-int osc1Octave = 0;
-int osc1Semis = 0;
-float osc1Detune = 1.0; // can range 1.0 to 0.85
-float osc1PB = 1.0;
-osc_mod_t osc1Mod = Mod_FM;
-
-int osc2Waveform = WAVEFORM_SAWTOOTH;
-float osc2Amplitude = 1.0;
-int osc2Octave = 0;
-int osc2Semis = 0;
-float osc2Detune = 1.0; // can range 1.0 to 0.85
-float osc2PB = 1.0;
-osc_mod_t osc2Mod = Mod_FM;
-
-// noise settings
-float noiseAmplitude = 1.0;
-
-// wavetable
-int waveInstrument = 0; // piano
-float waveAmplitude = 1.0;
-
-// LFO settings
-int lfo1Waveform = WAVEFORM_SINE;
-float lfo1Freq = 0.0;
-float lfo1Depth = 0.0;
-float lfo1PWM = 0.0;
-
-int lfo2Waveform = WAVEFORM_SINE;
-float lfo2Freq = 0.0;
-float lfo2Depth = 0.0;
-float lfo2PWM = 0.0;
-
-// Mixer settings
-float osc1Amp = 1.0;
-float osc2Amp = 0.0;
-float noiseAmp = 0.0;
-float waveAmp = 0.0;
-
-// ADSR envelope settings
-float envAttack = 10.5;
-float envDecay = 35;
-float envSustain = 0.5;
-float envRelease = 300;
-
-// filter ADSR
-float filtEnvA = 10.5;
-float filtEnvD = 35;
-float filtEnvS = 0.5;
-float filtEnvR = 300;
-
-// filter main variables
-filter_band_t filtBand = LPF;
-float filterFreq = 5000;
-float filterRes = 2.5;
-float filtDC = 1.0;
-int filtMod = 0;
-
-// Arpeggiator
-arp_mode_t arpMode;
-int arpOctave;
-float arpPeriod;
-bool arpLatch;
-float arpDelay;
-bool arpDelayActive;
-int arpTranspose;
-byte arpNotes[20]; // Arpeggiate up to 20 notes
-int arpStoreIndex;
-int arpPlayIndex;
-int arpNumDown;
-int arpIncrement;
-int arpPlayOctave;
-
-int chorusVoices;
-
-int clickCount = 0;
-unsigned long lastMillis = 0;
-unsigned long last_time = 0;
-long encPos = -999;
-int encVal = 0;
 
 void dumpPatch() {
   Serial.println("====================================");
@@ -508,45 +119,9 @@ void dumpPatch() {
   Serial.println("====================================");
 }
 
-boolean pointInRect(int x, int y, int rectX, int rectY, int rectW, int rectH) {
-  boolean ret = false;
-  if ((x >= rectX) && (x <= (rectX + rectW)) && (y >= rectY) && (y <= (rectY + rectH))) {
-    ret = true;
-  }
-  Serial.printf("x=%u y=%u, Rx=%u, Ry=%u, Rw=%u Rh=%u, Rx2=%u, Ry2=%u, ret=%u\n",
-            x, y, rectX, rectY, rectW, rectH, rectX+rectW, rectY+rectH, ret);
-  return ret;
-}
-
-int pointInBar(int x, int y, int barX, int barY) {
-  int ret = -1;
-  if (pointInRect(x, y, barX, barY + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT)) {
-    ret = map((y - (barY + BAR_OFFSET)), BAR_HEIGHT, 0, 0, 127);
-  }
-  return ret;
-}
-
 double mapf(double x, double in_min, double in_max, double out_min, double out_max)
 {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-void whiteKey(int n, bool pressed) {
-  if (!pressed) {
-    tft.fillRoundRect(KEYB_X + n, KEYB_Y + 20, 10, 20, 2, CL(180, 180, 180));
-  }
-  else {
-    tft.fillRoundRect(KEYB_X + n, KEYB_Y + 20, 10, 20, 2, CL(0, 180, 0));
-  }
-}
-
-void blackKey(int n, bool pressed) {
-  if (!pressed) {
-    tft.fillRoundRect(KEYB_X + n, KEYB_Y, 10, 20, 2, ILI9341_BLACK);
-  }
-  else {
-    tft.fillRoundRect(KEYB_X + n, KEYB_Y, 10, 20, 2, CL(0, 180, 0));
-  }
 }
 
 void oscillatorsOn() {
@@ -626,15 +201,9 @@ end procedure
 #endif  
   do {
     newLen = 0;
-#ifdef DEBUG_SORT  
-    Serial.printf("i = 1 to %d\n", len - 1);
-#endif
     
     for (int i = 1; i < (len - 1); i++) {
       if (arpNotes[i - 1] > arpNotes[i]) {
-#ifdef DEBUG_SORT  
-        Serial.printf("Swap %d and %d\n", arpNotes[i - 1], arpNotes[i]);
-#endif
         byte temp = arpNotes[i - 1];
         arpNotes[i - 1] = arpNotes[i];
         arpNotes[i] = temp;
@@ -642,13 +211,6 @@ end procedure
       }
     }
     len = newLen;
-#ifdef DEBUG_SORT  
-    Serial.printf("Set len to %d\n", newLen);
-    for (int i = 0; i < arpStoreIndex; i++) {
-      Serial.printf("%d ", arpNotes[i]);
-    }
-    Serial.println();
-#endif
   } while(len > 1);
 }
 
@@ -656,12 +218,7 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   Serial.printf("ch: %u, note: %u, vel: %u ", channel, note, velocity);
   digitalWrite(LED_PIN, HIGH);
   if (note >= 48) {
-    if (keybd[note - 48].type == 0) {
-      whiteKey((int)keybd[note - 48].offset, true);
-    }
-    else {
-      blackKey((int)keybd[note - 48].offset, true);
-    }
+    highlightKey(note, true);
   }
   globalNote = note;
   arpNumDown++;
@@ -679,17 +236,6 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
       arpPlayIndex = 0;
       arpPlayOctave = 1;
     }
-
-#if 0
-    if (arpNumDown == 1) {
-      // start of new group
-      for (int i = 0; i < 8; i++) {
-        arpNotes[i] = 255;
-      }
-      arpStoreIndex = 0;
-      arpPlayIndex = 0;
-    }
-#endif
 
     // now see if we already have this note/key in the array
     bool already = false;
@@ -719,12 +265,7 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
 
 void OnNoteOff(byte channel, byte note, byte velocity) {
   if (note >= 48) {
-    if (keybd[note - 48].type == 0) {
-      whiteKey(keybd[note - 48].offset, false);
-    }
-    else {
-      blackKey(keybd[note - 48].offset, false);
-    }
+    highlightKey(note, false);
   }
   digitalWrite(LED_PIN, LOW);
   arpNumDown--;
@@ -745,69 +286,23 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
   oscillatorsOff();
 }
 
-void drawBar(int x, int y, int value, const char * text) {
-  // erase existing bar  
-  tft.fillRoundRect(x, y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, 5, ILI9341_LIGHTGREY);
-  // draw full height outline
-  tft.drawRoundRect(x, y + BAR_OFFSET, BAR_WIDTH, BAR_HEIGHT, 5, ILI9341_BLACK);
-  // draw filled part rect to show value
-  tft.fillRoundRect(x, y + BAR_OFFSET + value, BAR_WIDTH, BAR_HEIGHT - value, 5, ILI9341_BLACK);
-  // add a label above
-  if (text != NULL) {
-    tft.setCursor(x + 8, y + BAR_HEIGHT + 20);
-    tft.print(text);
-  }
-}
-
 void updateMix(Mix_change_t change) {
-  int w1_val, w2_val, noise_val;
   mixer1.gain(0, osc1Amp);  
   mixer1.gain(1, osc2Amp);
   mixer1.gain(2, noiseAmp);
   mixer1.gain(3, waveAmp); // let drums/wavetable through
   mixer2.gain(0, 1.0); // wavetable - always available
   mixer2.gain(1, 1.0); // drums - always available
-  if ((change == OSC1) || (change == AllMix)) {
-    w1_val = BAR_HEIGHT - mapf(osc1Amp, 0.0, 1.0, 0, BAR_HEIGHT);
-    drawBar(MIX_PANEL_X + 5, MIX_PANEL_Y, w1_val, (change == AllMix) ? "1" : NULL);
-  }
-  if ((change == OSC2) || (change == AllMix)) {
-    w2_val = BAR_HEIGHT - mapf(osc2Amp, 0.0, 1.0, 0, BAR_HEIGHT);
-    drawBar(MIX_PANEL_X + 30, MIX_PANEL_Y, w2_val, (change == AllMix) ? "2" : NULL);
-  }
-  if ((change == Noise) || (change == AllMix)) {
-    noise_val = BAR_HEIGHT - mapf(noiseAmp, 0.0, 1.0, 0, BAR_HEIGHT);
-    drawBar(MIX_PANEL_X + 55, MIX_PANEL_Y, noise_val, (change == AllMix) ? "N" : NULL);
-  }
-  #if 0
-  Serial.printf("Mixer: Osc1 = %.02f, Osc2 = %.02f, Noise = %.02f, WaveTab=%.02f, w1 = %u, w2 = %u, noise =%u\n", 
-    osc1Amp, osc2Amp, noiseAmp, waveAmp, w1_val, w2_val, noise_val);
-    #endif
+  updateMixerBars(change);
 }
 
+
 void updateADSR(ADSR_change_t change) {
-  int a_val, d_val, s_val, r_val;
   envelope1.attack(envAttack);
   envelope1.decay(envDecay);
   envelope1.sustain(envSustain);
   envelope1.release(envRelease);
-  if ((change == Attack) || (change == AllADSR)) {
-    a_val = BAR_HEIGHT - mapf(envAttack, 0, 2000.0, 0, BAR_HEIGHT);
-    drawBar(ADSR_PANEL_X + 5, ADSR_PANEL_Y, a_val, (change == AllADSR) ? "A" : NULL);
-  }
-  if ((change == Decay) || (change == AllADSR)) {
-    d_val = BAR_HEIGHT - mapf(envDecay, 0, 2000.0, 0, BAR_HEIGHT); 
-    drawBar(ADSR_PANEL_X + 30, ADSR_PANEL_Y, d_val, (change == AllADSR) ? "D" : NULL);
-  }
-  if ((change == Sustain) || (change == AllADSR)) {
-    s_val = BAR_HEIGHT - mapf(envSustain, 0, 1.0, 0, BAR_HEIGHT); 
-    drawBar(ADSR_PANEL_X + 55, ADSR_PANEL_Y, s_val, (change == AllADSR) ? "S" : NULL);
-  }
-  if ((change == Release) || (change == AllADSR)) {
-    r_val = BAR_HEIGHT - mapf(envRelease, 0, 2000.0, 0, BAR_HEIGHT); 
-    drawBar(ADSR_PANEL_X + 80, ADSR_PANEL_Y, r_val, (change == AllADSR) ? "R" : NULL);
-  }
-  //Serial.printf("ADSR: Attack = %.02fms, Decay = %.02fms, Sustain = %.02f, Release = %.02fms\n", envAttack, envDecay, envSustain, envRelease);
+  updateADSRBars(change);
 }
 
 void updateFiltADSR() {
@@ -932,7 +427,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     case 1:
       Serial.println("Mod wheel");
       break;
-    // 76, 76, 102, 77 are Mixer controls for OSC1, OSC2, Noise, Wavetable
+    // ====================== MIXER =====================
     case 75:
       osc1Amp =  velocity2amplitude[value];
       Serial.printf("Mix: Osc1 amplitude = %.2f\n", osc1Amp);
@@ -957,7 +452,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateMix(Noise);
       break;
 
-    // 103, 104, 105, 106 are Envelope Attack, Decay, Sustain, Release
+    // ======================== Amp ADSR ==========================
     case 103:
       envAttack = mapf(value, 0, 127, 0.0, 3000.0);
       Serial.printf("Attack = %.2f\n", envAttack);
@@ -982,7 +477,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateADSR(Release);
       break;
 
-    // 107, 108, 109 are for filter (band, freq, res)
+    // ========================= FILTER =======================
     case 107:
       value /= 20;
       if (value == 0) {
@@ -1013,7 +508,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateFilter();
       break;
 
-    // All of Osc1, Osc2, LFO1. LFO2 have similar wave shape selects...
+    // =================== WAVE SHAPE ======================
     case 110:
     case 111:
     case 116:
@@ -1097,7 +592,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       break;
 
-    // other LF01 settings
+    // ===========================  LFO1 =====================
     case 112:
       if (value < 64) {
         lfo1Freq = mapf(value, 0, 64, 0.0, 20.0);        
@@ -1121,7 +616,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateLFO1();
       break;
 
-    // other LFO2 settings
+    // ===================== LFO2 ========================
     case 113:
       if (value < 64) {
         lfo2Freq = mapf(value, 0, 64, 0.0, 20.0);        
@@ -1145,7 +640,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateLFO2();
       break;
 
-    // Osc1 has wave (above), Semis, Octave, FineTune
+    // ======================= OSC1 =======================
     case 118:
       osc1Semis = mapf(value, 0.0, 127, 0, 12);
       Serial.printf("Osc1 semis = %u\n", osc1Semis);
@@ -1175,7 +670,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       break;
 
-    // Osc2 has wave (above), Freq, Ampl, Octave, FineTune
+    // ======================= OSC2 ============================
     case 119:
       osc2Semis = mapf(value, 0, 127, 0.0, 12);
       Serial.printf("Osc2 semis = %u\n", osc2Semis);
@@ -1205,7 +700,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       break;
 
-    // ADSR for filter
+    // ======================== Filter ADSR =======================
     case 22:
       filtEnvA = mapf(value, 0, 127, 0.0, 3000.0);
       Serial.printf("Filter Attack = %.2f\n", filtEnvA);
@@ -1230,6 +725,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateFiltADSR();
       break;
 
+    // ====================== FILTER ====================
     case 30:
       filtDC = mapf(value, 0, 127, -1.0, 1.0);
       Serial.printf("DC = %.2f\n", filtDC);
@@ -1246,6 +742,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       }
       break;
 
+    // ===================== ARPEGGIATOR ===================
     case 85:
       value /= 20;
       value *= 20;
@@ -1322,6 +819,12 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       Serial.printf("Arp Transpose = %u\n", arpTranspose);
       break;
 
+    case 92:
+      arpScaleMode = value;
+      Serial.printf("Scale = %s\n", scaleModes[value].name);
+      break;
+
+    // ===================== CHORUS ====================
     case 91:
       value /= 20;
       value *= 20;
@@ -1341,11 +844,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       updateChorus();
       break;
 
-    case 92:
-      arpScaleMode = value;
-      Serial.printf("Scale = %s\n", scaleModes[value].name);
-      break;
-
+    // ========================= PANIC =================
     case 123:
       // MIDI PANIC!!
       arpPlayIndex = 0;
@@ -1394,36 +893,10 @@ void setup() {
   Serial.begin(9600);
   Serial1.begin(31250);
   Serial.println("The bastard is Alive!");
-  MIDI.begin(); 
-  tft.begin();
-  tft.setRotation(3);
+  MIDI.begin();
   ts.begin();
   ts.setRotation(3);
-  // show the pretty kitty
-  //tft.writeRect(0, 0, 320, 240, amelia320);
-  // and give the world a chance to marvel in her glory
-  //delay(4000);
-  // then clear the decks  tft.fillScreen(ILI9341_LIGHTGREY);
-  tft.setTextColor(ILI9341_BLACK);
-  tft.setCursor(40, 0);
-  tft.setFont(Arial_18_Bold);
-  tft.println("Teensy Synth");
-  tft.fillRoundRect(ADSR_PANEL_X, ADSR_PANEL_Y, ADSR_PANEL_W, PANEL_H, 5, ILI9341_DARKGREY);
-  tft.setCursor(ADSR_PANEL_X + 30, ADSR_PANEL_Y);
-  tft.setFont(Arial_14);
-  tft.print("ADSR");
-  tft.fillRoundRect(MIX_PANEL_X, MIX_PANEL_Y, MIX_PANEL_W, PANEL_H, 5, ILI9341_DARKGREY);
-  tft.setCursor(MIX_PANEL_X + 20, MIX_PANEL_Y);
-  tft.print("Mixer");
-  tft.setFont(Arial_11_Bold);
-  for (int i = 48; i < 84; i++) {
-    if (keybd[i - 48].type == 0) {
-      whiteKey(keybd[i - 48].offset, false);
-    }
-    else {
-      blackKey(keybd[i - 48].offset, false);
-    }
-  }
+  tftInit(); 
   AudioMemory(20);
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.75);
