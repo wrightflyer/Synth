@@ -9,7 +9,7 @@
        panelMidiSnapshotDelay="10.00000000000000000000" panelMidiSnapshotShowProgress="0"
        panelMidiInputChannelDevice="1" panelMidiInputDevice="LoopBe Internal MIDI"
        panelMidiControllerChannelDevice="1" panelMidiControllerDevice="-- None"
-       panelMidiOutputChannelDevice="1" panelMidiOutputDevice="Phat Bass(tard)"
+       panelMidiOutputChannelDevice="1" panelMidiOutputDevice="-- None"
        panelMidiInputFromHost="0" panelMidiInputChannelHost="1" panelMidiOutputToHost="0"
        panelMidiOutputChannelHost="1" panelMidiThruH2H="0" panelMidiThruH2HChannelize="0"
        panelMidiThruH2D="0" panelMidiThruH2DChannelize="0" panelMidiThruD2D="1"
@@ -95,7 +95,7 @@
                  uiPanelTooltipOutlineColour="0xff000000" uiPanelTooltipColour="0xff000000"
                  uiPanelTooltipCornerRound="1.00000000000000000000" uiPanelTooltipPlacement="2"
                  uiPanelTooltipFont="&lt;Sans-Serif&gt;;15;1;0;0;0;1;3" uiPanelZoom="0.80000000000000004441"
-                 uiPanelViewPortSize="577" uiPanelPropertiesSize="145">
+                 uiPanelViewPortSize="565" uiPanelPropertiesSize="143">
     <uiPanelCanvasLayer uiPanelCanvasLayerName="New layer" uiPanelCanvasLayerUid="55a4dc48d80600008eaeec7600000000"
                         uiPanelCanvasLayerColour="0x000000" uiPanelCanvasLayerVisibility="1"
                         uiPanelCanvasLayerIndex="0"/>
@@ -135,7 +135,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="mixer_osc1" modulatorMin="0.00000000000000000000" modulatorValue="58">
+             name="mixer_osc1" modulatorMin="0.00000000000000000000" modulatorValue="0">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="75.00000000000000000000" midiMessageCtrlrValue="0.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -344,7 +344,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="ADSR_decay" modulatorMin="0.00000000000000000000"
-             modulatorValue="84">
+             modulatorValue="76">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="104.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -390,7 +390,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="adsr_sustain" modulatorMin="0.00000000000000000000"
-             modulatorValue="102">
+             modulatorValue="100">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="105.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -436,7 +436,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="adsr_release" modulatorMin="0.00000000000000000000"
-             modulatorValue="87">
+             modulatorValue="81">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="106.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -542,7 +542,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo1_freq" modulatorMin="0.00000000000000000000" modulatorValue="11">
+             name="lfo1_freq" modulatorMin="0.00000000000000000000" modulatorValue="29">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="112.00000000000000000000" midiMessageCtrlrValue="0.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -588,7 +588,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo1_depth" modulatorMin="0.00000000000000000000" modulatorValue="86">
+             name="lfo1_depth" modulatorMin="0.00000000000000000000" modulatorValue="4">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="114.00000000000000000000" midiMessageCtrlrValue="0.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1053,7 +1053,7 @@
              modulatorBaseValue="-23040.00000000000000000000" modulatorCustomIndex="0"
              modulatorCustomName="" modulatorCustomIndexGroup="0" modulatorCustomNameGroup=""
              modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc2_semis" modulatorMin="0.00000000000000000000" modulatorValue="84">
+             name="osc2_semis" modulatorMin="0.00000000000000000000" modulatorValue="77">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="119.00000000000000000000" midiMessageCtrlrValue="0.00000000000000000000"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1215,7 +1215,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="lfo1_wave" modulatorMin="0" modulatorValue="0">
+             name="lfo1_wave" modulatorMin="0" modulatorValue="2">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="110.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -1455,7 +1455,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="osc2_octave" modulatorMin="0" modulatorValue="4">
+             name="osc2_octave" modulatorMin="0" modulatorValue="3">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="26.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -2006,7 +2006,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="arp_mode" modulatorMin="0" modulatorValue="3">
+             name="arp_mode" modulatorMin="0" modulatorValue="0">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="85.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -2087,7 +2087,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="arp_speed" modulatorMin="0.00000000000000000000"
-             modulatorValue="84">
+             modulatorValue="85">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="88.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -2211,7 +2211,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="arp_delay" modulatorMin="0.00000000000000000000"
-             modulatorValue="80">
+             modulatorValue="97">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="89.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -2386,7 +2386,7 @@
              modulatorBaseValue="0" modulatorCustomIndex="0" modulatorCustomName=""
              modulatorCustomIndexGroup="0" modulatorCustomNameGroup="" modulatorVstNameFormat="%n"
              luaModulatorValueChange="-- None" name="mixer_wave" modulatorMin="0.00000000000000000000"
-             modulatorValue="126">
+             modulatorValue="127">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="77.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -2421,7 +2421,7 @@
                uiSliderPopupBubble="0" uiType="uiSlider" componentRectangle="168 24 64 64"
                componentLayerUid="55a4dc48d80600008eaeec7600000000"/>
   </modulator>
-  <modulator modulatorVstExported="1" modulatorMax="88" vstIndex="52" modulatorIsStatic="0"
+  <modulator modulatorVstExported="1" modulatorMax="127" vstIndex="52" modulatorIsStatic="0"
              modulatorGlobalVariable="-1.00000000000000000000" modulatorMuteOnStart="0"
              modulatorMute="0" modulatorExcludeFromSnapshot="0" modulatorValueExpression="modulatorValue"
              modulatorValueExpressionReverse="midiValue" modulatorControllerExpression="value"
@@ -2431,7 +2431,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="mixer_instrument" modulatorMin="0" modulatorValue="88">
+             name="mixer_instrument" modulatorMin="0" modulatorValue="127">
     <midi midiMessageType="7" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="78.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>
@@ -2447,7 +2447,7 @@
                componentEffectOffsetY="0" componentExcludedFromLabelDisplay="0"
                componentValueDecimalPlaces="0" componentLuaMouseMoved="-- None"
                componentLuaMouseDown="-- None" componentLuaMouseDrag="-- None"
-               componentLuaMouseDoubleClick="-- None" uiListBoxContent="Piano&#10;Church Organ&#10;Flute&#10;Violin&#10;Guitar&#10;Space Voices&#10;Harpsichord&#10;Glockenspiel&#10;Choir Aahs&#10;Synth Drum&#10;Steel Drums&#10;Banjo&#10;Bird&#10;Bottle Blow&#10;Brightness&#10;Clarinet&#10;Electric Piano 2&#10;Echo Drops&#10;Harp&#10;Honky Tonk&#10;Marimba&#10;Orchestra Hit&#10;Pan Flute&#10;Star Theme&#10;Xylophone&#10;Bandoneon&#10;Baritone Sax&#10;Bassoon&#10;Bowed Glass&#10;Breath Noise&#10;Church Bell&#10;Clavinet&#10;Electric Piano 1&#10;Guitar Harmonics&#10;Harmonica&#10;Helicopter&#10;Kalimba&#10;Music Box&#10;Pizzicato Strings&#10;Reed Organ&#10;Santur&#10;Sitar&#10;Taiko&#10;Telephone&#10;Tinkle Bell&#10;Whistle&#10;Applause&#10;Contrabass&#10;Crystal&#10;English Horn&#10;Goblin&#10;MeloTom 1&#10;Oboe&#10;Organ 2&#10;Piccolo&#10;Recorder&#10;Reverse Cymbal&#10;Shamisen&#10;AccordionFr&#10;AltoSax&#10;Cello&#10;ChifferLead&#10;Fiddle&#10;FingeredBs&#10;Koto&#10;MutedGt&#10;Ocarina&#10;Organ3&#10;Shanai&#10;SoloVox&#10;TenorSax&#10;Atmosphere&#10;Bagpipe&#10;Fantasia&#10;IceRain&#10;Seashore&#10;SlapBass2&#10;SynVox&#10;Tuba&#10;Viola&#10;VoiceOohs&#10;5thSawWave&#10;Charang&#10;CleanGt&#10;MutedTrumpet&#10;Trombone&#10;Trumpet&#10;Vibraphone&#10;Tubular Bells&#10;"
+               componentLuaMouseDoubleClick="-- None" uiListBoxContent="Piano1&#10;Piano2&#10;Piano3&#10;Honkytonk&#10;EPiano1&#10;EPiano2&#10;Harpsichord&#10;Clav&#10;Celesta&#10;Glockenspiel&#10;MusicBox&#10;Vibraphone&#10;Marimba&#10;Xylophone&#10;Tubularbell&#10;Santur&#10;Organ1&#10;Organ2&#10;Organ3&#10;ChurchOrg1&#10;ReedOrgan&#10;AccordionFr&#10;Harmonica&#10;Bandoneon&#10;NylonstrGt&#10;SteelstrGt&#10;JazzGt&#10;CleanGt&#10;MutedGt&#10;OverdriveGt&#10;DistortionGt&#10;GtHarmonics&#10;AcousticBs&#10;FingeredBs&#10;PickedBs&#10;FretlessBs&#10;SlapBass1&#10;SlapBass2&#10;SynthBass1&#10;SynthBass2&#10;Violin&#10;Viola&#10;Cello&#10;Contrabass&#10;TremoloStr&#10;PizzicatoStr&#10;Harp&#10;(missing) timpani&#10;Strings&#10;SlowStrings&#10;SynStrings1&#10;SynStrings2&#10;ChoirAahs&#10;VoiceOohs&#10;SynVox&#10;OrchestraHit&#10;Trumpet&#10;Trombone&#10;Tuba&#10;MutedTrumpet&#10;FrenchHorns&#10;Brass1&#10;SynthBrass1&#10;SynthBrass2&#10;SopranoSax&#10;AltoSax&#10;TenorSax&#10;BaritoneSax&#10;Oboe&#10;EnglishHorn&#10;Bassoon&#10;Clarinet&#10;Piccolo&#10;Flute&#10;Recorder&#10;PanFlute&#10;BottleBlow&#10;Shakuhachi&#10;Whistle&#10;Ocarina&#10;SquareWave&#10;SawWave&#10;SynCalliope&#10;ChifferLead&#10;Charang&#10;SoloVox&#10;FifthSawWave&#10;BassLead&#10;Fantasia&#10;WarmPad&#10;Polysynth&#10;SpaceVoice&#10;BowedGlass&#10;MetalPad&#10;HaloPad&#10;SweepPad&#10;IceRain&#10;Soundtrack&#10;Crystal&#10;Atmosphere&#10;Brightness&#10;Goblin&#10;EchoDrops&#10;StarTheme&#10;Sitar&#10;Banjo&#10;Shamisen&#10;Koto&#10;Kalimba&#10;Bagpipe&#10;Fiddle&#10;Shanai&#10;TinkleBell&#10;Agogo&#10;SteelDrums&#10;(missing) woodblock&#10;Taiko&#10;MeloTom1&#10;SynthDrum&#10;ReverseCym&#10;(missing) fret noise&#10;BreathNoise&#10;Seashore&#10;Bird&#10;Telephone1&#10;Helicopter&#10;Applause&#10;(missing) gun shot&#10;"
                componentRectangle="240 0 119 98" uiListBoxRowHeight="16.00000000000000000000"
                uiListBoxBackgroundColour="0xffffffff" uiListBoxHighlightBgColour="0xff0000ff"
                uiListBoxHighlightFgColour="0xff000000" uiListBoxTextColour="0xff000000"
@@ -2471,7 +2471,7 @@
              modulatorLinkedToComponent="Modulator" modulatorBaseValue="0"
              modulatorCustomIndex="0" modulatorCustomName="" modulatorCustomIndexGroup="0"
              modulatorCustomNameGroup="" modulatorVstNameFormat="%n" luaModulatorValueChange="-- None"
-             name="arp_scale" modulatorMin="0" modulatorValue="2">
+             name="arp_scale" modulatorMin="0" modulatorValue="10">
     <midi midiMessageType="0" midiMessageChannelOverride="0" midiMessageChannel="1"
           midiMessageCtrlrNumber="92.00000000000000000000" midiMessageCtrlrValue="0"
           midiMessageMultiList="" midiMessageSysExFormula=""/>

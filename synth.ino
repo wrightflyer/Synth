@@ -882,7 +882,7 @@ void onPitchChange(byte channel, int pitch) {
 }
 
 void onProgramChange(byte channel, byte program) {
-  waveInstrument = program % 89; // currently so limit 0..88
+  waveInstrument = program & 0x7F; // currently so limit 0..127
   Serial.printf("Progran change: %u = %s\n", waveInstrument, instrumentNames[waveInstrument]);
   updateWave();
 }
