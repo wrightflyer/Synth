@@ -6,8 +6,6 @@ extern ILI9341_t3 tft;
 
 extern short delayline[];
 
-extern int globalNote;
-
 // modulator settings
 extern int osc1Waveform;
 extern float osc1Amplitude;
@@ -87,8 +85,8 @@ extern int arpScaleMode;
 extern int chorusVoices;
 
 extern int clickCount;
-extern unsigned long lastMillis;
-extern unsigned long last_time;
+extern elapsedMillis lastMillis;
+extern elapsedMillis last_time;
 extern long encPos;
 extern int encVal;
 #endif

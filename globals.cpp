@@ -4,8 +4,6 @@
 // Allocate the delay lines for left and right channels
 short delayline[CHORUS_DELAY_LENGTH];
 
-int globalNote;
-
 // modulator settings
 int osc1Waveform = WAVEFORM_SINE;
 float osc1Amplitude = 1.0;
@@ -85,7 +83,7 @@ int arpScaleMode;
 int chorusVoices;
 
 int clickCount = 0;
-unsigned long lastMillis = 0;
-unsigned long last_time = 0;
+elapsedMillis lastMillis = 0;
+elapsedMillis last_time = 0;
 long encPos = -999;
 int encVal = 0;

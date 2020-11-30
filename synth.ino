@@ -15,58 +15,57 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+
 // GUItool: begin automatically generated code
-AudioSynthWaveform       LFO1;           //xy=55,152
-AudioSynthWaveform       LFO2;           //xy=57,206
-AudioAmplifier           LFO1switch;     //xy=187,151
-AudioAmplifier           LFO2switch;     //xy=193,205
-AudioSynthSimpleDrum     drum1;          //xy=254,307
-AudioSynthWavetable      wavetable1;     //xy=265,268
-AudioSynthWaveformDc     dc1;            //xy=354,362
-AudioSynthWaveformModulated waveformMod1;   //xy=359,156
-AudioSynthWaveformModulated waveformMod2;   //xy=360,199
-AudioMixer4              mixer2;         //xy=423,287
-AudioSynthNoisePink      pink1;          //xy=492,237
-AudioEffectEnvelope      envelope2;      //xy=505,361
-AudioAmplifier           Osc1switch;     //xy=521,156
-AudioAmplifier           Osc2switch;     //xy=524,196
-AudioAmplifier           fModSwitch;     //xy=663,359
-AudioMixer4              mixer1;         //xy=680,259
-AudioFilterStateVariable filter1;        //xy=819,322
-AudioMixer4              Filter_Select;  //xy=1025,296
-AudioEffectEnvelope      envelope1;      //xy=1183,296
-AudioEffectChorus        chorus;         //xy=1341,296
-AudioOutputI2S           i2s1;           //xy=1513,295
+AudioSynthWaveform       LFO1;           //xy=55,75
+AudioSynthWaveform       LFO2;           //xy=57,129
+AudioAmplifier           LFO1switch;     //xy=187,74
+AudioAmplifier           LFO2switch;     //xy=193,128
+AudioSynthSimpleDrum     drum1;          //xy=254,230
+AudioSynthWavetable      wavetable1;     //xy=265,191
+AudioSynthWaveformModulated waveformMod1;   //xy=359,79
+AudioSynthWaveformModulated waveformMod2;   //xy=360,122
+AudioMixer4              mixer2;         //xy=423,210
+AudioSynthNoisePink      pink1;          //xy=492,160
+AudioAmplifier           Osc1switch;     //xy=521,79
+AudioAmplifier           Osc2switch;     //xy=524,119
+AudioSynthWaveformDc     dc1;            //xy=535,306
+AudioMixer4              mixer1;         //xy=680,182
+AudioEffectEnvelope      envelope2;      //xy=686,305
+AudioEffectEnvelope      envelope1;      //xy=825,199
+AudioAmplifier           fModSwitch;     //xy=844,303
+AudioFilterStateVariable filter1;        //xy=978,246
+AudioMixer4              Filter_Select;  //xy=1184,220
+AudioEffectChorus        chorus;         //xy=1341,219
+AudioOutputI2S           i2s1;           //xy=1513,218
 AudioConnection          patchCord1(LFO1, LFO1switch);
 AudioConnection          patchCord2(LFO2, LFO2switch);
 AudioConnection          patchCord3(LFO1switch, 0, waveformMod1, 0);
 AudioConnection          patchCord4(LFO2switch, 0, waveformMod2, 0);
 AudioConnection          patchCord5(drum1, 0, mixer2, 1);
 AudioConnection          patchCord6(wavetable1, 0, mixer2, 0);
-AudioConnection          patchCord7(dc1, envelope2);
-AudioConnection          patchCord8(waveformMod1, Osc1switch);
-AudioConnection          patchCord9(waveformMod2, Osc2switch);
-AudioConnection          patchCord10(mixer2, 0, mixer1, 3);
-AudioConnection          patchCord11(pink1, 0, mixer1, 2);
-AudioConnection          patchCord12(envelope2, fModSwitch);
-AudioConnection          patchCord13(Osc1switch, 0, mixer1, 0);
-AudioConnection          patchCord14(Osc2switch, 0, mixer1, 1);
-AudioConnection          patchCord15(fModSwitch, 0, filter1, 1);
-AudioConnection          patchCord16(mixer1, 0, filter1, 0);
-AudioConnection          patchCord17(mixer1, 0, Filter_Select, 3);
-AudioConnection          patchCord18(filter1, 0, Filter_Select, 0);
-AudioConnection          patchCord19(filter1, 1, Filter_Select, 1);
-AudioConnection          patchCord20(filter1, 2, Filter_Select, 2);
-AudioConnection          patchCord21(Filter_Select, envelope1);
-AudioConnection          patchCord22(envelope1, chorus);
+AudioConnection          patchCord7(waveformMod1, Osc1switch);
+AudioConnection          patchCord8(waveformMod2, Osc2switch);
+AudioConnection          patchCord9(mixer2, 0, mixer1, 3);
+AudioConnection          patchCord10(pink1, 0, mixer1, 2);
+AudioConnection          patchCord11(Osc1switch, 0, mixer1, 0);
+AudioConnection          patchCord12(Osc2switch, 0, mixer1, 1);
+AudioConnection          patchCord13(dc1, envelope2);
+AudioConnection          patchCord14(mixer1, envelope1);
+AudioConnection          patchCord15(envelope2, fModSwitch);
+AudioConnection          patchCord16(envelope1, 0, filter1, 0);
+AudioConnection          patchCord17(envelope1, 0, Filter_Select, 3);
+AudioConnection          patchCord18(fModSwitch, 0, filter1, 1);
+AudioConnection          patchCord19(filter1, 0, Filter_Select, 0);
+AudioConnection          patchCord20(filter1, 1, Filter_Select, 1);
+AudioConnection          patchCord21(filter1, 2, Filter_Select, 2);
+AudioConnection          patchCord22(Filter_Select, chorus);
 AudioConnection          patchCord23(chorus, 0, i2s1, 0);
 AudioConnection          patchCord24(chorus, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=787,171
+AudioControlSGTL5000     sgtl5000_1;     //xy=787,94
 // GUItool: end automatically generated code
 
 //extern const unsigned short amelia320[];
-
-
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
@@ -124,9 +123,17 @@ double mapf(double x, double in_min, double in_max, double out_min, double out_m
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+static byte currentNote;
+
 void oscillatorsOn() {
+  oscillatorsOn(currentNote);
+}
+
+void oscillatorsOn(byte playNote) {
+  currentNote = playNote; // in case we need to retrigger after recalculating pitch bend
+  
   byte note;
-  note = globalNote;  
+  note = playNote;  
 
   note += osc1Octave; // -24, -12, 0, 12 or 24
   note += osc1Semis;
@@ -145,7 +152,7 @@ void oscillatorsOn() {
 
   wavetable1.playFrequency(freq, 127);
 
-  note = globalNote;
+  note = playNote;
   note += osc2Octave; // -24, -12, 0, 12 or 24
   note += osc2Semis;
   if (note < 0) {
@@ -220,10 +227,9 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
   if (note >= 48) {
     highlightKey(note, true);
   }
-  globalNote = note;
   arpNumDown++;
   if (arpMode == Arp_Off) {
-    oscillatorsOn();
+    oscillatorsOn(note);
   }
   else if (arpStoreIndex < 20) {
     Serial.println(); // finish note info logging
@@ -234,31 +240,30 @@ void OnNoteOn(byte channel, byte note, byte velocity) {
       // new one to be added
       arpStoreIndex = 0;
       arpPlayIndex = 0;
-      arpPlayOctave = 1;
+      arpPlayOctave = 0;
     }
 
-    // now see if we already have this note/key in the array
-    bool already = false;
-    for (int i = 0; i < arpStoreIndex; i++) {
-      if (arpNotes[i] == note) {
-        already = true;
+    // usually just add one note to the sequence
+    arpNotes[arpStoreIndex] = note;
+    Serial.printf("Added note %u at entry %u\n", note, arpStoreIndex);
+    arpStoreIndex++;
+
+    // but want a whole scale if in scale mode...
+    if (arpMode == Arp_Scale) {
+      int currNote = note;
+      // but if Scale mode add all the other notes of this scale...
+      for (int n = 0; n < scaleModes[arpScaleMode].entries; n++) {
+        currNote += scaleModes[arpScaleMode].offsets[n];
+        arpNotes[arpStoreIndex++] = currNote;
       }
     }
-    // if not already in the array then add it (and sort into ascending order)
-    if (!already) {
-      // usually just add one note to the sequence
-      arpNotes[arpStoreIndex] = note;
-      arpStoreIndex++;
-      // but want a whole scale if in scale mode...
-      if (arpMode == Arp_Scale) {
-        int currNote = note;
-        // but if Scale mode add all the other notes of this scale...
-        for (int n = 0; n < scaleModes[arpScaleMode].entries; n++) {
-          currNote += scaleModes[arpScaleMode].offsets[n];
-          arpNotes[arpStoreIndex++] = currNote;
-        }
-      }
+    if (arpMode != Arp_Record) {
       sortNotes();
+    }
+    else {
+      // in record mode we simply record everything played in order (no sort)
+      Serial.printf("Playing %u while recording\n", note);
+      oscillatorsOn(note);
     }
   }
 }
@@ -283,6 +288,7 @@ void OnNoteOff(byte channel, byte note, byte velocity) {
       }
     }
   }
+//  Serial.println("Osc off because NoteOff");
   oscillatorsOff();
 }
 
@@ -748,7 +754,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       value *= 20;
       if (value == 0) {
         arpMode = Arp_Off;
-        Serial.println("Arp Off");
+        Serial.println("Arp Off - Osc Off");
         oscillatorsOff();
         arpStoreIndex = 0;
         arpPlayIndex = 0;
@@ -758,7 +764,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
         Serial.println("Arp Up");
         arpPlayIndex = 0;
         arpDelayActive = false;
-        arpPlayOctave = 1;
+        arpPlayOctave = 0;
       }
       else if (value == 40) {
         arpMode = Arp_Down;
@@ -773,7 +779,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
         arpPlayIndex = 0;
         arpIncrement = 1; // start "up"
         arpDelayActive = false;
-        arpPlayOctave = 1;
+        arpPlayOctave = 0;
       }
       else if (value == 80) {
         arpMode = Arp_Random;
@@ -784,7 +790,15 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
         arpMode = Arp_Scale;
         arpPlayIndex = 0;
         arpDelayActive = false;
-        arpPlayOctave = 1;
+        arpPlayOctave = 0;
+      }
+      else if (value == 120) {
+        Serial.println("Arp Record");
+        arpMode = Arp_Record;
+        arpStoreIndex = 0;
+        arpPlayIndex = 0;
+        arpDelayActive = false;
+        arpPlayOctave = 0;
       }
       break;
 
@@ -798,7 +812,8 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       if (value == 0) {
         arpPlayIndex = 0;
         arpStoreIndex = 0;
-        arpPlayOctave = 1;
+        arpPlayOctave = 0;
+//        Serial.println("Osc off because latch Off");
         oscillatorsOff();
       }
       Serial.printf("Arp Latch = %u\n", arpLatch);
@@ -849,8 +864,9 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       // MIDI PANIC!!
       arpPlayIndex = 0;
       arpStoreIndex = 0;
-      arpPlayOctave = 1;
+      arpPlayOctave = 0;
       arpLatch = 0;
+      Serial.println("Osc off because Panic");
       oscillatorsOff();
       break;
 
@@ -1013,7 +1029,7 @@ void loop() {
   #endif
 
   #if 0 // testing joystick input
-  if (millis() > (lastMillis + 100)) {
+  if (lastMillis > 100) {
     if (digitalRead(JOY_SW) == 0) {
       clickCount++;
       Serial.printf("Click %u\n", clickCount);
@@ -1030,7 +1046,7 @@ void loop() {
     #endif
     OnControlChange(1, 103, map(joyX, 0, 1023, 0, 127));
     OnControlChange(1, 104, map(joyY, 0, 1023, 0, 127));
-    lastMillis = millis();
+    lastMillis = 0;
   }
   #endif
 
@@ -1094,17 +1110,19 @@ void loop() {
     if (arpStoreIndex != 0) { // any notes in the array to play?
       // are we in a post sequence delay?
       if ((arpDelay != 0) && (arpDelayActive == true)) {
-        if (millis() > (lastMillis + arpPeriod)) {
+        if (lastMillis > arpPeriod) {
+//          Serial.printf("Osc off because lasmillis (%lu) beyond arpPeriod (%u)", lastMillis, arpPeriod);
           oscillatorsOff();
         }
-        if (millis() > (lastMillis + arpDelay)) {
+        if (lastMillis > arpDelay) {
           arpDelayActive = false;
           Serial.println("Delay stop");
-          lastMillis = millis();
+          lastMillis = 0;
         }
       }
-      else if (millis() > (lastMillis + arpPeriod)) {
-        lastMillis = millis();
+      else if (lastMillis > arpPeriod) {
+        byte note2play;
+        lastMillis = 0;
         Serial.print("[ ");
         for (int i = 0; i < arpStoreIndex; i++) {
           Serial.print(arpNotes[i]);
@@ -1114,9 +1132,12 @@ void loop() {
           Serial.print(' ');
         }
         Serial.printf("] Octave=%u\n", arpPlayOctave);
-        globalNote = arpNotes[arpPlayIndex] + arpTranspose + (12 * arpPlayOctave);
-        oscillatorsOff(); // end previous note
-        oscillatorsOn(); // start new note ("globalNote") from ARP array
+        note2play = arpNotes[arpPlayIndex] + arpTranspose + (12 * arpPlayOctave);
+//        Serial.println("Osc off because arpPeriod expired - cancel last playing note");
+        if (arpMode != Arp_Record) {
+          oscillatorsOff(); // end previous note
+          oscillatorsOn(note2play); // start new note from ARP array
+        }
         switch(arpMode) {
           case Arp_Up:
           case Arp_Scale:
@@ -1188,7 +1209,7 @@ void loop() {
     }
   }
   if(0) {
-    if(millis() - last_time >= 5000) {
+    if(last_time >= 5000) {
       Serial.print("Proc = ");
       Serial.print(AudioProcessorUsage());
       Serial.print(" (");    
@@ -1198,7 +1219,7 @@ void loop() {
       Serial.print(" (");    
       Serial.print(AudioMemoryUsageMax());
       Serial.println(")");
-      last_time = millis();
+      last_time = 0;
     }
   }
 }
