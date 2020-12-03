@@ -1,0 +1,337 @@
+#include <Audio.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+
+// GUItool: begin automatically generated code
+// the following JSON string contains the whole project, 
+// it's included in all generated files.
+// JSON string:[{"type":"settings","data":[{"arduino":{"useExportDialog":false,"IOcheckAtExport":true,"WriteJSONtoExportedFile":true,"WebServerPort":8080,"WebSocketServerPort":3000}},{"view":{"showWorkspaceToolbar":true,"showNodeToolTip":true,"space_width":5000,"space_height":5000,"scaleFactor":1,"showGridHminor":true,"showGridHmajor":true,"showGridVminor":true,"showGridVmajor":true,"gridHminorSize":10,"gridHmajorSize":100,"gridVminorSize":10,"gridVmajorSize":100,"gridMinorColor":"#eee","gridMajorColor":"#ddd","snapToGrid":true,"snapToGridHsize":5,"snapToGridVsize":5,"lineCurveScale":0.75,"lineConnectionsScale":1.5}},{"palette":{"categoryHeaderTextSize":12,"categoryHeaderHeight":14,"categoryHeaderBackgroundColor":"#f3f3f3","onlyShowOne":true}}]},{"type":"tab","id":"65451dc5.e7c4b4","label":"LFOSources","inputs":0,"outputs":2,"export":true,"nodes":[]},{"id":"LFONoiseSource_waveform1","type":"AudioSynthWaveform","name":"LFO1","comment":"","x":210,"y":140,"z":"65451dc5.e7c4b4","bgColor":"#E6E0F8","wires":[["LFONoiseSource_Out1:0"]]},{"id":"LFONoiseSource_waveform2","type":"AudioSynthWaveform","name":"LFO2","comment":"","x":210,"y":200,"z":"65451dc5.e7c4b4","bgColor":"#E6E0F8","wires":[["LFONoiseSource_Out2:0"]]},{"id":"LFOSources_vars1","type":"Variables","name":"LFOvars","comment":"// LFO settings\r\nint lfo1Waveform = WAVEFORM_SINE;\r\nfloat lfo1Freq = 0.0;\r\nfloat lfo1Depth = 0.0;\r\nfloat lfo1PWM = 0.0;\r\n\r\nint lfo2Waveform = WAVEFORM_SINE;\r\nfloat lfo2Freq = 0.0;\r\nfloat lfo2Depth = 0.0;\r\nfloat lfo2PWM = 0.0;","x":220,"y":270,"z":"65451dc5.e7c4b4","bgColor":"#DDFFBB","wires":[]},{"id":"LFOSources_ClassComment1","type":"ClassComment","name":"All voices share the same two LFOs","x":315,"y":80,"z":"65451dc5.e7c4b4","bgColor":"#CCFFCC","wires":[]},{"id":"LFONoiseSource_Out1","type":"TabOutput","name":"LFO1Out","comment":"","x":435,"y":140,"z":"65451dc5.e7c4b4","bgColor":"#CCE6FF","wires":[]},{"id":"LFONoiseSource_Out2","type":"TabOutput","name":"LFO2Out","comment":"","x":435,"y":200,"z":"65451dc5.e7c4b4","bgColor":"#CCE6FF","wires":[]},{"id":"LFOSources_code1","type":"Function","name":"LFOcode","comment":"void updateLFO1() {\r\n  LFO1.begin(lfo1Waveform);\r\n  LFO1.frequency(lfo1Freq);\r\n  LFO1.amplitude(lfo1Depth);\r\n  LFO1.pulseWidth(lfo1PWM);\r\n}\r\n\r\nvoid updateLFO2() {\r\n  LFO2.begin(lfo2Waveform);\r\n  LFO2.frequency(lfo2Freq);\r\n  LFO2.amplitude(lfo2Depth);\r\n  LFO2.pulseWidth(lfo2PWM);\r\n}\r\n","x":440,"y":270,"z":"65451dc5.e7c4b4","bgColor":"#DDFFBB","wires":[]},{"type":"tab","id":"Main","label":"Voice","inputs":2,"outputs":1,"export":true,"nodes":[]},{"id":"Voice_ClassComment1","type":"ClassComment","name":"A voice has two Osc, Noise and Wavetable. ","x":245,"y":45,"z":"Main","bgColor":"#CCFFCC","wires":[]},{"id":"Voice_ClassComment2","type":"ClassComment","name":"Each Osc are modulated by two external LFO.","x":255,"y":75,"z":"Main","bgColor":"#CCFFCC","wires":[]},{"id":"Voice_In1","type":"TabInput","name":"LFOmod1","comment":"","x":275,"y":205,"z":"Main","bgColor":"#CCE6FF","wires":[["Voice_waveformMod1:0"]]},{"id":"Voice_In2","type":"TabInput","name":"LFOmod2","comment":"","x":280,"y":265,"z":"Main","bgColor":"#CCE6FF","wires":[["Voice_waveformMod2:0"]]},{"id":"Voice_vars1","type":"Variables","name":"Voicevars","comment":"// modulator settings\r\nint osc1Waveform = WAVEFORM_SINE;\r\nfloat osc1Amplitude = 1.0;\r\nint osc1Octave = 0;\r\nint osc1Semis = 0;\r\nfloat osc1Detune = 1.0; // can range 1.0 to 0.85\r\nfloat osc1PB = 1.0;\r\nosc_mod_t osc1Mod = Mod_FM;\r\n\r\nint osc2Waveform = WAVEFORM_SAWTOOTH;\r\nfloat osc2Amplitude = 1.0;\r\nint osc2Octave = 0;\r\nint osc2Semis = 0;\r\nfloat osc2Detune = 1.0; // can range 1.0 to 0.85\r\nfloat osc2PB = 1.0;\r\nosc_mod_t osc2Mod = Mod_FM;\r\n\r\n// noise settings\r\nfloat noiseAmplitude = 1.0;\r\n\r\n// wavetable\r\nint waveInstrument = 0; // piano\r\nfloat waveAmplitude = 1.0;\r\n\r\n// Mixer settings\r\nfloat osc1Amp = 1.0;\r\nfloat osc2Amp = 0.0;\r\nfloat noiseAmp = 0.0;\r\nfloat waveAmp = 0.0;\r\n\r\n// ADSR envelope settings\r\nfloat envAttack = 10.5;\r\nfloat envDecay = 35;\r\nfloat envSustain = 0.5;\r\nfloat envRelease = 300;","x":280,"y":425,"z":"Main","bgColor":"#DDFFBB","wires":[]},{"id":"Voice_ClassComment3","type":"ClassComment","name":"Each voice has it's own ADSR so can be at a unique position in start/stop playing.","x":365,"y":105,"z":"Main","bgColor":"#CCFFCC","wires":[]},{"id":"Voice_waveformMod1","type":"AudioSynthWaveformModulated","name":"VCO1","comment":"","x":450,"y":210,"z":"Main","bgColor":"#E6E0F8","wires":[["Voice_mixer4_1:0"]]},{"id":"Voice_waveformMod2","type":"AudioSynthWaveformModulated","name":"VCO2","comment":"","x":450,"y":270,"z":"Main","bgColor":"#E6E0F8","wires":[["Voice_mixer4_1:1"]]},{"id":"Voice_wavetable1","type":"AudioSynthWavetable","name":"WaveTable","comment":"","x":440,"y":320,"z":"Main","bgColor":"#E6E0F8","wires":[["Voice_mixer4_1:2"]]},{"id":"Voice_pink1","type":"AudioSynthNoisePink","name":"pinkNoise","comment":"","x":445,"y":370,"z":"Main","bgColor":"#E6E0F8","wires":[["Voice_mixer4_1:3"]]},{"id":"Voice_mixer4_1","type":"AudioMixer4","name":"VoiceMixer","comment":"","inputs":"4","x":635,"y":290,"z":"Main","bgColor":"#E6E0F8","wires":[["Voice_envelope1:0"]]},{"id":"Voice_code1","type":"Function","name":"Voicecode","comment":"void updateMix(Mix_change_t change) {\r\n  VoiceMixer.gain(0, osc1Amp);  \r\n  VoiceMixer.gain(1, osc2Amp);\r\n  VoiceMixer.gain(2, waveAmp);\r\n  VoiceMixer.gain(3, noiseAmp);\r\n  updateMixerBars(change);\r\n}\r\n\r\n\r\nvoid updateADSR(ADSR_change_t change) {\r\n  ADSR.attack(envAttack);\r\n  ADSR.decay(envDecay);\r\n  ADSR.sustain(envSustain);\r\n  ADSR.release(envRelease);\r\n  updateADSRBars(change);\r\n}\r\n\r\nvoid updateOsc1() {\r\n  VCO1.begin(osc1Waveform);\r\n  VCO1.amplitude(osc1Amplitude);\r\n  if (osc1Mod == Mod_FM) {\r\n    //TODO: consider allowing freq mod range to be changed\r\n    VCO1.frequencyModulation(12);\r\n  }\r\n  else {\r\n    //TODO: consider allowing phase mod range to be changed\r\n    VCO1.phaseModulation(180);\r\n  }\r\n}\r\n\r\nvoid updateOsc2() {\r\n  VCO2.begin(osc2Waveform);\r\n  VCO2.amplitude(osc2Amplitude);\r\n  if (osc2Mod == Mod_FM) {\r\n    VCO2.frequencyModulation(12);\r\n  }\r\n  else {\r\n    VCO2.phaseModulation(180);\r\n  }\r\n}\r\n\r\nvoid updateNoise() {\r\n  pinkNoise.amplitude(noiseAmplitude);\r\n}\r\n\r\nvoid updateWave() {\r\n  WaveTable.amplitude(waveAmplitude);\r\n  Wavetable.setInstrument(*GMinst[waveInstrument]);\r\n}\r\n","x":615,"y":425,"z":"Main","bgColor":"#DDFFBB","wires":[]},{"id":"Voice_envelope1","type":"AudioEffectEnvelope","name":"ADSR","comment":"","x":790,"y":290,"z":"Main","bgColor":"#E6E0F8","wires":[["Voice_Out1:0"]]},{"id":"Voice_Out1","type":"TabOutput","name":"VoiceOut","comment":"","x":955,"y":290,"z":"Main","bgColor":"#CCE6FF","wires":[]},{"type":"tab","id":"5f997400.dc1cbc","label":"FilterEffects","inputs":1,"outputs":1,"export":true,"nodes":[]},{"id":"Output_In1","type":"TabInput","name":"InMixFilter","comment":"","x":105,"y":200,"z":"5f997400.dc1cbc","bgColor":"#CCE6FF","wires":[["Output_mixer4_1:0","Output_filter1:0"]]},{"id":"FilterEffects_vars1","type":"Variables","name":"vars1","comment":"// filter ADSR\r\nfloat filtEnvA = 10.5;\r\nfloat filtEnvD = 35;\r\nfloat filtEnvS = 0.5;\r\nfloat filtEnvR = 300;\r\n\r\n// filter main variables\r\nfilter_band_t filtBand = LPF;\r\nfloat filterFreq = 5000;\r\nfloat filterRes = 2.5;\r\nfloat filtDC = 1.0;\r\nint filtMod = 0;\r\n\r\n// chorus\r\nint chorusVoices;\r\n// Number of samples in each delay line\r\n// Allocate the delay lines for left and right channels\r\nshort delayline[CHORUS_DELAY_LENGTH];\r\n","x":272,"y":482,"z":"5f997400.dc1cbc","bgColor":"#DDFFBB","wires":[]},{"id":"Output_filter1","type":"AudioFilterStateVariable","name":"filter1","comment":"","x":375,"y":250,"z":"5f997400.dc1cbc","bgColor":"#E6E0F8","wires":[["Output_mixer4_1:1"],["Output_mixer4_1:2"],["Output_mixer4_1:3"]]},{"id":"Output_dc1","type":"AudioSynthWaveformDc","name":"dc1","comment":"","x":315,"y":385,"z":"5f997400.dc1cbc","bgColor":"#E6E0F8","wires":[["Output_envelope1:0"]]},{"id":"Output_envelope1","type":"AudioEffectEnvelope","name":"FilterADSR","comment":"","x":445,"y":385,"z":"5f997400.dc1cbc","bgColor":"#E6E0F8","wires":[["Output_amp1:0"]]},{"id":"FilterEffects_code1","type":"Function","name":"Filtercode","comment":"void updateFiltADSR() {\r\n  FilterADSR.attack(filtEnvA);\r\n  FilterADSR.decay(filtEnvD);\r\n  FilterADSR.sustain(filtEnvS);\r\n  FilterADSR.release(filtEnvR);\r\n  dc1.amplitude(filtDC);\r\n  if (filtMod == 0) {\r\n    ModSwitch.gain(0.0);\r\n  }\r\n  else {\r\n    ModSwitch.gain(1.0);\r\n  }\r\n}\r\n\r\nvoid updateFilterBand() {\r\n  switch(filtBand) {\r\n    case FILT_OFF:\r\n      FilterSelect.gain(0, 1.00);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case LPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 1.0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case BPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 1.0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case HPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 1.0);\r\n     break;\r\n  }\r\n}\r\n\r\nvoid updateFilter() {\r\n  filter1.frequency(filterFreq);\r\n  filter1.resonance(filterRes);\r\n}\r\n\r\nvoid initChorus() {\r\n  chorusVoices = 0; // off by default\r\n\r\n  // Initialize the effect\r\n  // address of delayline\r\n  // total number of samples in the delay line\r\n  // number of voices in the chorus INCLUDING the original voice\r\n  if(!chorus.begin(delayline, CHORUS_DELAY_LENGTH, 6)) {\r\n    Serial.println(\"AudioEffectChorus - left channel begin failed\");\r\n    while(1);\r\n  }\r\n}\r\n\r\nvoid updateChorus() {\r\n  chorus.voices(chorusVoices);\r\n}","x":473,"y":480,"z":"5f997400.dc1cbc","bgColor":"#DDFFBB","wires":[]},{"id":"Output_mixer4_1","type":"AudioMixer4","name":"FilterSelect","comment":"","inputs":"4","x":585,"y":200,"z":"5f997400.dc1cbc","bgColor":"#E6E0F8","wires":[["Output_chorus1:0"]]},{"id":"Output_amp1","type":"AudioAmplifier","name":"ModSwitch","comment":"","x":595,"y":385,"z":"5f997400.dc1cbc","bgColor":"#E6E0F8","wires":[["Output_filter1:1"]]},{"id":"Output_chorus1","type":"AudioEffectChorus","name":"chorus1","comment":"","x":765,"y":200,"z":"5f997400.dc1cbc","bgColor":"#E6E0F8","wires":[["Output_Out1:0"]]},{"id":"Output_Out1","type":"TabOutput","name":"OutMixFilter","comment":"","x":975,"y":200,"z":"5f997400.dc1cbc","bgColor":"#CCE6FF","wires":[]},{"type":"tab","id":"5d3343db.fec47c","label":"Synth","inputs":0,"outputs":0,"export":true,"nodes":[]},{"id":"Synth_includeDef1","type":"IncludeDef","name":"\"types.h\"","comment":"","x":140,"y":50,"z":"5d3343db.fec47c","bgColor":"#DDFFBB","wires":[]},{"id":"Synth_includeDef2","type":"IncludeDef","name":"\"constdata.h\"","comment":"","x":155,"y":85,"z":"5d3343db.fec47c","bgColor":"#DDFFBB","wires":[]},{"id":"Synth_includeDef3","type":"IncludeDef","name":"\"notedata.h\"","comment":"","x":150,"y":120,"z":"5d3343db.fec47c","bgColor":"#DDFFBB","wires":[]},{"id":"Synth_includeDef4","type":"IncludeDef","name":"\"gminst.h\"","comment":"","x":145,"y":155,"z":"5d3343db.fec47c","bgColor":"#DDFFBB","wires":[]},{"id":"Synth_LFOSources1","type":"LFOSources","name":"LFOSources1","x":115,"y":390,"z":"5d3343db.fec47c","bgColor":"#ccffcc","wires":[["Synth_Voice1:0"],["Synth_Voice1:1"]]},{"id":"Synth_constValue1","type":"ConstValue","name":"NumStoredNotes","value":"32","valueType":"int","x":145,"y":595,"z":"5d3343db.fec47c","bgColor":"#EB9834","wires":[]},{"id":"Synth_Voice1","type":"Voice","name":"Voice[8]","x":345,"y":390,"z":"5d3343db.fec47c","bgColor":"#CCFFCC","wires":[["Synth_mixer1:0"]]},{"id":"Synth_vars1","type":"Variables","name":"Synthvars","comment":"// Arpeggiator\r\narp_mode_t arpMode;\r\nint arpOctave;\r\nfloat arpPeriod;\r\nbool arpLatch;\r\nfloat arpDelay;\r\nbool arpDelayActive;\r\nint arpTranspose;\r\nbyte arpNotes[NumStoredNotes]; \r\nint arpStoreIndex;\r\nint arpPlayIndex;\r\nint arpNumDown;\r\nint arpIncrement;\r\nint arpPlayOctave;\r\nint arpScaleMode;\r\n\r\nint clickCount = 0;\r\nelapsedMillis lastMillis = 0;\r\nelapsedMillis last_time = 0;\r\nlong encPos = -999;\r\nint encVal = 0;","x":340,"y":600,"z":"5d3343db.fec47c","bgColor":"#DDFFBB","wires":[]},{"id":"Synth_mixer1","type":"AudioMixer","name":"MixVoices","inputs":"1","comment":"","x":545,"y":390,"z":"5d3343db.fec47c","bgColor":"#E6E0F8","wires":[["Synth_FilterEffects1:0"]]},{"id":"Synth_sgtl5000_1","type":"AudioControlSGTL5000","name":"sgtl5000_1","comment":"","x":700,"y":310,"z":"5d3343db.fec47c","bgColor":"#E6E0F8","wires":[]},{"id":"Synth_FilterEffects1","type":"FilterEffects","name":"FilterEffects","x":725,"y":390,"z":"5d3343db.fec47c","bgColor":"#CCFFCC","wires":[["Synth_i2s1:0","Synth_i2s1:1"]]},{"id":"Synth_i2s1","type":"AudioOutputI2S","name":"i2s1","comment":"","x":900,"y":390,"z":"5d3343db.fec47c","bgColor":"#E6E0F8","wires":[]}]
+
+/**
+ * All voices share the same two LFOs
+ */
+class LFOSources
+{
+ public:
+    // LFO settings
+    int lfo1Waveform = WAVEFORM_SINE;
+    float lfo1Freq = 0.0;
+    float lfo1Depth = 0.0;
+    float lfo1PWM = 0.0;
+    
+    int lfo2Waveform = WAVEFORM_SINE;
+    float lfo2Freq = 0.0;
+    float lfo2Depth = 0.0;
+    float lfo2PWM = 0.0;
+    
+    AudioSynthWaveform               LFO1;
+    AudioSynthWaveform               LFO2;
+
+    LFOSources() // constructor (this is called when class-object is created)
+    {
+
+    }
+
+    void updateLFO1() {
+      LFO1.begin(lfo1Waveform);
+      LFO1.frequency(lfo1Freq);
+      LFO1.amplitude(lfo1Depth);
+      LFO1.pulseWidth(lfo1PWM);
+    }
+    
+    void updateLFO2() {
+      LFO2.begin(lfo2Waveform);
+      LFO2.frequency(lfo2Freq);
+      LFO2.amplitude(lfo2Depth);
+      LFO2.pulseWidth(lfo2PWM);
+    }
+    
+    
+};
+
+/**
+ * A voice has two Osc, Noise and Wavetable. 
+ * Each Osc are modulated by two external LFO.
+ * Each voice has it's own ADSR so can be at a unique position in start/stop playing.
+ */
+class Voice
+{
+ public:
+    // modulator settings
+    int osc1Waveform = WAVEFORM_SINE;
+    float osc1Amplitude = 1.0;
+    int osc1Octave = 0;
+    int osc1Semis = 0;
+    float osc1Detune = 1.0; // can range 1.0 to 0.85
+    float osc1PB = 1.0;
+    osc_mod_t osc1Mod = Mod_FM;
+    
+    int osc2Waveform = WAVEFORM_SAWTOOTH;
+    float osc2Amplitude = 1.0;
+    int osc2Octave = 0;
+    int osc2Semis = 0;
+    float osc2Detune = 1.0; // can range 1.0 to 0.85
+    float osc2PB = 1.0;
+    osc_mod_t osc2Mod = Mod_FM;
+    
+    // noise settings
+    float noiseAmplitude = 1.0;
+    
+    // wavetable
+    int waveInstrument = 0; // piano
+    float waveAmplitude = 1.0;
+    
+    // Mixer settings
+    float osc1Amp = 1.0;
+    float osc2Amp = 0.0;
+    float noiseAmp = 0.0;
+    float waveAmp = 0.0;
+    
+    // ADSR envelope settings
+    float envAttack = 10.5;
+    float envDecay = 35;
+    float envSustain = 0.5;
+    float envRelease = 300;
+    
+    AudioSynthWaveformModulated      VCO1;
+    AudioSynthWaveformModulated      VCO2;
+    AudioSynthWavetable              WaveTable;
+    AudioSynthNoisePink              pinkNoise;
+    AudioMixer4                      VoiceMixer;
+    AudioEffectEnvelope              ADSR;
+    AudioConnection                  *patchCord[5]; // total patchCordCount:5 including array typed ones.
+
+    Voice() // constructor (this is called when class-object is created)
+    {
+        int pci = 0; // used only for adding new patchcords
+
+
+        patchCord[pci++] = new AudioConnection(VCO1, 0, VoiceMixer, 0);
+        patchCord[pci++] = new AudioConnection(VCO2, 0, VoiceMixer, 1);
+        patchCord[pci++] = new AudioConnection(WaveTable, 0, VoiceMixer, 2);
+        patchCord[pci++] = new AudioConnection(pinkNoise, 0, VoiceMixer, 3);
+        patchCord[pci++] = new AudioConnection(VoiceMixer, 0, ADSR, 0);
+    }
+
+    void updateMix(Mix_change_t change) {
+      VoiceMixer.gain(0, osc1Amp);  
+      VoiceMixer.gain(1, osc2Amp);
+      VoiceMixer.gain(2, waveAmp);
+      VoiceMixer.gain(3, noiseAmp);
+      updateMixerBars(change);
+    }
+    
+    
+    void updateADSR(ADSR_change_t change) {
+      ADSR.attack(envAttack);
+      ADSR.decay(envDecay);
+      ADSR.sustain(envSustain);
+      ADSR.release(envRelease);
+      updateADSRBars(change);
+    }
+    
+    void updateOsc1() {
+      VCO1.begin(osc1Waveform);
+      VCO1.amplitude(osc1Amplitude);
+      if (osc1Mod == Mod_FM) {
+        //TODO: consider allowing freq mod range to be changed
+        VCO1.frequencyModulation(12);
+      }
+      else {
+        //TODO: consider allowing phase mod range to be changed
+        VCO1.phaseModulation(180);
+      }
+    }
+    
+    void updateOsc2() {
+      VCO2.begin(osc2Waveform);
+      VCO2.amplitude(osc2Amplitude);
+      if (osc2Mod == Mod_FM) {
+        VCO2.frequencyModulation(12);
+      }
+      else {
+        VCO2.phaseModulation(180);
+      }
+    }
+    
+    void updateNoise() {
+      pinkNoise.amplitude(noiseAmplitude);
+    }
+    
+    void updateWave() {
+      WaveTable.amplitude(waveAmplitude);
+      Wavetable.setInstrument(*GMinst[waveInstrument]);
+    }
+    
+    
+};
+
+class FilterEffects
+{
+ public:
+    // filter ADSR
+    float filtEnvA = 10.5;
+    float filtEnvD = 35;
+    float filtEnvS = 0.5;
+    float filtEnvR = 300;
+    
+    // filter main variables
+    filter_band_t filtBand = LPF;
+    float filterFreq = 5000;
+    float filterRes = 2.5;
+    float filtDC = 1.0;
+    int filtMod = 0;
+    
+    // chorus
+    int chorusVoices;
+    // Number of samples in each delay line
+    // Allocate the delay lines for left and right channels
+    short delayline[CHORUS_DELAY_LENGTH];
+    
+    
+    AudioFilterStateVariable         filter1;
+    AudioSynthWaveformDc             dc1;
+    AudioEffectEnvelope              FilterADSR;
+    AudioMixer4                      FilterSelect;
+    AudioAmplifier                   ModSwitch;
+    AudioEffectChorus                chorus1;
+    AudioConnection                  *patchCord[7]; // total patchCordCount:7 including array typed ones.
+
+    FilterEffects() // constructor (this is called when class-object is created)
+    {
+        int pci = 0; // used only for adding new patchcords
+
+
+        patchCord[pci++] = new AudioConnection(filter1, 0, FilterSelect, 1);
+        patchCord[pci++] = new AudioConnection(filter1, 1, FilterSelect, 2);
+        patchCord[pci++] = new AudioConnection(filter1, 2, FilterSelect, 3);
+        patchCord[pci++] = new AudioConnection(dc1, 0, FilterADSR, 0);
+        patchCord[pci++] = new AudioConnection(FilterADSR, 0, ModSwitch, 0);
+        patchCord[pci++] = new AudioConnection(FilterSelect, 0, chorus1, 0);
+        patchCord[pci++] = new AudioConnection(ModSwitch, 0, filter1, 1);
+    }
+
+    void updateFiltADSR() {
+      FilterADSR.attack(filtEnvA);
+      FilterADSR.decay(filtEnvD);
+      FilterADSR.sustain(filtEnvS);
+      FilterADSR.release(filtEnvR);
+      dc1.amplitude(filtDC);
+      if (filtMod == 0) {
+        ModSwitch.gain(0.0);
+      }
+      else {
+        ModSwitch.gain(1.0);
+      }
+    }
+    
+    void updateFilterBand() {
+      switch(filtBand) {
+        case FILT_OFF:
+          FilterSelect.gain(0, 1.00);
+          FilterSelect.gain(1, 0);
+          FilterSelect.gain(2, 0);
+          FilterSelect.gain(3, 0);
+          break;
+    
+        case LPF:
+          FilterSelect.gain(0, 0);
+          FilterSelect.gain(1, 1.0);
+          FilterSelect.gain(2, 0);
+          FilterSelect.gain(3, 0);
+          break;
+    
+        case BPF:
+          FilterSelect.gain(0, 0);
+          FilterSelect.gain(1, 0);
+          FilterSelect.gain(2, 1.0);
+          FilterSelect.gain(3, 0);
+          break;
+    
+        case HPF:
+          FilterSelect.gain(0, 0);
+          FilterSelect.gain(1, 0);
+          FilterSelect.gain(2, 0);
+          FilterSelect.gain(3, 1.0);
+         break;
+      }
+    }
+    
+    void updateFilter() {
+      filter1.frequency(filterFreq);
+      filter1.resonance(filterRes);
+    }
+    
+    void initChorus() {
+      chorusVoices = 0; // off by default
+    
+      // Initialize the effect
+      // address of delayline
+      // total number of samples in the delay line
+      // number of voices in the chorus INCLUDING the original voice
+      if(!chorus.begin(delayline, CHORUS_DELAY_LENGTH, 6)) {
+        Serial.println("AudioEffectChorus - left channel begin failed");
+        while(1);
+      }
+    }
+    
+    void updateChorus() {
+      chorus.voices(chorusVoices);
+    }
+    
+};
+
+class Synth
+{
+ public:
+    const static int NumStoredNotes = 32;
+    // Arpeggiator
+    arp_mode_t arpMode;
+    int arpOctave;
+    float arpPeriod;
+    bool arpLatch;
+    float arpDelay;
+    bool arpDelayActive;
+    int arpTranspose;
+    byte arpNotes[NumStoredNotes]; 
+    int arpStoreIndex;
+    int arpPlayIndex;
+    int arpNumDown;
+    int arpIncrement;
+    int arpPlayOctave;
+    int arpScaleMode;
+    
+    int clickCount = 0;
+    elapsedMillis lastMillis = 0;
+    elapsedMillis last_time = 0;
+    long encPos = -999;
+    int encVal = 0;
+    
+    LFOSources                       LFOSources1;
+    Voice                            Voice[8];
+    AudioMixer<8>                    MixVoices;
+    FilterEffects                    FilterEffects;
+    AudioOutputI2S                   i2s1;
+    AudioControlSGTL5000 sgtl5000_1;
+    AudioConnection                  *patchCord[28]; // total patchCordCount:28 including array typed ones.
+
+    Synth() // constructor (this is called when class-object is created)
+    {
+        int pci = 0; // used only for adding new patchcords
+
+
+        patchCord[pci++] = new AudioConnection(MixVoices, 0, FilterEffects.FilterSelect, 0);
+        patchCord[pci++] = new AudioConnection(MixVoices, 0, FilterEffects.filter1, 0);
+        patchCord[pci++] = new AudioConnection(FilterEffects.chorus1, 0, i2s1, 0);
+        patchCord[pci++] = new AudioConnection(FilterEffects.chorus1, 0, i2s1, 1);
+        for (int i = 0; i < 8; i++)
+        {
+            patchCord[pci++] = new AudioConnection(LFOSources1.LFO1, 0, Voice[i].VCO1, 0);
+            patchCord[pci++] = new AudioConnection(LFOSources1.LFO2, 0, Voice[i].VCO2, 0);
+            patchCord[pci++] = new AudioConnection(Voice[i].ADSR, 0, MixVoices, i);
+        }
+    }
+};
+// GUItool: end automatically generated code
