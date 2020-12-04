@@ -73,28 +73,6 @@ XPT2046_Touchscreen ts(TOUCH_CS);
 Encoder enc(2,3);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 
-/*===========================================================
- *  TS calibration musings... points at 4 corners:
- * 
-        3740, 3833                     227, 3818
-        
-        
-        3687, 374                      235, 346
-        
-        3740 - 227 = 3513 to represent 320 X
-        3687 - 235 = 3452 to represent 320 X
-        Avg = 3482
-        
-        3833 - 374 = 3459 to represent 240 Y
-        3818 - 346 = 3472 to represent 240 Y
-        Avg = 3465
-        
-        X = (X reading - 231) then map(3482, 0, 0, 320)
-        Y = (Y reading - 360) then map(3465, 0, 0, 240)
-        
-============================================================*/
-
-
 void dumpPatch() {
   Serial.println("====================================");
   Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune=%.2f\n",
@@ -199,13 +177,6 @@ end procedure
 */
   int newLen;
   int len = arpStoreIndex + 1;
-#ifdef DEBUG_SORT  
-  Serial.print("Input = ");
-  for (int i = 0; i < arpStoreIndex; i++) {
-    Serial.printf("%d ", arpNotes[i]);
-  }
-  Serial.println();
-#endif  
   do {
     newLen = 0;
     
@@ -492,7 +463,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
       else if (value == 1) {
         filtBand= LPF;
       }
-      else if (value = 2) {
+      else if (value == 2) {
         filtBand= BPF;
       }
       else {
@@ -519,7 +490,8 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
     case 111:
     case 116:
     case 117:
-      int change;
+    {
+      int change = WAVEFORM_SINE; // make sure there is *some* default
       value /= 10;
       switch (value) {
         case 0:
@@ -597,6 +569,7 @@ void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 
         }
       }
       break;
+    }
 
     // ===========================  LFO1 =====================
     case 112:
@@ -940,45 +913,47 @@ void setup() {
   usbMIDI.setHandleControlChange(OnControlChange);
   usbMIDI.setHandlePitchChange(onPitchChange);
   usbMIDI.setHandleProgramChange(onProgramChange);
-  //MIDI.setHandleNoteOff(OnNoteOff);
-  //MIDI.setHandleNoteOn(OnNoteOn);
-  //MIDI.setHandleControlChange(OnControlChange);
+  
+  MIDI.setHandleNoteOff(OnNoteOff);
+  MIDI.setHandleNoteOn(OnNoteOn);
+  MIDI.setHandleControlChange(OnControlChange);
+  MIDI.setHandlePitchBend(onPitchChange);
+  MIDI.setHandleProgramChange(onProgramChange);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   usbMIDI.read();
-
-#if 0  // testing touch input
-  int16_t x, y;
-  tft.getCursor(&x, &y);
-  if (y > 240) {
-    tft.fillRect(0, 20, 320, 220, ILI9341_BLACK);
-    tft.setCursor(0, 20);
-  }
-  //Serial.printf("x = %u, y = %u\n", x, y);
-#endif
+  MIDI.read();
 
 #ifdef USE_TOUCH
   if (ts.touched()) {
+    /*===========================================================
+    *  TS calibration musings... points at 4 corners:
+    * 
+          3740, 3833                     227, 3818
+          
+          
+          3687, 374                      235, 346
+          
+          3740 - 227 = 3513 to represent 320 X
+          3687 - 235 = 3452 to represent 320 X
+          Avg = 3482
+          
+          3833 - 374 = 3459 to represent 240 Y
+          3818 - 346 = 3472 to represent 240 Y
+          Avg = 3465
+          
+          X = (X reading - 231) then map(3482, 0, 0, 320)
+          Y = (Y reading - 360) then map(3465, 0, 0, 240)
+          
+    ============================================================*/
     int X, Y;
     TS_Point p = ts.getPoint();
     X = p.x - 231;
     X = map(X, 3482, 0, 0, 320);
     Y = p.y - 360;
     Y = map(Y, 3465, 0, 0, 240);
-#if 0
-    tft.fillRect(100, 150, 140, 60, ILI9341_BLACK);
-    tft.setTextColor(ILI9341_GREEN);
-    tft.setFont(Arial_24);
-    tft.setCursor(100, 150);
-    tft.print("X = ");
-    tft.print(X);
-    tft.setCursor(100, 180);
-    tft.print("Y = ");
-    tft.print(Y);
-    tft.fillCircle(X, Y, 4, CL(0, 255, 0));
-#endif
     tft.setFont(Arial_14);
     tft.fillRect(240, 5, 100, 30, ILI9341_BLACK);
     tft.setTextColor(ILI9341_RED);
@@ -1026,85 +1001,8 @@ void loop() {
       OnControlChange(1, 102, Nval);
     }
   }
-  #endif
+#endif
 
-  #if 0 // testing joystick input
-  if (lastMillis > 100) {
-    if (digitalRead(JOY_SW) == 0) {
-      clickCount++;
-      Serial.printf("Click %u\n", clickCount);
-    }
-    int joyX, joyY;
-    joyX = analogRead(JOY_X);
-    joyY = analogRead(JOY_Y);
-    #if 1
-    tft.fillRect(220, 10, 100, 12, ILI9341_BLACK);
-    tft.setCursor(220, 10);
-    tft.setTextColor(ILI9341_WHITE);
-    tft.setFont(Arial_12);
-    tft.printf("x=%u y=%u\r", joyX, joyY);
-    #endif
-    OnControlChange(1, 103, map(joyX, 0, 1023, 0, 127));
-    OnControlChange(1, 104, map(joyY, 0, 1023, 0, 127));
-    lastMillis = 0;
-  }
-  #endif
-
-  #if 0 // testing encoder input
-  long newPos;
-  newPos = enc.read();
-  if (newPos != encPos) {
-    if ((newPos > encPos) && (encVal < 127)) {
-      encVal++;
-    }
-    if ((newPos < encPos) && (encVal > 0)) {
-      encVal--;
-    }
-    OnControlChange(1, 105, encVal);
-    encPos = newPos;
-  }
-  #endif
-
-  #if 1 // support 5 pin DIN MIDI in (the attach callbacks do't work??)
-  if (MIDI.read()) {                    // Is there a MIDI message incoming ?
-    int note, velocity, channel, d1, d2;
-    byte type = MIDI.getType();
-    switch (type) {
-      case midi::NoteOn:
-        note = MIDI.getData1();
-        velocity = MIDI.getData2();
-        channel = MIDI.getChannel();
-        #if 0
-        if (velocity > 0) {
-          Serial.println(String("Note On:  ch=") + channel + ", note=" + note + ", velocity=" + velocity);
-        } else {
-          Serial.println(String("Note Off: ch=") + channel + ", note=" + note);
-        }
-        #endif
-        OnNoteOn(channel, note, velocity);
-        break;
-      case midi::NoteOff:
-        note = MIDI.getData1();
-        velocity = MIDI.getData2();
-        channel = MIDI.getChannel();
-        #if 0
-        Serial.println(String("Note Off: ch=") + channel + ", note=" + note + ", velocity=" + velocity);
-        #endif
-        OnNoteOff(channel, note, velocity);
-        break;
-      case midi::ControlChange:
-        d1 = MIDI.getData1();
-        d2 = MIDI.getData2();
-        channel = MIDI.getChannel();
-        OnControlChange(channel, d1, d2);
-        break;
-      default:
-        d1 = MIDI.getData1();
-        d2 = MIDI.getData2();
-        Serial.println(String("Message, type=") + type + ", data = " + d1 + " " + d2);
-    }
-  }
-  #endif
   if (arpMode != Arp_Off) {
     // play Arpeggiator notes
     if (arpStoreIndex != 0) { // any notes in the array to play?
@@ -1204,22 +1102,13 @@ void loop() {
               arpPlayOctave = 0;
             }
             break;
+         case Arp_Off:
+         case Arp_Record:
+         default:
+            // do nothing
+            break;
         }
       }
-    }
-  }
-  if(0) {
-    if(last_time >= 5000) {
-      Serial.print("Proc = ");
-      Serial.print(AudioProcessorUsage());
-      Serial.print(" (");    
-      Serial.print(AudioProcessorUsageMax());
-      Serial.print("),  Mem = ");
-      Serial.print(AudioMemoryUsage());
-      Serial.print(" (");    
-      Serial.print(AudioMemoryUsageMax());
-      Serial.println(")");
-      last_time = 0;
     }
   }
 }
