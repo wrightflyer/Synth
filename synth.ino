@@ -38,6 +38,7 @@ AudioFilterStateVariable filter1;        //xy=978,246
 AudioMixer4              Filter_Select;  //xy=1184,220
 AudioEffectChorus        chorus;         //xy=1341,219
 AudioOutputI2S           i2s1;           //xy=1513,218
+AudioOutputUSB           usb1;           //xy=1520,272
 AudioConnection          patchCord1(LFO1, LFO1switch);
 AudioConnection          patchCord2(LFO2, LFO2switch);
 AudioConnection          patchCord3(LFO1switch, 0, waveformMod1, 0);
@@ -62,6 +63,8 @@ AudioConnection          patchCord21(filter1, 2, Filter_Select, 2);
 AudioConnection          patchCord22(Filter_Select, chorus);
 AudioConnection          patchCord23(chorus, 0, i2s1, 0);
 AudioConnection          patchCord24(chorus, 0, i2s1, 1);
+AudioConnection          patchCord25(chorus, 0, usb1, 0);
+AudioConnection          patchCord26(chorus, 0, usb1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=787,94
 // GUItool: end automatically generated code
 
