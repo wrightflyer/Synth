@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="320" height="240" src="src/nonCodeUtils/amelia320.png" />
+    <img width="320" height="240" src="src/noneCodeUtils/amelia320.png" />
 </p>
 
 ### A project to make a synth using Teensy 4 and Audio Adapter
