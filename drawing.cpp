@@ -1,5 +1,5 @@
 #include "drawing.h"
-#include "globals.h"
+#include "src/data/globals.h"
 
 double mapf(double x, double in_min, double in_max, double out_min, double out_max);
 

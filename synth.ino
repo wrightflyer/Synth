@@ -1,10 +1,10 @@
 #include <synth_wavetable.h>
-#include "types.h"
-#include "defines.h"
-#include "constdata.h"
-#include "globals.h"
-#include "NoteData.h"
-#include "GMinst.h"
+#include "src/data/types.h"
+#include "src/data/defines.h"
+#include "src/data/constdata.h"
+#include "src/data/globals.h"
+#include "src/data/NoteData.h"
+#include "src/GMinstrument/GMinst.h"
 #include "drawing.h"
 #include <MIDI.h>
 #include <ILI9341_t3.h>

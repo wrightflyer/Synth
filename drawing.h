@@ -1,9 +1,9 @@
 #ifndef _DRAWING_H_
 #define _DRAWING_H_
-#include "types.h"
+#include "src/data/types.h"
 #include <font_Arial.h>
 #include <font_ArialBold.h>
-#include "constdata.h"
+#include "src/data/constdata.h"
 
 void tftInit();
 boolean pointInRect(int x, int y, int rectX, int rectY, int rectW, int rectH);
