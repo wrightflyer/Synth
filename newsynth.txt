@@ -568,7 +568,7 @@ class ContinuousController
           else if (value == 1) {
             filtBand= LPF;
           }
-          else if (value = 2) {
+          else if (value == 2) {
             filtBand= BPF;
           }
           else {
@@ -595,7 +595,8 @@ class ContinuousController
         case 111:
         case 116:
         case 117:
-          int change;
+        {
+          int change = WAVEFORM_SINE;
           value /= 10;
           switch (value) {
             case 0:
@@ -673,6 +674,7 @@ class ContinuousController
             }
           }
           break;
+        }
     
         // ===========================  LFO1 =====================
         case 112:
@@ -1276,6 +1278,27 @@ class Synth
     
     #ifdef USE_TOUCH
       if (ts.touched()) {
+        /*===========================================================
+        *  TS calibration musings... points at 4 corners:
+        * 
+              3740, 3833                     227, 3818
+              
+              
+              3687, 374                      235, 346
+              
+              3740 - 227 = 3513 to represent 320 X
+              3687 - 235 = 3452 to represent 320 X
+              Avg = 3482
+              
+              3833 - 374 = 3459 to represent 240 Y
+              3818 - 346 = 3472 to represent 240 Y
+              Avg = 3465
+              
+              X = (X reading - 231) then map(3482, 0, 0, 320)
+              Y = (Y reading - 360) then map(3465, 0, 0, 240)
+              
+        ============================================================*/
+        int X, Y;
         int X, Y;
         TS_Point p = ts.getPoint();
         X = p.x - 231;
