@@ -1,0 +1,1119 @@
+[
+    {
+        "type": "settings",
+        "data": [
+            {
+                "arduino": {
+                    "useExportDialog": false,
+                    "IOcheckAtExport": true,
+                    "WriteJSONtoExportedFile": false,
+                    "WebServerPort": 8080,
+                    "WebSocketServerPort": 3000,
+                    "ProjectName": "PhatBass",
+                    "CodeIndentations": 4,
+                    "StandardIncludeHeader": "#include <Arduino.h>\n#include <Audio.h>\n#include <Wire.h>\n#include <SPI.h>\n#include <SD.h>\n#include <SerialFlash.h>\n"
+                }
+            },
+            {
+                "BiDirDataWebSocketBridge": {
+                    "bddwssPort": 3001,
+                    "MidiDeviceIn": 0,
+                    "MidiDeviceOut": 0
+                }
+            },
+            {
+                "view": {
+                    "showWorkspaceToolbar": true,
+                    "showNodeToolTip": true,
+                    "guiEditMode": true,
+                    "lockWindowMouseScrollInRunMode": true,
+                    "space_width": 5000,
+                    "space_height": 5000,
+                    "workspaceBgColor": "#FFF",
+                    "scaleFactor": 1,
+                    "showGridHminor": true,
+                    "showGridHmajor": true,
+                    "showGridVminor": true,
+                    "showGridVmajor": true,
+                    "nodeMouseDownShowGridHminor": false,
+                    "nodeMouseDownShowGridHmajor": true,
+                    "nodeMouseDownShowGridVminor": false,
+                    "nodeMouseDownShowGridVmajor": true,
+                    "gridHminorSize": 10,
+                    "gridHmajorSize": 100,
+                    "gridVminorSize": 10,
+                    "gridVmajorSize": 100,
+                    "gridMinorColor": "#eee",
+                    "gridMajorColor": "#ddd",
+                    "snapToGrid": true,
+                    "snapToGridHsize": 5,
+                    "snapToGridVsize": 5,
+                    "lineCurveScale": 0.75,
+                    "lineConnectionsScale": 1.5,
+                    "useCenterBasedPositions": null,
+                    "nodeDefaultTextSize": 14,
+                    "keyboardScrollSpeed": 10,
+                    "guiRunForceScrollSpeed": 20
+                }
+            },
+            {
+                "palette": {
+                    "categoryHeaderTextSize": 12,
+                    "categoryHeaderHeight": 14,
+                    "categoryHeaderBackgroundColor": "#f3f3f3",
+                    "onlyShowOne": true
+                }
+            },
+            {
+                "editor": {
+                    "aceEditorTheme": "theme-chrome"
+                }
+            },
+            {
+                "devTest": {
+                    "autoSwitchTabToInfoTab": true,
+                    "testPost": "data",
+                    "testGet": "cmd",
+                    "testWsSend": "data",
+                    "getFuncHelp": "AudioEffectFade"
+                }
+            }
+        ]
+    },
+    {
+        "type": "tab",
+        "id": "65451dc5.e7c4b4",
+        "label": "LFOSources",
+        "inputs": 0,
+        "outputs": 2,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "LFONoiseSource_waveform1",
+        "type": "AudioSynthWaveform",
+        "name": "LFO1",
+        "comment": "",
+        "x": 210,
+        "y": 140,
+        "z": "65451dc5.e7c4b4",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "LFONoiseSource_Out1:0"
+            ]
+        ]
+    },
+    {
+        "id": "LFONoiseSource_waveform2",
+        "type": "AudioSynthWaveform",
+        "name": "LFO2",
+        "comment": "",
+        "x": 210,
+        "y": 200,
+        "z": "65451dc5.e7c4b4",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "LFONoiseSource_Out2:0"
+            ]
+        ]
+    },
+    {
+        "id": "LFOSources_vars1",
+        "type": "Variables",
+        "name": "LFOvars",
+        "comment": "// LFO settings\r\nint lfo1Waveform = WAVEFORM_SINE;\r\nfloat lfo1Freq = 0.0;\r\nfloat lfo1Depth = 0.0;\r\nfloat lfo1PWM = 0.0;\r\n\r\nint lfo2Waveform = WAVEFORM_SINE;\r\nfloat lfo2Freq = 0.0;\r\nfloat lfo2Depth = 0.0;\r\nfloat lfo2PWM = 0.0;",
+        "x": 220,
+        "y": 270,
+        "z": "65451dc5.e7c4b4",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "LFOSources_ClassComment1",
+        "type": "ClassComment",
+        "name": "All voices share the same two LFOs",
+        "x": 315,
+        "y": 80,
+        "z": "65451dc5.e7c4b4",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "LFOSources_constructor code1",
+        "type": "ConstructorCode",
+        "name": "LFOSources constructor",
+        "comment": "updateLFO1();\r\nupdateLFO2();",
+        "x": 385,
+        "y": 270,
+        "z": "65451dc5.e7c4b4",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "LFONoiseSource_Out1",
+        "type": "TabOutput",
+        "name": "LFO1Out",
+        "comment": "",
+        "x": 435,
+        "y": 140,
+        "z": "65451dc5.e7c4b4",
+        "bgColor": "#CCE6FF",
+        "wires": []
+    },
+    {
+        "id": "LFONoiseSource_Out2",
+        "type": "TabOutput",
+        "name": "LFO2Out",
+        "comment": "",
+        "x": 435,
+        "y": 200,
+        "z": "65451dc5.e7c4b4",
+        "bgColor": "#CCE6FF",
+        "wires": []
+    },
+    {
+        "id": "LFOSources_code1",
+        "type": "Function",
+        "name": "LFOcode",
+        "comment": "void updateLFO1() {\r\n  LFO1.begin(lfo1Waveform);\r\n  LFO1.frequency(lfo1Freq);\r\n  LFO1.amplitude(lfo1Depth);\r\n  LFO1.pulseWidth(lfo1PWM);\r\n}\r\n\r\nvoid updateLFO2() {\r\n  LFO2.begin(lfo2Waveform);\r\n  LFO2.frequency(lfo2Freq);\r\n  LFO2.amplitude(lfo2Depth);\r\n  LFO2.pulseWidth(lfo2PWM);\r\n}\r\n\r\nvoid setLFO1Waveform(int wave) {\r\n    lfo1Waveform = wave;\r\n    updateLFO1();\r\n}\r\n\r\nvoid setLFO2Waveform(int wave) {\r\n    lfo2Waveform = wave;\r\n    updateLFO2();\r\n}\r\n\r\nvoid setLFO1Freq(float freq) {\r\n    lfo1Freq = freq;\r\n    updateLFO1();\r\n}\r\n\r\nvoid setLFO2Freq(float freq) {\r\n    lfo2Freq = freq;\r\n    updateLFO2();\r\n}\r\n\r\nvoid setLFO1Depth(float depth) {\r\n    lfo1Depth = depth;\r\n    updateLFO1();\r\n}\r\n\r\nvoid setLFO2Depth(float depth) {\r\n    lfo2Depth = depth;\r\n    updateLFO2();\r\n}\r\n\r\nvoid setLFO1PWM(float pwm) {\r\n    lfo1PWM = pwm;\r\n    updateLFO1();\r\n}\r\n\r\nvoid setLFO2PWM(float pwm) {\r\n    lfo2PWM = pwm;\r\n    updateLFO2();\r\n}\r\n",
+        "x": 550,
+        "y": 270,
+        "z": "65451dc5.e7c4b4",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "Main",
+        "label": "Voice",
+        "inputs": 2,
+        "outputs": 1,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "Voice_In1",
+        "type": "TabInput",
+        "name": "LFOmod1",
+        "comment": "",
+        "x": 105,
+        "y": 185,
+        "z": "Main",
+        "bgColor": "#CCE6FF",
+        "wires": [
+            [
+                "Voice_waveformMod1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Voice_In2",
+        "type": "TabInput",
+        "name": "LFOmod2",
+        "comment": "",
+        "x": 110,
+        "y": 245,
+        "z": "Main",
+        "bgColor": "#CCE6FF",
+        "wires": [
+            [
+                "Voice_waveformMod2:0"
+            ]
+        ]
+    },
+    {
+        "id": "Voice_vars1",
+        "type": "Variables",
+        "name": "Voicevars",
+        "comment": "// modulator settings\r\nint osc1Waveform = WAVEFORM_SINE;\r\nfloat osc1Amplitude = 1.0;\r\nint osc1Octave = 0;\r\nint osc1Semis = 0;\r\nfloat osc1Detune = 1.0; // can range 1.0 to 0.85\r\nfloat osc1PB = 1.0;\r\nosc_mod_t osc1Mod = Mod_FM;\r\n\r\nint osc2Waveform = WAVEFORM_SAWTOOTH;\r\nfloat osc2Amplitude = 1.0;\r\nint osc2Octave = 0;\r\nint osc2Semis = 0;\r\nfloat osc2Detune = 1.0; // can range 1.0 to 0.85\r\nfloat osc2PB = 1.0;\r\nosc_mod_t osc2Mod = Mod_FM;\r\n\r\n// noise settings\r\nfloat noiseAmplitude = 1.0;\r\n\r\n// wavetable\r\nint waveInstrument = 0; // piano\r\nfloat waveAmplitude = 1.0;\r\n\r\n// Mixer settings\r\nfloat osc1Amp = 1.0;\r\nfloat osc2Amp = 0.0;\r\nfloat noiseAmp = 0.0;\r\nfloat waveAmp = 0.0;\r\n\r\n// ADSR envelope settings\r\nfloat envAttack = 10.5;\r\nfloat envDecay = 35;\r\nfloat envSustain = 0.5;\r\nfloat envRelease = 300;",
+        "x": 110,
+        "y": 405,
+        "z": "Main",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Voice_ClassComment1",
+        "type": "ClassComment",
+        "name": "A voice has two Osc, Noise and Wavetable. ",
+        "x": 245,
+        "y": 45,
+        "z": "Main",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "Voice_ClassComment2",
+        "type": "ClassComment",
+        "name": "Each Osc are modulated by two external LFO.",
+        "x": 255,
+        "y": 75,
+        "z": "Main",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "Voice_waveformMod1",
+        "type": "AudioSynthWaveformModulated",
+        "name": "VCO1",
+        "comment": "",
+        "x": 280,
+        "y": 190,
+        "z": "Main",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Voice_mixer4_1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Voice_waveformMod2",
+        "type": "AudioSynthWaveformModulated",
+        "name": "VCO2",
+        "comment": "",
+        "x": 280,
+        "y": 250,
+        "z": "Main",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Voice_mixer4_1:1"
+            ]
+        ]
+    },
+    {
+        "id": "Voice_wavetable1",
+        "type": "AudioSynthWavetable",
+        "name": "WaveTable",
+        "comment": "",
+        "x": 270,
+        "y": 300,
+        "z": "Main",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Voice_mixer4_1:2"
+            ]
+        ]
+    },
+    {
+        "id": "Voice_pink1",
+        "type": "AudioSynthNoisePink",
+        "name": "pinkNoise",
+        "comment": "",
+        "x": 275,
+        "y": 350,
+        "z": "Main",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Voice_mixer4_1:3"
+            ]
+        ]
+    },
+    {
+        "id": "Voice_constructor code1",
+        "type": "ConstructorCode",
+        "name": "Voice constructor",
+        "comment": "updateOsc1();\r\nupdateOsc2();\r\nupdateNoise();\r\nupdateMix(AllMix);\r\nupdateADSR(AllADSR);",
+        "x": 287,
+        "y": 405,
+        "z": "Main",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Voice_ClassComment3",
+        "type": "ClassComment",
+        "name": "Each voice has it's own ADSR so can be at a unique position in start/stop playing.",
+        "x": 365,
+        "y": 105,
+        "z": "Main",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "Voice_mixer4_1",
+        "type": "AudioMixer4",
+        "name": "VoiceMixer",
+        "comment": "",
+        "inputs": "4",
+        "x": 465,
+        "y": 270,
+        "z": "Main",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Voice_envelope1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Voice_code1",
+        "type": "Function",
+        "name": "Voicecode",
+        "comment": "void updateMix(Mix_change_t change) {\r\n  VoiceMixer.gain(0, osc1Amp);  \r\n  VoiceMixer.gain(1, osc2Amp);\r\n  VoiceMixer.gain(2, waveAmp);\r\n  VoiceMixer.gain(3, noiseAmp);\r\n  updateMixerBars(change);\r\n}\r\n\r\n\r\nvoid updateADSR(ADSR_change_t change) {\r\n  ADSR.attack(envAttack);\r\n  ADSR.decay(envDecay);\r\n  ADSR.sustain(envSustain);\r\n  ADSR.release(envRelease);\r\n  updateADSRBars(change);\r\n}\r\n\r\nvoid updateOsc1() {\r\n  VCO1.begin(osc1Waveform);\r\n  VCO1.amplitude(osc1Amplitude);\r\n  if (osc1Mod == Mod_FM) {\r\n    //TODO: consider allowing freq mod range to be changed\r\n    VCO1.frequencyModulation(12);\r\n  }\r\n  else {\r\n    //TODO: consider allowing phase mod range to be changed\r\n    VCO1.phaseModulation(180);\r\n  }\r\n}\r\n\r\nvoid updateOsc2() {\r\n  VCO2.begin(osc2Waveform);\r\n  VCO2.amplitude(osc2Amplitude);\r\n  if (osc2Mod == Mod_FM) {\r\n    VCO2.frequencyModulation(12);\r\n  }\r\n  else {\r\n    VCO2.phaseModulation(180);\r\n  }\r\n}\r\n\r\nvoid updateNoise() {\r\n  pinkNoise.amplitude(noiseAmplitude);\r\n}\r\n\r\nvoid updateWave() {\r\n  WaveTable.amplitude(waveAmplitude);\r\n  Wavetable.setInstrument(*GMinst[waveInstrument]);\r\n}\r\n\r\nvoid setOsc1Waveform(int wave) {\r\n    osc1Waveform = wave;\r\n    updateOsc1();\r\n}\r\n\r\nvoid setOsc1Octave(int oct) {\r\n    osc1Octave = oct;\r\n}\r\n\r\nvoid setOsc1Semis(int semis) {\r\n    osc1Semis = semis;\r\n}\r\n\r\nvoid setOsc1Detune(float detune) {\r\n    osc1Detune = detune;\r\n}\r\n\r\nvoid setOsc1PB(float PB) {\r\n    osc1PB = PB;\r\n}\r\n\r\nvoid setOsc1Mod(osc_mot_t mod) {\r\n    osc1Mod = mod;\r\n}\r\n\r\nvoid setOsc2Waveform(int wave) {\r\n    osc2Waveform = wave;\r\n    updateOsc2();\r\n}\r\n\r\nvoid setOsc2Octave(int oct) {\r\n    osc2Octave = oct;\r\n}\r\n\r\nvoid setOsc2Semis(int semis) {\r\n    osc2Semis = semis;\r\n}\r\n\r\nvoid setOsc2Detune(float detune) {\r\n    osc2Detune = detune;\r\n}\r\n\r\nvoid setOsc2PB(float PB) {\r\n    osc2PB = PB;\r\n}\r\n\r\nvoid setOsc2Mod(osc_mot_t mod) {\r\n    osc2Mod = mod;\r\n}\r\n\r\nvoid setOsc1Amp(float amp) {\r\n    osc1Amp = amp;\r\n    updateMix(OSC1);\r\n}\r\n\r\nvoid setOsc2Amp(float amp) {\r\n    osc2Amp = amp;\r\n    updateMix(OSC2);\r\n}\r\n\r\nvoid setNoiseAmp(float amp) {\r\n    noiseAmp = amp;\r\n    updateMix(Noise);\r\n}\r\n\r\nvoid setWaveAmp(float amp) {\r\n    waveAmp = amp;\r\n    updateMix(WaveTable);\r\n}\r\n\r\nvoid setADSRAttack(float attack) {\r\n    envAttack = attack;\r\n    updateADSR(Attack);\r\n}\r\n\r\nvoid setADSRDecay(float decay) {\r\n    envDecay = decay;\r\n    updateADSR(Decay);\r\n}\r\n\r\nvoid setADSRSustain(float sus) {\r\n    envSustain = sus;\r\n    updateADSR(Sustain);\r\n}\r\n\r\nvoid setADSRRelease(float rel) {\r\n    envRelease = rel;\r\n    updateADSR(Release);\r\n}\r\n",
+        "x": 445,
+        "y": 405,
+        "z": "Main",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Voice_envelope1",
+        "type": "AudioEffectEnvelope",
+        "name": "ADSR",
+        "comment": "",
+        "x": 620,
+        "y": 270,
+        "z": "Main",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Voice_Out1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Voice_Out1",
+        "type": "TabOutput",
+        "name": "VoiceOut",
+        "comment": "",
+        "x": 785,
+        "y": 270,
+        "z": "Main",
+        "bgColor": "#CCE6FF",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "5f997400.dc1cbc",
+        "label": "FilterEffects",
+        "inputs": 1,
+        "outputs": 1,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "Output_In1",
+        "type": "TabInput",
+        "name": "InMixFilter",
+        "comment": "",
+        "x": 95,
+        "y": 95,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#CCE6FF",
+        "wires": [
+            [
+                "Output_mixer4_1:0",
+                "Output_filter1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Output_filter1",
+        "type": "AudioFilterStateVariable",
+        "name": "filter1",
+        "comment": "",
+        "x": 265,
+        "y": 140,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Output_mixer4_1:1"
+            ],
+            [
+                "Output_mixer4_1:2"
+            ],
+            [
+                "Output_mixer4_1:3"
+            ]
+        ]
+    },
+    {
+        "id": "Output_dc1",
+        "type": "AudioSynthWaveformDc",
+        "name": "dc1",
+        "comment": "",
+        "x": 205,
+        "y": 275,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Output_envelope1:0"
+            ]
+        ]
+    },
+    {
+        "id": "FilterEffects_vars1",
+        "type": "Variables",
+        "name": "Filtervars",
+        "comment": "// filter ADSR\r\nfloat filtEnvA = 10.5;\r\nfloat filtEnvD = 35;\r\nfloat filtEnvS = 0.5;\r\nfloat filtEnvR = 300;\r\n\r\n// filter main variables\r\nfilter_band_t filtBand = LPF;\r\nfloat filterFreq = 5000;\r\nfloat filterRes = 2.5;\r\nfloat filtDC = 1.0;\r\nint filtMod = 0;\r\n\r\n// chorus\r\nint chorusVoices;\r\n// Number of samples in each delay line\r\n// Allocate the delay lines for left and right channels\r\nshort delayline[CHORUS_DELAY_LENGTH];\r\n",
+        "x": 200,
+        "y": 375,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Output_envelope1",
+        "type": "AudioEffectEnvelope",
+        "name": "FilterADSR",
+        "comment": "",
+        "x": 335,
+        "y": 275,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Output_amp1:0"
+            ]
+        ]
+    },
+    {
+        "id": "FilterEffects_constructor code1",
+        "type": "ConstructorCode",
+        "name": "FilterEffects constructor",
+        "comment": "updateFiltADSR();\r\nupdateFilterBand();\r\nupdateFilter();\r\ninitChorus();\r\nupdateChorus();",
+        "x": 375,
+        "y": 375,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Output_mixer4_1",
+        "type": "AudioMixer4",
+        "name": "FilterSelect",
+        "comment": "",
+        "inputs": "4",
+        "x": 475,
+        "y": 90,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Output_chorus1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Output_amp1",
+        "type": "AudioAmplifier",
+        "name": "ModSwitch",
+        "comment": "",
+        "x": 485,
+        "y": 275,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Output_filter1:1"
+            ]
+        ]
+    },
+    {
+        "id": "FilterEffects_code1",
+        "type": "Function",
+        "name": "Filtercode",
+        "comment": "void updateFiltADSR() {\r\n  FilterADSR.attack(filtEnvA);\r\n  FilterADSR.decay(filtEnvD);\r\n  FilterADSR.sustain(filtEnvS);\r\n  FilterADSR.release(filtEnvR);\r\n  dc1.amplitude(filtDC);\r\n  if (filtMod == 0) {\r\n    ModSwitch.gain(0.0);\r\n  }\r\n  else {\r\n    ModSwitch.gain(1.0);\r\n  }\r\n}\r\n\r\nvoid updateFilterBand() {\r\n  switch(filtBand) {\r\n    case FILT_OFF:\r\n      FilterSelect.gain(0, 1.00);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case LPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 1.0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case BPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 1.0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case HPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 1.0);\r\n     break;\r\n  }\r\n}\r\n\r\nvoid updateFilter() {\r\n  filter1.frequency(filterFreq);\r\n  filter1.resonance(filterRes);\r\n}\r\n\r\nvoid initChorus() {\r\n  chorusVoices = 0; // off by default\r\n\r\n  // Initialize the effect\r\n  // address of delayline\r\n  // total number of samples in the delay line\r\n  // number of voices in the chorus INCLUDING the original voice\r\n  if(!chorus.begin(delayline, CHORUS_DELAY_LENGTH, 6)) {\r\n    Serial.println(\"AudioEffectChorus - left channel begin failed\");\r\n    while(1);\r\n  }\r\n}\r\n\r\nvoid updateChorus() {\r\n  chorus.voices(chorusVoices);\r\n}\r\n\r\nvoid setFiltAttack(float attack) {\r\n  filtEnvA = attack;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltDecay(float decay) {\r\n  filtEnvD = decay;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltSustain(float sus) {\r\n  filtEnvS = sus;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltRelease(float release) {\r\n  filtEnvR = release;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltDC(float dc) {\r\n  filtDC = dc;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltModulation(int mod) {\r\n  filtMod = mod;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltBand(filt_band_t band) {\r\n  filtBand = band;\r\n  updateFilterBand();\r\n}\r\n\r\nvoid setFiltFreq(float freq) {\r\n  filterFreq = freq;\r\n  updateFilter();\r\n}\r\n\r\nvoid setFiltRes(float res) {\r\n  filterRes = res;\r\n  updateFilter();\r\n}\r\n\r\nvoid setChorus(int voices) {\r\n    chorusVoices = voices;\r\n    updateChorus();\r\n}",
+        "x": 560,
+        "y": 375,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Output_chorus1",
+        "type": "AudioEffectChorus",
+        "name": "chorus1",
+        "comment": "",
+        "x": 655,
+        "y": 90,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Output_Out1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Output_Out1",
+        "type": "TabOutput",
+        "name": "OutMixFilter",
+        "comment": "",
+        "x": 865,
+        "y": 90,
+        "z": "5f997400.dc1cbc",
+        "bgColor": "#CCE6FF",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "95654dc9.1fcd9",
+        "label": "Arpeggiator",
+        "inputs": 0,
+        "outputs": 0,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "Arpeggiator_vars1",
+        "type": "Variables",
+        "name": "Arpvars",
+        "comment": "// Arpeggiator\r\narp_mode_t arpMode;\r\nint arpOctave;\r\nfloat arpPeriod;\r\nbool arpLatch;\r\nfloat arpDelay;\r\nbool arpDelayActive;\r\nint arpTranspose;\r\nbyte arpNotes[NumStoredNotes]; \r\nint arpStoreIndex;\r\nint arpPlayIndex;\r\nint arpNumDown;\r\nint arpIncrement;\r\nint arpPlayOctave;\r\nint arpScaleMode;\r\n",
+        "x": 180,
+        "y": 95,
+        "z": "95654dc9.1fcd9",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Arpeggiator_constructor code1",
+        "type": "ConstructorCode",
+        "name": "Arpeggiator constructor",
+        "comment": "arpMode = Arp_Off;\r\narpLatch = false;\r\narpOctave = 0;\r\narpPeriod = 1000;\r\narpDelay = 0;\r\narpTranspose = 0;",
+        "x": 345,
+        "y": 95,
+        "z": "95654dc9.1fcd9",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Arpeggiator_code1",
+        "type": "Function",
+        "name": "Arpcode",
+        "comment": "void sortNotes() {\r\n/* From Wikipedia \r\n *   \r\nprocedure bubbleSort(A : list of sortable items)\r\n    n := length(A)\r\n    repeat\r\n        newn := 0\r\n        for i := 1 to n - 1 inclusive do\r\n            if A[i - 1] > A[i] then\r\n                swap(A[i - 1], A[i])\r\n                newn := i\r\n            end if\r\n        end for\r\n        n := newn\r\n    until n ≤ 1\r\nend procedure\r\n*/\r\n  int newLen;\r\n  int len = arpStoreIndex + 1;\r\n#ifdef DEBUG_SORT  \r\n  Serial.print(\"Input = \");\r\n  for (int i = 0; i < arpStoreIndex; i++) {\r\n    Serial.printf(\"%d \", arpNotes[i]);\r\n  }\r\n  Serial.println();\r\n#endif  \r\n  do {\r\n    newLen = 0;\r\n    \r\n    for (int i = 1; i < (len - 1); i++) {\r\n      if (arpNotes[i - 1] > arpNotes[i]) {\r\n        byte temp = arpNotes[i - 1];\r\n        arpNotes[i - 1] = arpNotes[i];\r\n        arpNotes[i] = temp;\r\n        newLen = i + 1;\r\n      }\r\n    }\r\n    len = newLen;\r\n  } while(len > 1);\r\n}\r\n\r\nvoid update() {\r\n  if (arpMode != Arp_Off) {\r\n    // play Arpeggiator notes\r\n    if (arpStoreIndex != 0) { // any notes in the array to play?\r\n      // are we in a post sequence delay?\r\n      if ((arpDelay != 0) && (arpDelayActive == true)) {\r\n        if (lastMillis > arpPeriod) {\r\n//          Serial.printf(\"Osc off because lasmillis (%lu) beyond arpPeriod (%u)\", lastMillis, arpPeriod);\r\n          oscillatorsOff();\r\n        }\r\n        if (lastMillis > arpDelay) {\r\n          arpDelayActive = false;\r\n          Serial.println(\"Delay stop\");\r\n          lastMillis = 0;\r\n        }\r\n      }\r\n      else if (lastMillis > arpPeriod) {\r\n        byte note2play;\r\n        lastMillis = 0;\r\n        Serial.print(\"[ \");\r\n        for (int i = 0; i < arpStoreIndex; i++) {\r\n          Serial.print(arpNotes[i]);\r\n          if (i == arpPlayIndex) {\r\n            Serial.print('*');\r\n          }\r\n          Serial.print(' ');\r\n        }\r\n        Serial.printf(\"] Octave=%u\\n\", arpPlayOctave);\r\n        note2play = arpNotes[arpPlayIndex] + arpTranspose + (12 * arpPlayOctave);\r\n//        Serial.println(\"Osc off because arpPeriod expired - cancel last playing note\");\r\n        if (arpMode != Arp_Record) {\r\n          oscillatorsOff(); // end previous note\r\n          oscillatorsOn(note2play); // start new note from ARP array\r\n        }\r\n        switch(arpMode) {\r\n          case Arp_Up:\r\n          case Arp_Scale:\r\n            arpPlayIndex++;\r\n            if (arpPlayIndex >= arpStoreIndex) {\r\n              arpPlayIndex = 0;\r\n              if (arpPlayOctave < arpOctave) {\r\n                arpPlayOctave++;\r\n              }\r\n              else {\r\n                arpDelayActive = true;\r\n                arpPlayOctave = 0;\r\n                Serial.println(\"Up: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n          case Arp_Down:\r\n            arpPlayIndex--;\r\n            if (arpPlayIndex < 0) {\r\n              arpPlayIndex = arpStoreIndex - 1;\r\n              if (arpPlayOctave > 0) {\r\n                arpPlayOctave--;\r\n              }\r\n              else {\r\n                arpDelayActive = true;\r\n                arpPlayOctave = arpOctave;\r\n                Serial.println(\"Dn: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n          case Arp_UpDown:\r\n            arpPlayIndex += arpIncrement;\r\n            if (arpPlayIndex >= arpStoreIndex) {\r\n              if (arpPlayOctave < arpOctave) {\r\n                arpPlayOctave++;\r\n                arpPlayIndex = 0;\r\n              }\r\n              else {\r\n                arpPlayIndex--;\r\n                arpIncrement = -arpIncrement;\r\n                arpDelayActive = true;\r\n                Serial.println(\"Up*: Delay start\");\r\n              }\r\n            }\r\n            if (arpPlayIndex < 0) {\r\n              if (arpPlayOctave > 0) {\r\n                arpPlayOctave--;\r\n                arpPlayIndex = arpStoreIndex - 1;\r\n              }\r\n              else {\r\n                arpPlayIndex++;\r\n                arpIncrement = -arpIncrement;\r\n                arpDelayActive = true;\r\n                Serial.println(\"Dn*: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n         case Arp_Random:\r\n            arpPlayIndex = rand() % arpStoreIndex;\r\n            if (arpOctave > 0) {\r\n              arpPlayOctave = rand() % (arpOctave + 1);\r\n            }\r\n            else {\r\n              arpPlayOctave = 0;\r\n            }\r\n            break;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n\r\nvoid setArpMode(arp_mode_t mode) {\r\n    arpMode = mode;\r\n}\r\n\r\nvoid setArpOctave(int octave) {\r\n    arpOctave = octave;\r\n}\r\n\r\nvoid setArpPeriod(float period) {\r\n    arpPeriod = period;\r\n}\r\n\r\nvoid setArpLatch(bool latch) {\r\n    arpLatch = latch;\r\n}\r\n\r\nvoid setArpDelay(float delay) {\r\n    arpDelay = delay;\r\n}\r\n\r\nvoid setArpDelayActive(bool active) {\r\n    arpDelayActive = active;\r\n}\r\n\r\nvoid setArpTranspose(int transpose) {\r\n    arpTranspose = transpose;\r\n}\r\n",
+        "x": 515,
+        "y": 95,
+        "z": "95654dc9.1fcd9",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "8ff6bbec.7eceb8",
+        "label": "ContinuousController",
+        "inputs": 0,
+        "outputs": 0,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "ContinuousController_constructor code1",
+        "type": "ConstructorCode",
+        "name": "CC constructor",
+        "comment": "usbMIDI.setHandleControlChange(OnControlChange);\r\nMIDI.setHandleControlChange(OnControlChange);",
+        "x": 172,
+        "y": 92,
+        "z": "8ff6bbec.7eceb8",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "ContinuousController_code1",
+        "type": "Function",
+        "name": "CCcode",
+        "comment": "static void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {\r\n  int i, n;\r\n  float fTemp;\r\n  int iTemp;\r\n  Serial.printf(\"CC: %u = %u ==> \", control, value);\r\n  switch(control) {\r\n    case 1:\r\n      Serial.println(\"Mod wheel\");\r\n      break;\r\n    // ====================== MIXER =====================\r\n    case 75:\r\n      fTemp =  velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Osc1 amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        synth.voice[n].setOsc1Amp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 76:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Osc2 amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        synth.voice[n].setOsc2Amp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 77:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Wavetable amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        synth.voice[n].setWaveAmp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 102:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Noise amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        synth.voice[n].setNoiseAmp(fTemp);\r\n      }\r\n      break;\r\n\r\n    // ======================== Amp ADSR ==========================\r\n    case 103:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Attack = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        synth.voice[n].setADSRAttack(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 104:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Decay = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        synth.voice[n].setADSRDecay(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 105:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"Sustain = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        synth.voice[n].setADSRSustain(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 106:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Release = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        synth.voice[n].setADSRRelease(fTemp);\r\n      }\r\n      break;\r\n\r\n    // ========================= FILTER =======================\r\n    case 107:\r\n      value /= 20;\r\n      if (value == 0) {\r\n        filtBand = FILT_OFF;\r\n      }\r\n      else if (value == 1) {\r\n        filtBand= LPF;\r\n      }\r\n      else if (value = 2) {\r\n        filtBand= BPF;\r\n      }\r\n      else {\r\n        filtBand = HPF;\r\n      }\r\n      Serial.printf(\"Filter band = %s\\n\", bands[filtBand]);\r\n      updateFilterBand();\r\n      break;\r\n\r\n    case 108:\r\n      filterFreq = mapf(value, 0, 127, 0, 10000);\r\n      Serial.printf(\"Filter Freq = %.2fHz\\n\", filterFreq);\r\n      updateFilter();\r\n      break;\r\n\r\n    case 109:\r\n      filterRes = mapf(value, 0, 127, 0.7, 5.0);\r\n      Serial.printf(\"Resonance = %.2f\\n\", filterRes);\r\n      updateFilter();\r\n      break;\r\n\r\n    // =================== WAVE SHAPE ======================\r\n    case 110:\r\n    case 111:\r\n    case 116:\r\n    case 117:\r\n      int change;\r\n      value /= 10;\r\n      switch (value) {\r\n        case 0:\r\n          // nothing for now as it'll be used to disable source below\r\n          break;\r\n        case 1:\r\n        default:\r\n          change = WAVEFORM_SINE;\r\n          break;\r\n        case 2:\r\n          change = WAVEFORM_SAWTOOTH;\r\n          break;\r\n        case 3:\r\n          change = WAVEFORM_SAWTOOTH_REVERSE;\r\n          break;\r\n        case 4:\r\n          change = WAVEFORM_SQUARE;\r\n          break;\r\n        case 5:\r\n          change = WAVEFORM_TRIANGLE;\r\n          break;\r\n        case 6:\r\n          change = WAVEFORM_SAMPLE_HOLD;\r\n          break;\r\n        case 7:\r\n          change = WAVEFORM_ARBITRARY;\r\n          break;\r\n        case 8:\r\n          change = WAVEFORM_PULSE;\r\n          break;\r\n      }\r\n      Serial.printf(\"Wave: %s (\", (value == 0) ? \"Off\" : waves[change]);\r\n      if (control == 110) {\r\n        Serial.println(\"LFO1)\");\r\n        if (value == 0) {\r\n          LFO1switch.gain(0);          \r\n        }\r\n        else {\r\n          LFO1switch.gain(1.0);\r\n          lfo1Waveform = change;\r\n          updateLFO1();\r\n        }\r\n      }\r\n      if (control == 111) {\r\n        Serial.println(\"LFO2)\");\r\n        if (value == 0) {\r\n          LFO2switch.gain(0);\r\n        }\r\n        else {\r\n          LFO2switch.gain(1.0);\r\n          lfo2Waveform = change;\r\n          updateLFO2();\r\n        }\r\n      }\r\n      if (control == 116) {\r\n        Serial.println(\"OSC1)\");\r\n        if (value == 0) {\r\n          Osc1switch.gain(0);\r\n        }\r\n        else {\r\n          Osc1switch.gain(1.0);\r\n          osc1Waveform = change;\r\n          updateOsc1();\r\n        }\r\n      }\r\n      if (control == 117) {\r\n        Serial.println(\"OSC2)\");\r\n        if (value == 0) {\r\n          Osc2switch.gain(0);\r\n        }\r\n        else {\r\n          Osc2switch.gain(1.0);\r\n          osc2Waveform = change;\r\n          updateOsc2();\r\n        }\r\n      }\r\n      break;\r\n\r\n    // ===========================  LFO1 =====================\r\n    case 112:\r\n      if (value < 64) {\r\n        lfo1Freq = mapf(value, 0, 64, 0.0, 20.0);        \r\n      }\r\n      else {\r\n        lfo1Freq = mapf(value, 64, 127, 20.0, 200.0);\r\n      }\r\n      Serial.printf(\"LFO1 freq = %.2fHz\\n\", lfo1Freq);\r\n      updateLFO1();\r\n      break;\r\n\r\n    case 114:\r\n      lfo1Depth = mapf(value, 0, 127, 0.0, 0.2);\r\n      Serial.printf(\"LFO1 depth = %.2f\\n\", lfo1Depth);\r\n      updateLFO1();\r\n      break;\r\n\r\n    case 20:\r\n      lfo1PWM = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"LFO1 PWM = %.2f\\n\", lfo1PWM);\r\n      updateLFO1();\r\n      break;\r\n\r\n    // ===================== LFO2 ========================\r\n    case 113:\r\n      if (value < 64) {\r\n        lfo2Freq = mapf(value, 0, 64, 0.0, 20.0);        \r\n      }\r\n      else {\r\n        lfo2Freq = mapf(value, 64, 127, 20.0, 200.0);\r\n      }\r\n      Serial.printf(\"LFO2 freq = %.2fHz\\n\", lfo2Freq);\r\n      updateLFO2();\r\n      break;\r\n\r\n    case 115:\r\n      lfo2Depth = mapf(value, 0, 127, 0.0, 0.2);\r\n      Serial.printf(\"LFO2 depth = %.2f\\n\", lfo2Depth);\r\n      updateLFO2();\r\n      break;\r\n\r\n    case 21:\r\n      lfo2PWM = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"LFO2 PWM = %.2f\\n\", lfo2PWM);\r\n      updateLFO2();\r\n      break;\r\n\r\n    // ======================= OSC1 =======================\r\n    case 118:\r\n      osc1Semis = mapf(value, 0.0, 127, 0, 12);\r\n      Serial.printf(\"Osc1 semis = %u\\n\", osc1Semis);\r\n      updateOsc1();\r\n      break;\r\n\r\n    case 23:\r\n      value = (value > 48) ? 48 : value;\r\n      n = (value / 12) * 12;\r\n      osc1Octave = n - 24;\r\n      Serial.printf(\"Osc1 Octave: %d\\n\", osc1Octave);\r\n      break;\r\n\r\n    case 25:\r\n      osc1Detune = mapf(value, 0, 127, 1.0, 0.85);\r\n      Serial.printf(\"Osc1 detune = %.2f\\n\", osc1Detune);\r\n      break;\r\n\r\n    case 14:\r\n      Serial.printf(\"Osc1 modulation = %s\\n\", value == 0 ? \"FM\" : \"PM\");\r\n      // 0..63 = FM, 64..127 = PM\r\n      if (value < 64) {\r\n        osc1Mod = Mod_FM;\r\n      }\r\n      else {\r\n        osc1Mod = Mod_PM;\r\n      }\r\n      break;\r\n\r\n    // ======================= OSC2 ============================\r\n    case 119:\r\n      osc2Semis = mapf(value, 0, 127, 0.0, 12);\r\n      Serial.printf(\"Osc2 semis = %u\\n\", osc2Semis);\r\n      updateOsc2();\r\n      break;\r\n\r\n    case 26:\r\n      value = (value > 48) ? 48 : value;\r\n      n = (value / 12) * 12;\r\n      osc2Octave = n - 24;\r\n      Serial.printf(\"Osc2 Octave: %d\\n\", osc2Octave);\r\n      break;\r\n\r\n    case 27:\r\n      osc2Detune = mapf(value, 0, 127, 1.0, 0.85);\r\n      Serial.printf(\"Osc2 detune = %.2f\\n\", osc2Detune);\r\n      break;\r\n\r\n    case 15:\r\n      Serial.printf(\"Osc2 modulation = %s\\n\", value == 0 ? \"FM\" : \"PM\");\r\n      // 0..63 = FM, 64..127 = PM\r\n      if (value < 64) {\r\n        osc2Mod = Mod_FM;\r\n      }\r\n      else {\r\n        osc2Mod = Mod_PM;\r\n      }\r\n      break;\r\n\r\n    // ======================== Filter ADSR =======================\r\n    case 22:\r\n      filtEnvA = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Attack = %.2f\\n\", filtEnvA);\r\n      updateFiltADSR();\r\n      break;\r\n\r\n    case 24:\r\n      filtEnvD = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Decay = %.2f\\n\", filtEnvD);\r\n      updateFiltADSR();\r\n      break;\r\n\r\n    case 28:\r\n      filtEnvS = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"Filter Sustain = %.2f\\n\", filtEnvS);\r\n      updateFiltADSR();\r\n      break;\r\n\r\n    case 29:\r\n      filtEnvR = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Release = %.2f\\n\", filtEnvR);\r\n      updateFiltADSR();\r\n      break;\r\n\r\n    // ====================== FILTER ====================\r\n    case 30:\r\n      filtDC = mapf(value, 0, 127, -1.0, 1.0);\r\n      Serial.printf(\"DC = %.2f\\n\", filtDC);\r\n      updateFiltADSR();\r\n      break;\r\n\r\n    case 31:\r\n      // use amp as a 0/1 switch for filter DC modulation\r\n      filtMod = (value < 64) ? 0 : 1;\r\n      Serial.printf(\"Modulation = %d\\n\", filtMod);\r\n      updateFiltADSR();\r\n      if (filtMod == 0) {\r\n        dumpPatch();\r\n      }\r\n      break;\r\n\r\n    // ===================== ARPEGGIATOR ===================\r\n    case 85:\r\n      value /= 20;\r\n      value *= 20;\r\n      if (value == 0) {\r\n        arpMode = Arp_Off;\r\n        Serial.println(\"Arp Off - Osc Off\");\r\n        oscillatorsOff();\r\n        arpStoreIndex = 0;\r\n        arpPlayIndex = 0;\r\n      }\r\n      else if (value == 20) {\r\n        arpMode = Arp_Up;\r\n        Serial.println(\"Arp Up\");\r\n        arpPlayIndex = 0;\r\n        arpDelayActive = false;\r\n        arpPlayOctave = 0;\r\n      }\r\n      else if (value == 40) {\r\n        arpMode = Arp_Down;\r\n        Serial.println(\"Arp Down\");\r\n        arpPlayIndex = 0;\r\n        arpDelayActive = false;\r\n        arpPlayOctave = arpOctave;\r\n      }\r\n      else if (value == 60) {\r\n        arpMode = Arp_UpDown;\r\n        Serial.println(\"Arp Up/Down\");\r\n        arpPlayIndex = 0;\r\n        arpIncrement = 1; // start \"up\"\r\n        arpDelayActive = false;\r\n        arpPlayOctave = 0;\r\n      }\r\n      else if (value == 80) {\r\n        arpMode = Arp_Random;\r\n        Serial.println(\"Arp Random\");\r\n      }\r\n      else if (value == 100) {\r\n        Serial.println(\"Arp Scales\");\r\n        arpMode = Arp_Scale;\r\n        arpPlayIndex = 0;\r\n        arpDelayActive = false;\r\n        arpPlayOctave = 0;\r\n      }\r\n      else if (value == 120) {\r\n        Serial.println(\"Arp Record\");\r\n        arpMode = Arp_Record;\r\n        arpStoreIndex = 0;\r\n        arpPlayIndex = 0;\r\n        arpDelayActive = false;\r\n        arpPlayOctave = 0;\r\n      }\r\n      break;\r\n\r\n    case 86:\r\n      arpOctave = (value / 20);\r\n      Serial.printf(\"Arp Octaves = %d\\n\", arpOctave + 1);\r\n      break;\r\n\r\n    case 87:\r\n      arpLatch = (value >= 64) ? 1 : 0; // 0 /1\r\n      if (value == 0) {\r\n        arpPlayIndex = 0;\r\n        arpStoreIndex = 0;\r\n        arpPlayOctave = 0;\r\n//        Serial.println(\"Osc off because latch Off\");\r\n        oscillatorsOff();\r\n      }\r\n      Serial.printf(\"Arp Latch = %u\\n\", arpLatch);\r\n      break;\r\n\r\n    case 88:\r\n      arpPeriod = mapf(value, 0, 127, 1200, 50); // not sure of units yet\r\n      Serial.printf(\"Arp Period = %.2f\\n\", arpPeriod);\r\n      break;\r\n\r\n    case 89:\r\n      arpDelay = mapf(value, 0, 127, 0, 2000);\r\n      Serial.printf(\"Arp Delay = %.2f\\n\", arpDelay);\r\n      break;\r\n\r\n    case 90:\r\n      arpTranspose = (int)mapf(value, 0, 127, 0, 11);\r\n      Serial.printf(\"Arp Transpose = %u\\n\", arpTranspose);\r\n      break;\r\n\r\n    case 92:\r\n      arpScaleMode = value;\r\n      Serial.printf(\"Scale = %s\\n\", scaleModes[value].name);\r\n      break;\r\n\r\n    // ===================== CHORUS ====================\r\n    case 91:\r\n      value /= 20;\r\n      value *= 20;\r\n      if (value == 0) {\r\n        chorusVoices = 0;\r\n      }\r\n      else if (value == 20) {\r\n        chorusVoices = 2;\r\n      }\r\n      else if (value == 40) {\r\n        chorusVoices = 4;\r\n      }\r\n      else if (value == 60) {\r\n        chorusVoices = 6;\r\n      }\r\n      Serial.printf(\"Chorus = %u\\n\", chorusVoices);\r\n      updateChorus();\r\n      break;\r\n\r\n    // ========================= PANIC =================\r\n    case 123:\r\n      // MIDI PANIC!!\r\n      arpPlayIndex = 0;\r\n      arpStoreIndex = 0;\r\n      arpPlayOctave = 0;\r\n      arpLatch = 0;\r\n      Serial.println(\"Osc off because Panic\");\r\n      oscillatorsOff();\r\n      break;\r\n\r\n    default:\r\n      // if unrecognised do nothing\r\n      break;\r\n  }\r\n}\r\n",
+        "x": 380,
+        "y": 95,
+        "z": "8ff6bbec.7eceb8",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "312a4458.4253ec",
+        "label": "PitchBend",
+        "inputs": 0,
+        "outputs": 0,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "PitchBend_constructor code1",
+        "type": "ConstructorCode",
+        "name": "PitchBend constructor",
+        "comment": "usbMIDI.setHandlePitchChange(onPitchChange);\r\nMIDI.setHandlePitchBend(onPitchChange);",
+        "x": 195,
+        "y": 80,
+        "z": "312a4458.4253ec",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "PitchBend_code1",
+        "type": "Function",
+        "name": "PBcode",
+        "comment": "static void onPitchChange(byte channel, int pitch) {\r\n  float change = 0.0;\r\n  Serial.printf(\"Pitch change: %d\\n\", pitch);\r\n  if (pitch == 0) {\r\n    osc1PB = 1.0;\r\n    osc2PB = 1.0;\r\n  }\r\n  else {\r\n    // pitch is -8192 to +8192 so convert that to -0.5 to +0.5\r\n    change = (0.5 / 8192) * pitch;\r\n    // so swing from 0.5 to 1.5\r\n    osc1PB = 1.0 + change;\r\n    osc2PB = 1.0 + change;\r\n  }\r\n  Serial.printf(\"Pitch change: %d so bend = %.05f, osc1PB = %.02f, osc2PB = %.02f\\n\", pitch, change, osc1PB, osc2PB);\r\n  if (arpNumDown != 0) {\r\n    // something already playing so retrigger with new freq\r\n    oscillatorsOn();\r\n  }\r\n}\r\n",
+        "x": 385,
+        "y": 80,
+        "z": "312a4458.4253ec",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "f32e2e0a.d7803",
+        "label": "NoteHandling",
+        "inputs": 0,
+        "outputs": 0,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "NoteHandling_constructor code1",
+        "type": "ConstructorCode",
+        "name": "NoteHandler constructor",
+        "comment": "usbMIDI.setHandleNoteOff(OnNoteOff);\r\nusbMIDI.setHandleNoteOn(OnNoteOn);\r\nMIDI.setHandleNoteOff(OnNoteOff);\r\nMIDI.setHandleNoteOn(OnNoteOn);",
+        "x": 188,
+        "y": 82,
+        "z": "f32e2e0a.d7803",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "NoteHandling_code1",
+        "type": "Function",
+        "name": "Notecode",
+        "comment": "void oscillatorsOn() {\r\n  oscillatorsOn(currentNote);\r\n}\r\n\r\nvoid oscillatorsOn(byte playNote) {\r\n  currentNote = playNote; // in case we need to retrigger after recalculating pitch bend\r\n  \r\n  byte note;\r\n  note = playNote;  \r\n\r\n  note += osc1Octave; // -24, -12, 0, 12 or 24\r\n  note += osc1Semis;\r\n  if (note < 0) {\r\n    note = 0;\r\n  }\r\n  if (note > 127) {\r\n    note = 127;\r\n  }\r\n  Serial.printf(\"Osc1 note=%d (%s%u) \", note, noteNames[note %12], (note / 12) - 1);\r\n  float freq = tune_frequencies2_PGM[note];\r\n  freq *= osc1Detune; // mult 0.85 .. 1.0\r\n  freq *= osc1PB;\r\n  Serial.printf(\"so freq1 = %.2fHz, \", freq);\r\n  waveformMod1.frequency(freq);\r\n\r\n  wavetable1.playFrequency(freq, 127);\r\n\r\n  note = playNote;\r\n  note += osc2Octave; // -24, -12, 0, 12 or 24\r\n  note += osc2Semis;\r\n  if (note < 0) {\r\n    note = 0;\r\n  }\r\n  if (note > 127) {\r\n    note = 127;\r\n  }\r\n  Serial.printf(\"Osc2 note=%d (%s%u) \", note, noteNames[note %12], (note / 12) - 1);\r\n  freq = tune_frequencies2_PGM[note];\r\n  freq *= osc2Detune; // mult 0.85 .. 1.0\r\n  freq *= osc2PB;\r\n  Serial.printf(\"freq2 = %.2fHz\\n\", freq);\r\n  waveformMod2.frequency(freq);\r\n  // sound ADSR\r\n  envelope1.noteOn();\r\n  // filter ADSR\r\n  envelope2.noteOn();\r\n//  Serial.println(\"Both Env triggered\");\r\n}\r\n\r\nvoid oscillatorsOff() {\r\n  envelope1.noteOff();\r\n  envelope2.noteOff();\r\n  wavetable1.stop();\r\n}\r\n\r\nstatic void OnNoteOn(byte channel, byte note, byte velocity) {\r\n  Serial.printf(\"ch: %u, note: %u, vel: %u \", channel, note, velocity);\r\n  digitalWrite(LED_PIN, HIGH);\r\n  if (note >= 48) {\r\n    highlightKey(note, true);\r\n  }\r\n  arpNumDown++;\r\n  if (arpMode == Arp_Off) {\r\n    oscillatorsOn(note);\r\n  }\r\n  else if (arpStoreIndex < 20) {\r\n    Serial.println(); // finish note info logging\r\n    // just consider adding notes to be played to the Arp array\r\n\r\n    if ((arpMode == Arp_Scale) && (arpStoreIndex != 0)) {\r\n      // already playing a scale so clear all notes to allow\r\n      // new one to be added\r\n      arpStoreIndex = 0;\r\n      arpPlayIndex = 0;\r\n      arpPlayOctave = 0;\r\n    }\r\n\r\n    // usually just add one note to the sequence\r\n    arpNotes[arpStoreIndex] = note;\r\n    Serial.printf(\"Added note %u at entry %u\\n\", note, arpStoreIndex);\r\n    arpStoreIndex++;\r\n\r\n    // but want a whole scale if in scale mode...\r\n    if (arpMode == Arp_Scale) {\r\n      int currNote = note;\r\n      // but if Scale mode add all the other notes of this scale...\r\n      for (int n = 0; n < scaleModes[arpScaleMode].entries; n++) {\r\n        currNote += scaleModes[arpScaleMode].offsets[n];\r\n        arpNotes[arpStoreIndex++] = currNote;\r\n      }\r\n    }\r\n    if (arpMode != Arp_Record) {\r\n      sortNotes();\r\n    }\r\n    else {\r\n      // in record mode we simply record everything played in order (no sort)\r\n      Serial.printf(\"Playing %u while recording\\n\", note);\r\n      oscillatorsOn(note);\r\n    }\r\n  }\r\n}\r\n\r\nstatic void OnNoteOff(byte channel, byte note, byte velocity) {\r\n  if (note >= 48) {\r\n    highlightKey(note, false);\r\n  }\r\n  digitalWrite(LED_PIN, LOW);\r\n  arpNumDown--;\r\n  if (!arpLatch) {\r\n    // remove the off note from the array\r\n    for (int i = 0; i < arpStoreIndex; i++) {\r\n      if (arpNotes[i] == note) {\r\n        // shuffle remaining back 1 to this slot\r\n        for (int j = i + 1; j < arpStoreIndex; j++) {\r\n          arpNotes[j - 1] = arpNotes[j];\r\n        }\r\n        // and reduce number in array.\r\n        arpStoreIndex--;\r\n        break;\r\n      }\r\n    }\r\n  }\r\n//  Serial.println(\"Osc off because NoteOff\");\r\n  oscillatorsOff();\r\n}\r\n",
+        "x": 400,
+        "y": 80,
+        "z": "f32e2e0a.d7803",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "b0f58453.3aa3a8",
+        "label": "ProgChange",
+        "inputs": 0,
+        "outputs": 0,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "ProgChange_constructor code1",
+        "type": "ConstructorCode",
+        "name": "ProgChange constructor",
+        "comment": "usbMIDI.setHandleProgramChange(onProgramChange);\r\nMIDI.setHandleProgramChange(onProgramChange);",
+        "x": 167,
+        "y": 81,
+        "z": "b0f58453.3aa3a8",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "ProgChange_code1",
+        "type": "Function",
+        "name": "ProgChangecode",
+        "comment": "static void onProgramChange(byte channel, byte program) {\r\n  waveInstrument = program & 0x7F; // currently so limit 0..127\r\n  Serial.printf(\"Progran change: %u = %s\\n\", waveInstrument, instrumentNames[waveInstrument]);\r\n  updateWave();\r\n}\r\n",
+        "x": 460,
+        "y": 80,
+        "z": "b0f58453.3aa3a8",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "5d3343db.fec47c",
+        "label": "Synth",
+        "inputs": 0,
+        "outputs": 0,
+        "export": true,
+        "isMain": false,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "Synth_LFOSources1",
+        "type": "LFOSources",
+        "name": "LFOSources",
+        "x": 100,
+        "y": 125,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#CCFFCC",
+        "wires": [
+            [
+                "Synth_Voice1:0"
+            ],
+            [
+                "Synth_Voice1:1"
+            ]
+        ]
+    },
+    {
+        "id": "Synth_constValue1",
+        "type": "ConstValue",
+        "name": "NumStoredNotes",
+        "value": "32",
+        "valueType": "int",
+        "x": 180,
+        "y": 255,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#EB9834",
+        "wires": []
+    },
+    {
+        "id": "Synth_vars1",
+        "type": "Variables",
+        "name": "Synthvars",
+        "comment": "int clickCount = 0;\r\nelapsedMillis lastMillis = 0;\r\nelapsedMillis last_time = 0;\r\nlong encPos = -999;\r\nint encVal = 0;\r\n\r\n// Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC\r\nILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);\r\nXPT2046_Touchscreen ts(TOUCH_CS);\r\nEncoder enc(2,3);\r\nMIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);\r\n\r\nbyte currentNote;\r\n\r\n//Arpeggiator arp;\r\n//ContinuousController CChandler;\r\n//PitchBend PBhandler;\r\n//NoteHandling noteHandler;\r\n//ProgChange progChange;",
+        "x": 160,
+        "y": 390,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Synth_includeDef1",
+        "type": "IncludeDef",
+        "name": "includeDef",
+        "comment": "",
+        "x": 203,
+        "y": 55,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#ddffbb",
+        "wires": []
+    },
+    {
+        "id": "Synth_code1",
+        "type": "Function",
+        "name": "Synthcode",
+        "comment": "void dumpPatch() {\r\n  Serial.println(\"====================================\");\r\n  Serial.printf( \"OSC1: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune=%.2f\\n\",\r\n                  waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Semis, osc1Detune);\r\n  Serial.printf( \"LFO1: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\\n\\n\",\r\n                  waves[lfo1Waveform], lfo1Freq, lfo1Depth, lfo1PWM);\r\n  Serial.printf( \"OSC2: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune= %.2f\\n\",\r\n                  waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Semis, osc2Detune);\r\n  Serial.printf( \"LFO2: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\\n\\n\",\r\n                  waves[lfo2Waveform], lfo2Freq, lfo2Depth, lfo2PWM);\r\n  Serial.printf( \"Filter: band=%s, freq=%.2fHz, res=%.2f, DC=%.2f, modulated=%u\\n\\n\",\r\n                  bands[filtBand], filterFreq, filterRes, filtDC, filtMod);\r\n  Serial.printf( \"Mix ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\\n\",\r\n                  envAttack, envDecay, envSustain, envRelease);\r\n  Serial.printf( \"Filter ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\\n\\n\",\r\n                  filtEnvA, filtEnvD, filtEnvS, filtEnvR);\r\n  Serial.printf( \"Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f, wavetab=%.2f\\n\\n\",\r\n                  osc1Amp, osc2Amp, noiseAmp, waveAmp);\r\n  Serial.printf( \" Arpeggiator: arpMode=%s, arpPeriod=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\\n\",\r\n                  arpModes[arpMode], arpPeriod, arpOctave, arpLatch, arpDelay, arpTranspose);\r\n  Serial.println(\"====================================\");\r\n}\r\n\r\ndouble mapf(double x, double in_min, double in_max, double out_min, double out_max)\r\n{\r\n    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;\r\n}\r\n\r\nvoid update() {\r\n  // put your main code here, to run repeatedly:\r\n  usbMIDI.read();\r\n  MIDI.read()\r\n\r\n#ifdef USE_TOUCH\r\n  if (ts.touched()) {\r\n    int X, Y;\r\n    TS_Point p = ts.getPoint();\r\n    X = p.x - 231;\r\n    X = map(X, 3482, 0, 0, 320);\r\n    Y = p.y - 360;\r\n    Y = map(Y, 3465, 0, 0, 240);\r\n    tft.setFont(Arial_14);\r\n    tft.fillRect(240, 5, 100, 30, ILI9341_BLACK);\r\n    tft.setTextColor(ILI9341_RED);\r\n    tft.setCursor(240, 5);\r\n    int Aval;\r\n    Aval = pointInBar(X, Y, ADSR_PANEL_X + 5, ADSR_PANEL_Y);\r\n    if (Aval > 0) {\r\n      tft.print(Aval);\r\n      OnControlChange(1, 103, Aval);\r\n    }\r\n    int Dval;\r\n    Dval = pointInBar(X, Y, ADSR_PANEL_X + 30, ADSR_PANEL_Y);\r\n    if (Dval > 0) {\r\n      tft.print(Dval);\r\n      OnControlChange(1, 104, Dval);\r\n    }\r\n    int Sval;\r\n    Sval = pointInBar(X, Y, ADSR_PANEL_X + 55, ADSR_PANEL_Y);\r\n    if (Sval > 0) {\r\n      tft.print(Sval);\r\n      OnControlChange(1, 105, Sval);\r\n    }\r\n    int Rval;\r\n    Rval = pointInBar(X, Y, ADSR_PANEL_X + 80, ADSR_PANEL_Y);\r\n    if (Rval > 0) {\r\n      tft.print(Rval);\r\n      OnControlChange(1, 106, Rval);\r\n    }\r\n    int O1val;\r\n    O1val = pointInBar(X, Y, MIX_PANEL_X + 5, MIX_PANEL_Y);\r\n    if (O1val > 0) {\r\n      tft.print(O1val);\r\n      OnControlChange(1, 100, O1val);\r\n    }\r\n    int O2val;\r\n    O2val = pointInBar(X, Y, MIX_PANEL_X + 30, MIX_PANEL_Y);\r\n    if (O2val > 0) {\r\n      tft.print(O2val);\r\n      OnControlChange(1, 101, O2val);\r\n    }\r\n    int Nval;\r\n    Nval = pointInBar(X, Y, MIX_PANEL_X + 55, MIX_PANEL_Y);\r\n    if (Nval > 0) {\r\n      tft.print(Nval);\r\n      OnControlChange(1, 102, Nval);\r\n    }\r\n  }\r\n  #endif\r\n\r\n  arp.update();\r\n  if(0) {\r\n    if(last_time >= 5000) {\r\n      Serial.print(\"Proc = \");\r\n      Serial.print(AudioProcessorUsage());\r\n      Serial.print(\" (\");    \r\n      Serial.print(AudioProcessorUsageMax());\r\n      Serial.print(\"),  Mem = \");\r\n      Serial.print(AudioMemoryUsage());\r\n      Serial.print(\" (\");    \r\n      Serial.print(AudioMemoryUsageMax());\r\n      Serial.println(\")\");\r\n      last_time = 0;\r\n    }\r\n  }\r\n}\r\n",
+        "x": 285,
+        "y": 390,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Synth_constValue2",
+        "type": "ConstValue",
+        "name": "NUMVOICES",
+        "value": "8",
+        "valueType": "int",
+        "x": 380,
+        "y": 35,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#EB9834",
+        "wires": []
+    },
+    {
+        "id": "Synth_Voice1",
+        "type": "Voice",
+        "name": "Voice[NUMVOICES]",
+        "x": 330,
+        "y": 125,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#CCFFCC",
+        "wires": [
+            [
+                "Synth_mixer1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Synth_Arpeggiator1",
+        "type": "Arpeggiator",
+        "name": "Arp",
+        "x": 405,
+        "y": 275,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "Synth_ProgChange1",
+        "type": "ProgChange",
+        "name": "ProgHndlr",
+        "x": 425,
+        "y": 330,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "Synth_mixer1",
+        "type": "AudioMixer",
+        "name": "MixVoices",
+        "inputs": "1",
+        "comment": "",
+        "x": 530,
+        "y": 125,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#E6E0F8",
+        "wires": [
+            [
+                "Synth_FilterEffects1:0"
+            ]
+        ]
+    },
+    {
+        "id": "Synth_ContinuousController1",
+        "type": "ContinuousController",
+        "name": "CCHndlr",
+        "x": 560,
+        "y": 275,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "Synth_PitchBend1",
+        "type": "PitchBend",
+        "name": "PBHndlr",
+        "x": 560,
+        "y": 330,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "Synth_sgtl5000_1",
+        "type": "AudioControlSGTL5000",
+        "name": "sgtl5000_1",
+        "comment": "",
+        "x": 685,
+        "y": 45,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#E6E0F8",
+        "wires": []
+    },
+    {
+        "id": "Synth_NoteHandling1",
+        "type": "NoteHandling",
+        "name": "NoteHndlr",
+        "x": 695,
+        "y": 275,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "Synth_FilterEffects1",
+        "type": "FilterEffects",
+        "name": "FilterEffects",
+        "x": 710,
+        "y": 125,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#CCFFCC",
+        "wires": [
+            [
+                "Synth_i2s1:0",
+                "Synth_i2s1:1",
+                "Synth_usb1:0",
+                "Synth_usb1:1"
+            ]
+        ]
+    },
+    {
+        "id": "Synth_i2s1",
+        "type": "AudioOutputI2S",
+        "name": "i2s1",
+        "comment": "",
+        "x": 885,
+        "y": 80,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#E6E0F8",
+        "wires": []
+    },
+    {
+        "id": "Synth_usb1",
+        "type": "AudioOutputUSB",
+        "name": "usb1",
+        "comment": "",
+        "x": 890,
+        "y": 145,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#E6E0F8",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "fc36cdca.24645",
+        "label": "PhatBass",
+        "inputs": 0,
+        "outputs": 0,
+        "export": true,
+        "isMain": true,
+        "mainNameType": "tabName",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "PhatBass_includeDef1",
+        "type": "IncludeDef",
+        "name": "\"Synth.h\"",
+        "comment": "",
+        "x": 195,
+        "y": 35,
+        "z": "fc36cdca.24645",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_code1",
+        "type": "Function",
+        "name": "code",
+        "comment": "Synth * pSynth;\r\nSynth phatBass;\r\n\r\nvoid setup() {\r\n    pinMode(LED_PIN, OUTPUT);\r\n    pinMode(JOY_SW, INPUT_PULLUP);\r\n    Serial.begin(9600);\r\n    Serial1.begin(31250);\r\n    Serial.println(\"The bastard is Alive!\");\r\n    MIDI.begin();\r\n    ts.begin();\r\n    ts.setRotation(3);\r\n    tftInit(); \r\n    AudioMemory(20);\r\n    sgtl5000_1.enable();\r\n    sgtl5000_1.volume(0.75);\r\n}\r\n\r\nvoid loop() {\r\n    phatBass.update();\r\n}\r\n",
+        "x": 188,
+        "y": 85,
+        "z": "fc36cdca.24645",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "type": "tab",
+        "id": "9c8b761f.abaf18",
+        "label": "Sheet_2",
+        "inputs": 0,
+        "outputs": 0,
+        "export": false,
+        "isMain": false,
+        "mainNameType": "main",
+        "mainNameExt": ".ino",
+        "nodes": []
+    },
+    {
+        "id": "Sheet_2_codeFile2",
+        "type": "CodeFile",
+        "name": "name.c",
+        "comment": "// To give your project a unique name, this code must be\r\n// placed into a .c file (its own tab).  It can not be in\r\n// a .cpp file or your main sketch (the .ino file).\r\n\r\n#include \"usb_names.h\"\r\n\r\n// Edit these lines to create your own name.  The length must\r\n// match the number of characters in your custom name.\r\n\r\n#define MIDI_NAME   {'P','h','a','t',' ','B','a','s','s','(','t','a','r','d',')'}\r\n#define MIDI_NAME_LEN  15\r\n\r\n// Do not change this part.  This exact format is required by USB.\r\n\r\nstruct usb_string_descriptor_struct usb_string_product_name = {\r\n        2 + MIDI_NAME_LEN * 2,\r\n        3,\r\n        MIDI_NAME\r\n};\r\n",
+        "x": 125,
+        "y": 40,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_codeFile4",
+        "type": "CodeFile",
+        "name": "NoteData.h",
+        "comment": "// Table of midi note frequencies * 2\r\n//   They are times 2 for greater accuracy, yet still fits in a word.\r\n//   Generated from Excel by =ROUND(2*440/32*(2^((x-9)/12)),0) for 0<x<128\r\n// The lowest notes might not work, depending on the Arduino clock frequency\r\n\r\n// This is for the Teensy Audio library which specifies\r\n// frequencies as floating point. See make_notetab.xlsx\r\nconst float tune_frequencies2_PGM[128] =\r\n{\r\n    8.1758,    8.6620,    9.1770,    9.7227,    10.3009,    10.9134,    11.5623,    12.2499,\r\n    12.9783,   13.7500,   14.5676,   15.4339,   16.3516,    17.3239,    18.3540,    19.4454,\r\n    20.6017,   21.8268,   23.1247,   24.4997,   25.9565,    27.5000,    29.1352,    30.8677,\r\n    32.7032,   34.6478,   36.7081,   38.8909,   41.2034,    43.6535,    46.2493,    48.9994,\r\n    51.9131,   55.0000,   58.2705,   61.7354,   65.4064,    69.2957,    73.4162,    77.7817,\r\n    82.4069,   87.3071,   92.4986,   97.9989,   103.8262,   110.0000,   116.5409,   123.4708,\r\n    130.8128,  138.5913,  146.8324,  155.5635,  164.8138,   174.6141,   184.9972,   195.9977,\r\n    207.6523,  220.0000,  233.0819,  246.9417,  261.6256,   277.1826,   293.6648,   311.1270,\r\n    329.6276,  349.2282,  369.9944,  391.9954,  415.3047,   440.0000,   466.1638,   493.8833,\r\n    523.2511,  554.3653,  587.3295,  622.2540,  659.2551,   698.4565,   739.9888,   783.9909,\r\n    830.6094,  880.0000,  932.3275,  987.7666,  1046.5023,  1108.7305,  1174.6591,  1244.5079,\r\n    1318.5102, 1396.9129, 1479.9777, 1567.9817, 1661.2188,  1760.0000,  1864.6550,  1975.5332,\r\n    2093.0045, 2217.4610, 2349.3181, 2489.0159, 2637.0205,  2793.8259,  2959.9554,  3135.9635,\r\n    3322.4376, 3520.0000, 3729.3101, 3951.0664, 4186.0090,  4434.9221,  4698.6363,  4978.0317,\r\n    5274.0409, 5587.6517, 5919.9108, 6271.9270, 6644.8752,  7040.0000,  7458.6202,  7902.1328,\r\n    8372.0181, 8869.8442, 9397.2726, 9956.0635, 10548.0818, 11175.3034, 11839.8215, 12543.8540\r\n};\r\n\r\n#define CMD_PLAYNOTE\t0x90\t/* play a note: low nibble is generator #, note is next byte */\r\n#define CMD_STOPNOTE\t0x80\t/* stop a note: low nibble is generator # */\r\n#define CMD_RESTART\t0xe0\t/* restart the score from the beginning */\r\n#define CMD_STOP\t0xf0\t/* stop playing */\r\n\r\nconst float velocity2amplitude[128] = {\r\n0.01778,0.01966,0.02164,0.02371,0.02588,0.02814,0.03049,0.03294,0.03549,0.03812,\r\n0.04086,0.04369,0.04661,0.04963,0.05274,0.05594,0.05924,0.06264,0.06613,0.06972,\r\n0.07340,0.07717,0.08104,0.08500,0.08906,0.09321,0.09746,0.10180,0.10624,0.11077,\r\n0.11539,0.12011,0.12493,0.12984,0.13484,0.13994,0.14513,0.15042,0.15581,0.16128,\r\n0.16685,0.17252,0.17828,0.18414,0.19009,0.19613,0.20227,0.20851,0.21484,0.22126,\r\n0.22778,0.23439,0.24110,0.24790,0.25480,0.26179,0.26887,0.27605,0.28333,0.29070,\r\n0.29816,0.30572,0.31337,0.32112,0.32896,0.33690,0.34493,0.35306,0.36128,0.36960,\r\n0.37801,0.38651,0.39511,0.40381,0.41260,0.42148,0.43046,0.43953,0.44870,0.45796,\r\n0.46732,0.47677,0.48631,0.49595,0.50569,0.51552,0.52544,0.53546,0.54557,0.55578,\r\n0.56609,0.57648,0.58697,0.59756,0.60824,0.61902,0.62989,0.64085,0.65191,0.66307,\r\n0.67432,0.68566,0.69710,0.70863,0.72026,0.73198,0.74380,0.75571,0.76771,0.77981,\r\n0.79201,0.80430,0.81668,0.82916,0.84174,0.85440,0.86717,0.88003,0.89298,0.90602,\r\n0.91917,0.93240,0.94573,0.95916,0.97268,0.98629,1.00000, 1.000\r\n};",
+        "x": 110,
+        "y": 95,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_codeFile1",
+        "type": "CodeFile",
+        "name": "constData.cpp",
+        "comment": "#include \"constdata.h\"\r\n\r\nconst scale_chord_t scaleModes[] = {\r\n  { \"Ionian (Major)\", 7, {2, 2, 1, 2, 2, 2, 1} },\r\n  { \"Dorian\",         7, {2, 1, 2, 2, 2, 1, 2} },\r\n  { \"Phygrian\",       7, {1, 2, 2, 2, 1, 2, 2} },\r\n  { \"Lydian\",         7, {2, 2, 2, 1, 2, 2, 1} },\r\n  { \"Mixolydian\",     7, {2, 2, 1, 2, 2, 1, 2} },\r\n  { \"Aeolian (Minor)\",7, {2, 1, 2, 2, 1, 2, 2} },\r\n  { \"Locrian\",        7, {1, 2, 2, 1, 2, 2, 2} },\r\n  { \"Augmented\",      6, {3, 1, 3, 1, 3, 1} },\r\n  { \"BeBop\",          8, {2, 2, 1, 2, 2, 1, 1, 1} },\r\n  { \"Blues\",          6, {3, 2, 1, 1, 3, 2} },\r\n  { \"Chromatic\",      12, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} },\r\n  { \"Double Harmonic\",7, {1, 3, 1, 2, 1, 3, 1} },\r\n  { \"Enigmatic\",      7, {1, 3, 2, 2, 2, 1, 1} },\r\n  { \"Flamenco\",       7, {1, 3, 1, 2, 1, 3, 1} },\r\n  { \"Half Dimnished\", 7, {2, 1, 2, 1, 2, 2, 2} },\r\n  { \"Harmonic Maj\",   7, {2, 2, 1, 2, 1, 3, 1} },\r\n  { \"Harmonic Min\",   7, {2, 1, 2, 2, 1, 3, 1} },\r\n  { \"Hirajoshi\",      5, {4, 2, 1, 4, 1} },\r\n  { \"Hungarian Gyp\",  7, {2, 1, 3, 1, 1, 3, 1} },\r\n  { \"Hungarian Maj\",  7, {3, 1, 2, 1, 2, 1, 2} },\r\n  { \"Insen\",          5, {1, 4, 2, 4, 2} },\r\n  { \"Istrian\",        4, {1, 2, 1, 2} },\r\n  { \"Iwato\",          5, {1, 4, 1, 4, 2} },\r\n  { \"Lydian (Aug)\",   7, {2, 2, 2, 2, 1, 2, 1} },\r\n  { \"Major BeBop\",    8, {2, 2, 1, 2, 1, 1, 2, 1} },\r\n  { \"Major Locrian\",  7, {2, 2, 1, 1, 2, 2, 2} },\r\n  { \"Major Pent\",     5, {2, 2, 3, 2, 3} },\r\n  { \"Melodic Min Asc\",7, {2, 1, 2, 2, 2, 2, 1} },\r\n  { \"Melodic Min Des\",7, {2, 2, 1, 2, 2, 1, 2} },\r\n  { \"Minor Pent\",     5, {3, 2, 2, 3, 2} },\r\n  { \"Neapolitan Maj\", 7, {1, 2, 2, 2, 2, 2, 1} },\r\n  { \"Neapolitan Min\", 7, {1, 2, 2, 2, 1, 3, 1} },\r\n  { \"Octanoic\",       8, {2, 1, 2, 1, 2, 1, 2, 1} },\r\n  { \"Persian\",        7, {1, 3, 1, 1, 2, 3, 1} },\r\n  { \"Phygrian Dom\",   7, {1, 3, 1, 2, 1, 2, 2} },\r\n  { \"Prometheus\",     6, {2, 2, 2, 3, 1, 2} },\r\n  { \"Harmonics\",      6, {3, 1, 1, 2, 2, 3} },\r\n  { \"Tritone\",        6, {1, 2, 3, 1, 3, 2} },\r\n  { \"2semi Tritone\",  5, {1, 1, 4, 1, 1} },\r\n  { \"Ukranian\",       7, {2, 1, 3, 1, 2, 1, 2} },\r\n  { \"Whole Tone\",     6, {2, 2, 2, 2, 2, 2} },\r\n  { \"Yo\",             5, {3, 2, 2, 3, 2} }\r\n};\r\n\r\nconst scale_chord_t chordPatterns[] = {\r\n  { \"Major Triad\", 2, {4, 7}},\r\n  { \"Major 6th\",   3, {4, 7, 9}},\r\n  { \"Dom 7th\",     3, {4, 7, 10}},\r\n  { \"Major 7th\",   3, {4, 7, 11}},\r\n  { \"Aug Triad\",   2, {4, 8}},\r\n  { \"Aug 7th\",     3, {4, 8, 10}},\r\n  { \"Minor Triad\", 2, {3, 7}},\r\n  { \"Minor 6th\",   3, {3, 7, 9}},\r\n  { \"Minor 7th\",   3, {3, 7, 10}},\r\n  { \"Min-Maj 7th\", 3, {3, 7, 11}},\r\n  { \"Dim Triad\",   2, {3, 6}},\r\n  { \"Dim 7th\",     3, {3, 6, 9}},\r\n  { \"Half  Dim 7th\",3,{3, 6, 10}}\r\n};\r\n\r\n// keys from 48 up - black (1) or white (0)\r\nconst keyb_t keybd[] = {\r\n  { 0, 0 },\r\n  { 1, KEY_WIDTH * 0.5 },\r\n  { 0, KEY_WIDTH },\r\n  { 1, KEY_WIDTH * 1.5 },\r\n  { 0, KEY_WIDTH * 2 },\r\n  { 0, KEY_WIDTH * 3 },\r\n  { 1, KEY_WIDTH * 3.5 },\r\n  { 0, KEY_WIDTH * 4 },\r\n  { 1, KEY_WIDTH * 4.5 },\r\n  { 0, KEY_WIDTH * 5 },\r\n  { 1, KEY_WIDTH * 5.5 },\r\n  { 0, KEY_WIDTH * 6 },\r\n  { 0, KEY_WIDTH * 7 },\r\n  { 1, KEY_WIDTH * 7.5 },\r\n  { 0, KEY_WIDTH * 8 },\r\n  { 1, KEY_WIDTH * 8.5 },\r\n  { 0, KEY_WIDTH * 9 },\r\n  { 0, KEY_WIDTH * 10 },\r\n  { 1, KEY_WIDTH * 10.5 },\r\n  { 0, KEY_WIDTH * 11 },\r\n  { 1, KEY_WIDTH * 11.5 },\r\n  { 0, KEY_WIDTH * 12 },\r\n  { 1, KEY_WIDTH * 12.5 },\r\n  { 0, KEY_WIDTH * 13 },\r\n  { 0, KEY_WIDTH * 14 },\r\n  { 1, KEY_WIDTH * 14.5 },\r\n  { 0, KEY_WIDTH * 15 },\r\n  { 1, KEY_WIDTH * 15.5 },\r\n  { 0, KEY_WIDTH * 16 },\r\n  { 0, KEY_WIDTH * 17 },\r\n  { 1, KEY_WIDTH * 17.5 },\r\n  { 0, KEY_WIDTH * 18 },\r\n  { 1, KEY_WIDTH * 18.5 },\r\n  { 0, KEY_WIDTH * 19 },\r\n  { 1, KEY_WIDTH * 19.5 },\r\n  { 0, KEY_WIDTH * 20 }\r\n};\r\n\r\nconst char * waves[] = {\r\n  \"Sine\",\r\n  \"Saw\",\r\n  \"Square\",\r\n  \"Triangle\",\r\n  \"Arbitrary\",\r\n  \"Pulse\",\r\n  \"Rev Saw\",\r\n  \"S/H\"\r\n};\r\n\r\nconst char * bands[] = {\r\n  \"Off\",\r\n  \"LPF\",\r\n  \"BPF\",\r\n  \"HPF\"\r\n};\r\n\r\nconst char * arpModes[] = {\r\n  \"Off\",\r\n  \"Up\",\r\n  \"Down\",\r\n  \"Up/Down\",\r\n  \"Random\"\r\n};\r\n\r\nconst char * instrumentNames[] = {\r\n  \"Piano1\",\r\n  \"Piano2\",\r\n  \"Piano3\",\r\n  \"Honkytonk\",\r\n  \"EPiano1\",\r\n  \"EPiano2\",\r\n  \"Harpsichord\",\r\n  \"Clav\",\r\n  \"Celesta\",\r\n  \"Glockenspiel\",\r\n  \"MusicBox\",\r\n  \"Vibraphone\",\r\n  \"Marimba\",\r\n  \"Xylophone\",\r\n  \"Tubularbell\",\r\n  \"Santur\",\r\n  \"Organ1\",\r\n  \"Organ2\",\r\n  \"Organ3\",\r\n  \"ChurchOrg1\",\r\n  \"ReedOrgan\",\r\n  \"AccordionFr\",\r\n  \"Harmonica\",\r\n  \"Bandoneon\",\r\n  \"NylonstrGt\",\r\n  \"SteelstrGt\",\r\n  \"JazzGt\",\r\n  \"CleanGt\",\r\n  \"MutedGt\",\r\n  \"OverdriveGt\",\r\n  \"DistortionGt\",\r\n  \"GtHarmonics\",\r\n  \"AcousticBs\",\r\n  \"FingeredBs\",\r\n  \"PickedBs\",\r\n  \"FretlessBs\",\r\n  \"SlapBass1\",\r\n  \"SlapBass2\",\r\n  \"SynthBass1\",\r\n  \"SynthBass2\",\r\n  \"Violin\",\r\n  \"Viola\",\r\n  \"Cello\",\r\n  \"Contrabass\",\r\n  \"TremoloStr\",\r\n  \"PizzicatoStr\",\r\n  \"Harp\",\r\n  \"(missing) timpani\",\r\n  \"Strings\",\r\n  \"SlowStrings\",\r\n  \"SynStrings1\",\r\n  \"SynStrings2\",\r\n  \"ChoirAahs\",\r\n  \"VoiceOohs\",\r\n  \"SynVox\",\r\n  \"OrchestraHit\",\r\n  \"Trumpet\",\r\n  \"Trombone\",\r\n  \"Tuba\",\r\n  \"MutedTrumpet\",\r\n  \"FrenchHorns\",\r\n  \"Brass1\",\r\n  \"SynthBrass1\",\r\n  \"SynthBrass2\",\r\n  \"SopranoSax\",\r\n  \"AltoSax\",\r\n  \"TenorSax\",\r\n  \"BaritoneSax\",\r\n  \"Oboe\",\r\n  \"EnglishHorn\",\r\n  \"Bassoon\",\r\n  \"Clarinet\",\r\n  \"Piccolo\",\r\n  \"Flute\",\r\n  \"Recorder\",\r\n  \"PanFlute\",\r\n  \"BottleBlow\",\r\n  \"Shakuhachi\",\r\n  \"Whistle\",\r\n  \"Ocarina\",\r\n  \"SquareWave\",\r\n  \"SawWave\",\r\n  \"SynCalliope\",\r\n  \"ChifferLead\",\r\n  \"Charang\",\r\n  \"SoloVox\",\r\n  \"FifthSawWave\",\r\n  \"BassLead\",\r\n  \"Fantasia\",\r\n  \"WarmPad\",\r\n  \"Polysynth\",\r\n  \"SpaceVoice\",\r\n  \"BowedGlass\",\r\n  \"MetalPad\",\r\n  \"HaloPad\",\r\n  \"SweepPad\",\r\n  \"IceRain\",\r\n  \"Soundtrack\",\r\n  \"Crystal\",\r\n  \"Atmosphere\",\r\n  \"Brightness\",\r\n  \"Goblin\",\r\n  \"EchoDrops\",\r\n  \"StarTheme\",\r\n  \"Sitar\",\r\n  \"Banjo\",\r\n  \"Shamisen\",\r\n  \"Koto\",\r\n  \"Kalimba\",\r\n  \"Bagpipe\",\r\n  \"Fiddle\",\r\n  \"Shanai\",\r\n  \"TinkleBell\",\r\n  \"Agogo\",\r\n  \"SteelDrums\",\r\n  \"(missing) woodblock\",\r\n  \"Taiko\",\r\n  \"MeloTom1\",\r\n  \"SynthDrum\",\r\n  \"ReverseCym\",\r\n  \"(missing) fret noise\",\r\n  \"BreathNoise\",\r\n  \"Seashore\",\r\n  \"Bird\",\r\n  \"Telephone1\",\r\n  \"Helicopter\",\r\n  \"Applause\",\r\n  \"(missing) gun shot\"\r\n};\r\n\r\nconst char * noteNames[] = {\r\n  \"C\",\r\n  \"C# / Db\",\r\n  \"D\",\r\n  \"D# / Eb\",\r\n  \"E\",\r\n  \"F\",\r\n  \"F# / Gb\",\r\n  \"G\",\r\n  \"G# / Ab\",\r\n  \"A\",\r\n  \"A# / Bb\",\r\n  \"B\"\r\n};",
+        "x": 100,
+        "y": 150,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_codeFile5",
+        "type": "CodeFile",
+        "name": "constData.h",
+        "comment": "#ifndef _CONSTDATA_H_\r\n#define _CONSTDATA_H_\r\n\r\n#include \"types.h\"\r\n\r\nextern const scale_chord_t scaleModes[];\r\nextern const scale_chord_t chordPatterns[];\r\nextern const keyb_t keybd[];\r\nextern const char * waves[];\r\nextern const char * bands[];\r\nextern const char * arpModes[];\r\nextern const char * instrumentNames[];\r\nextern const char * noteNames[];\r\n#endif\r\n",
+        "x": 110,
+        "y": 205,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_codeFile3",
+        "type": "CodeFile",
+        "name": "types.h",
+        "comment": "#ifndef _TYPES_H_\r\n#define _TYPES_H_\r\n\r\n#include <Arduino.h>\r\n#include <Audio.h>\r\n#include <ILI9341_t3.h>\r\n#include \"defines.h\"\r\n\r\ntypedef enum {\r\n  AllMix,\r\n  OSC1,\r\n  OSC2,\r\n  Noise,\r\n  WaveTable\r\n} Mix_change_t;\r\n\r\ntypedef enum {\r\n  AllADSR,\r\n  Attack,\r\n  Decay,\r\n  Sustain,\r\n  Release\r\n} ADSR_change_t;\r\n\r\ntypedef enum {\r\n  FILT_OFF,\r\n  LPF,\r\n  BPF,\r\n  HPF\r\n} filter_band_t;\r\n\r\ntypedef enum {\r\n  Arp_Off,\r\n  Arp_Up,\r\n  Arp_Down,\r\n  Arp_UpDown,\r\n  Arp_Random,\r\n  Arp_Scale,\r\n  Arp_Record\r\n} arp_mode_t;\r\n\r\ntypedef enum {\r\n  Mod_FM,\r\n  Mod_PM\r\n} osc_mod_t;\r\n\r\ntypedef struct {\r\n  uint8_t type;\r\n  float offset;\r\n} keyb_t;\r\n\r\ntypedef struct {\r\n  char name[20]; // max is actually 15\r\n  int entries;\r\n  char offsets[14]; // max actually 12\r\n} scale_chord_t;\r\n\r\n#endif\r\n",
+        "x": 125,
+        "y": 260,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_Comment2",
+        "type": "Comment",
+        "name": "Mainly debug strings",
+        "comment": "",
+        "x": 290,
+        "y": 150,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_Comment1",
+        "type": "Comment",
+        "name": "This sets the USB device name",
+        "comment": "This sets the USB device name",
+        "x": 325,
+        "y": 40,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_Comment3",
+        "type": "Comment",
+        "name": "Simply header for the above",
+        "comment": "",
+        "x": 315,
+        "y": 205,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_Comment4",
+        "type": "Comment",
+        "name": "Mainly enums for various modules/classes",
+        "comment": "",
+        "x": 360,
+        "y": 260,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "Sheet_2_Comment5",
+        "type": "Comment",
+        "name": "This has midi note num to freq lookup, also non-linear volume lookup",
+        "comment": "",
+        "x": 440,
+        "y": 95,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    }
+]
