@@ -12,6 +12,9 @@
 class ContinuousController
 {
 public:
+    Synth & mSynth;
+    
+    
 
     ContinuousController() { // constructor (this is called when class-object is created)
 
@@ -486,6 +489,10 @@ public:
           // if unrecognised do nothing
           break;
       }
+    }
+    
+    void setSynth(Synth & refSynth) {
+        mSynth = refSynth;
     }
     
     

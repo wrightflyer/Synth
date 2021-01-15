@@ -70,6 +70,11 @@ public:
             patchCord[pci++] = new AudioConnection(LFOSources.LFO2, 0, Voice[i].VCO2, 0);
             patchCord[pci++] = new AudioConnection(Voice[i].ADSR, 0, MixVoices, i);
         }
+        Arp.setSynth(this);
+        ProgHndlr.setSynth(this);
+        CCHndlr.setSynth(this);
+        NoteHndlr.setSynth(this);
+        PBHndlr.setSynth(this);
         
     }
 

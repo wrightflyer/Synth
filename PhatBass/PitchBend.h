@@ -12,6 +12,9 @@
 class PitchBend
 {
 public:
+    Synth & mSynth;
+    
+    
 
     PitchBend() { // constructor (this is called when class-object is created)
 
@@ -39,6 +42,10 @@ public:
         // something already playing so retrigger with new freq
         oscillatorsOn();
       }
+    }
+    
+    void setSynth(Synth & refSynth) {
+        mSynth = refSynth;
     }
     
     

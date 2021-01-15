@@ -28,6 +28,7 @@ public:
     int arpPlayOctave;
     int arpScaleMode;
     
+    Synth & mSynth;
     
 
     Arpeggiator() { // constructor (this is called when class-object is created)
@@ -214,6 +215,10 @@ public:
     
     void setArpTranspose(int transpose) {
         arpTranspose = transpose;
+    }
+    
+    void setSynth(Synth & refSynth) {
+        mSynth = refSynth;
     }
     
     

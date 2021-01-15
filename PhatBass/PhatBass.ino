@@ -9,7 +9,6 @@
  
 // PhatBass: begin automatically generated code
 
-Synth * pSynth;
 Synth phatBass;
 
 void setup() {
