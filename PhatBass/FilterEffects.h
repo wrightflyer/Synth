@@ -38,7 +38,7 @@ public:
     AudioEffectEnvelope              FilterADSR;
     AudioMixer4                      FilterSelect;
     AudioAmplifier                   ModSwitch;
-    AudioEffectChorus                chorus1;
+    AudioEffectChorus                chorus;
     AudioConnection                  *patchCord[7]; // total patchCordCount:7 including array typed ones.
 
     FilterEffects() { // constructor (this is called when class-object is created)
@@ -50,7 +50,7 @@ public:
         patchCord[pci++] = new AudioConnection(filter1, 2, FilterSelect, 3);
         patchCord[pci++] = new AudioConnection(dc1, 0, FilterADSR, 0);
         patchCord[pci++] = new AudioConnection(FilterADSR, 0, ModSwitch, 0);
-        patchCord[pci++] = new AudioConnection(FilterSelect, 0, chorus1, 0);
+        patchCord[pci++] = new AudioConnection(FilterSelect, 0, chorus, 0);
         patchCord[pci++] = new AudioConnection(ModSwitch, 0, filter1, 1);
         updateFiltADSR();
         updateFilterBand();

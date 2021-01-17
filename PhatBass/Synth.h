@@ -45,6 +45,8 @@ public:
     Voice                            voice[8];
     AudioMixer<8>                    MixVoices;
     FilterEffects                    Filter;
+    AudioOutputI2S                   i2s;
+    AudioOutputUSB                   usb;
     AudioOutputI2S                   i2s1;
     AudioOutputUSB                   usb1;
     Arpeggiator Arp;
@@ -61,13 +63,13 @@ public:
 
         patchCord[pci++] = new AudioConnection(MixVoices, 0, Filter.FilterSelect, 0);
         patchCord[pci++] = new AudioConnection(MixVoices, 0, Filter.filter1, 0);
-        patchCord[pci++] = new AudioConnection(Filter.chorus1, 0, i2s1, 0);
-        patchCord[pci++] = new AudioConnection(Filter.chorus1, 0, i2s1, 1);
-        patchCord[pci++] = new AudioConnection(Filter.chorus1, 0, usb1, 0);
-        patchCord[pci++] = new AudioConnection(Filter.chorus1, 0, usb1, 1);
+        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, i2s, 0);
+        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, i2s, 1);
+        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, usb, 0);
+        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, usb, 1);
         for (int i = 0; i < 8; i++) {
-            patchCord[pci++] = new AudioConnection(LFOs.LFO1, 0, voice[i].VCO1, 0);
-            patchCord[pci++] = new AudioConnection(LFOs.LFO2, 0, voice[i].VCO2, 0);
+            patchCord[pci++] = new AudioConnection(LFOs.LFO1switch, 0, voice[i].VCO1, 0);
+            patchCord[pci++] = new AudioConnection(LFOs.LFO2switch, 0, voice[i].VCO2, 0);
             patchCord[pci++] = new AudioConnection(voice[i].ADSR, 0, MixVoices, i);
         }
         Arp.setSynth(this);

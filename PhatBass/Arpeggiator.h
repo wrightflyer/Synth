@@ -192,10 +192,6 @@ public:
       }
     }
     
-    void setArpMode(arp_mode_t mode) {
-        arpMode = mode;
-    }
-    
     void setArpOctave(int octave) {
         arpOctave = octave;
     }
@@ -206,6 +202,13 @@ public:
     
     void setArpLatch(bool latch) {
         arpLatch = latch;
+        if (latch == 0) {
+            arpPlayIndex = 0;
+            arpStoreIndex = 0;
+            arpPlayOctave = 0;
+            //        Serial.println("Osc off because latch Off");
+            oscillatorsOff();
+        }
     }
     
     void setArpDelay(float delay) {
@@ -220,10 +223,64 @@ public:
         arpTranspose = transpose;
     }
     
+    void setArpScaleMode(int n) {
+        setArpScaleMode = n;
+    }
+    
     void setSynth(Synth & refSynth) {
         mSynth = refSynth;
     }
     
+    void setArpMode(int value) {
+      if (value == 0) {
+        arpMode = Arp_Off;
+        Serial.println("Arp Off - Osc Off");
+        oscillatorsOff();
+        arpStoreIndex = 0;
+        arpPlayIndex = 0;
+      }
+      else if (value == 20) {
+        arpMode = Arp_Up;
+        Serial.println("Arp Up");
+        arpPlayIndex = 0;
+        arpDelayActive = false;
+        arpPlayOctave = 0;
+      }
+      else if (value == 40) {
+        arpMode = Arp_Down;
+        Serial.println("Arp Down");
+        arpPlayIndex = 0;
+        arpDelayActive = false;
+        arpPlayOctave = arpOctave;
+      }
+      else if (value == 60) {
+        arpMode = Arp_UpDown;
+        Serial.println("Arp Up/Down");
+        arpPlayIndex = 0;
+        arpIncrement = 1; // start "up"
+        arpDelayActive = false;
+        arpPlayOctave = 0;
+      }
+      else if (value == 80) {
+        arpMode = Arp_Random;
+        Serial.println("Arp Random");
+      }
+      else if (value == 100) {
+        Serial.println("Arp Scales");
+        arpMode = Arp_Scale;
+        arpPlayIndex = 0;
+        arpDelayActive = false;
+        arpPlayOctave = 0;
+      }
+      else if (value == 120) {
+        Serial.println("Arp Record");
+        arpMode = Arp_Record;
+        arpStoreIndex = 0;
+        arpPlayIndex = 0;
+        arpDelayActive = false;
+        arpPlayOctave = 0;
+      }
+    }
     
 };
 // PhatBass: end automatically generated code

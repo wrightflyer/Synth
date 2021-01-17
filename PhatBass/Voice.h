@@ -58,18 +58,22 @@ public:
     AudioSynthWaveformModulated      VCO2;
     AudioSynthWavetable              WaveTable;
     AudioSynthNoisePink              pinkNoise;
+    AudioAmplifier                   VCO1switch;
+    AudioAmplifier                   VCO2switch;
     AudioMixer4                      VoiceMixer;
     AudioEffectEnvelope              ADSR;
-    AudioConnection                  *patchCord[5]; // total patchCordCount:5 including array typed ones.
+    AudioConnection                  *patchCord[7]; // total patchCordCount:7 including array typed ones.
 
     Voice() { // constructor (this is called when class-object is created)
         int pci = 0; // used only for adding new patchcords
 
 
-        patchCord[pci++] = new AudioConnection(VCO1, 0, VoiceMixer, 0);
-        patchCord[pci++] = new AudioConnection(VCO2, 0, VoiceMixer, 1);
+        patchCord[pci++] = new AudioConnection(VCO1, 0, VCO1switch, 0);
+        patchCord[pci++] = new AudioConnection(VCO2, 0, VCO2switch, 0);
         patchCord[pci++] = new AudioConnection(WaveTable, 0, VoiceMixer, 2);
         patchCord[pci++] = new AudioConnection(pinkNoise, 0, VoiceMixer, 3);
+        patchCord[pci++] = new AudioConnection(VCO1switch, 0, VoiceMixer, 0);
+        patchCord[pci++] = new AudioConnection(VCO2switch, 0, VoiceMixer, 1);
         patchCord[pci++] = new AudioConnection(VoiceMixer, 0, ADSR, 0);
         updateOsc1();
         updateOsc2();
@@ -133,7 +137,13 @@ public:
     public:
     void setOsc1Waveform(int wave) {
         osc1Waveform = wave;
-        updateOsc1();
+        if (wave == 0) {
+            VCO1switch.gain(0.0);
+        }
+        else {
+            VCO1switch.gain(1.0);
+            updateOsc1();
+        }
     }
     
     void setOsc1Octave(int oct) {
@@ -158,7 +168,13 @@ public:
     
     void setOsc2Waveform(int wave) {
         osc2Waveform = wave;
-        updateOsc2();
+        if (wave == 0) {
+            VCO2switch.gain(0.0);
+        }
+        else {
+            VCO2switch.gain(1.0);
+            updateOsc2();
+        }
     }
     
     void setOsc2Octave(int oct) {

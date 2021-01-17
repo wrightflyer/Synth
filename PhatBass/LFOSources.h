@@ -29,9 +29,16 @@ public:
     
     AudioSynthWaveform               LFO1;
     AudioSynthWaveform               LFO2;
+    AudioAmplifier                   LFO1switch;
+    AudioAmplifier                   LFO2switch;
+    AudioConnection                  *patchCord[2]; // total patchCordCount:2 including array typed ones.
 
     LFOSources() { // constructor (this is called when class-object is created)
+        int pci = 0; // used only for adding new patchcords
 
+
+        patchCord[pci++] = new AudioConnection(LFO1, 0, LFO1switch, 0);
+        patchCord[pci++] = new AudioConnection(LFO2, 0, LFO2switch, 0);
         updateLFO1();
         updateLFO2();
         
@@ -55,12 +62,24 @@ public:
     public:
     void setLFO1Waveform(int wave) {
         lfo1Waveform = wave;
-        updateLFO1();
+        if (wave == 0) {
+            LFO1switch.gain(0.0); 
+        }
+        else {
+            LFO1switch.gain(1.0);
+            updateLFO1();
+        }
     }
     
     void setLFO2Waveform(int wave) {
         lfo2Waveform = wave;
-        updateLFO2();
+        if (wave == 0) {
+            LFO2switch.gain(0.0);
+        }
+        else {
+            LFO2switch.gain(1.0);
+            updateLFO2();
+        }
     }
     
     void setLFO1Freq(float freq) {
