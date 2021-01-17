@@ -25,6 +25,7 @@ public:
         
     }
 
+    public:
     void oscillatorsOn() {
       oscillatorsOn(currentNote);
     }

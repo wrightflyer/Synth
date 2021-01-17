@@ -17,6 +17,7 @@
 class Voice
 {
 public:
+    private:
     // modulator settings
     int osc1Waveform = WAVEFORM_SINE;
     float osc1Amplitude = 1.0;
@@ -78,6 +79,7 @@ public:
         
     }
 
+    private:
     void updateMix(Mix_change_t change) {
       VoiceMixer.gain(0, osc1Amp);  
       VoiceMixer.gain(1, osc2Amp);
@@ -128,6 +130,7 @@ public:
       Wavetable.setInstrument(*GMinst[waveInstrument]);
     }
     
+    public:
     void setOsc1Waveform(int wave) {
         osc1Waveform = wave;
         updateOsc1();

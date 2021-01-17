@@ -12,6 +12,7 @@
 class FilterEffects
 {
 public:
+    private:
     // filter ADSR
     float filtEnvA = 10.5;
     float filtEnvD = 35;
@@ -59,6 +60,7 @@ public:
         
     }
 
+    private:
     void updateFiltADSR() {
       FilterADSR.attack(filtEnvA);
       FilterADSR.decay(filtEnvD);
@@ -127,6 +129,7 @@ public:
       chorus.voices(chorusVoices);
     }
     
+    public:
     void setFiltAttack(float attack) {
       filtEnvA = attack;
       updateFiltADSR();

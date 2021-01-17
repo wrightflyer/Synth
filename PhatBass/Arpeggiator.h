@@ -13,6 +13,7 @@ class Arpeggiator
 {
 public:
     // Arpeggiator
+    private:
     arp_mode_t arpMode;
     int arpOctave;
     float arpPeriod;
@@ -42,6 +43,7 @@ public:
         
     }
 
+    private:
     void sortNotes() {
     /* From Wikipedia 
      *   
@@ -83,6 +85,7 @@ public:
       } while(len > 1);
     }
     
+    public:
     void update() {
       if (arpMode != Arp_Off) {
         // play Arpeggiator notes

@@ -1,0 +1,24 @@
+CC::dumpPatch() - needs access to most class members (LFO, Voice, Arp, voiceADSR, filterADSR, Mixer)
+CC::mapf() - just called by CC
+Note::oscillatorsOn() - called by NoteHandling (on), Arp, PitchBend controls Voice
+Note::oscillatorsOff() - called by NoteHandling (off), CC, Arp controls Voice
+Arp::sortNotes() - local to Arp
+Note::onNoteOn() - callback from MIDI and USB noteon (local)
+Note::OnNoteOff() - callback from MIDI and USB noteoff (local)
+Voice::updateMix() - called by Voice (so local)
+Voice::updateADSR() - called by Voice (so local)
+FiltEffect::updateFiltADSR() - called by FiltEffect, CC (but to be moved to setters)
+FiltEffect::updateFilterBand() - called by FiltEffect, CC (but to be moved to setters)
+FiltEffect::updateFilter() - called by FiltEffect, CC (but to be moved to setters)
+Voice::updateOsc1() - called by Voice, CC (but to be moved to setters)
+Voice::updateOsc2() - called by Voice, CC (but to be moved to setters)
+LFOSources::updateLFO1() - called by LFOSources, CC (but to be moved to setters)
+Voice::updateNoise() - called by Voice (so local)
+Voice::updateWave() - called by Progchange, changes Voice object (remove "wavetable1" from NoteHandling!)
+FiltEffect::initChorus() - called by FiltEffect (so local)
+FiltEffect::updateChorus() - called by FiltEffect, CC (but to be removed to setters)
+CC::onControlChange() - called by CC, Synth has unused touch code to call it too (injecting input)
+PB::onPitchChange() - callback from MIDI/USB (local)
+Prog::onProgramChange() - callback from MIDI/USB (local)
+setup()
+loop()

@@ -10,8 +10,8 @@
 #include "ProgChange.h"
 #include "ContinuousController.h"
 #include "PitchBend.h"
-#include "NoteHandling.h"
 #include "FilterEffects.h"
+#include "NoteHandling.h"
 #include includeDef
  
 // PhatBass: begin automatically generated code
@@ -41,10 +41,10 @@ public:
     //ProgChange progChange;
     const static int NUMVOICES = 8;
     
-    LFOSources                       LFOSources;
-    Voice                            Voice[8];
+    LFOSources                       LFOs;
+    Voice                            voice[8];
     AudioMixer<8>                    MixVoices;
-    FilterEffects                    FilterEffects;
+    FilterEffects                    Filter;
     AudioOutputI2S                   i2s1;
     AudioOutputUSB                   usb1;
     Arpeggiator Arp;
@@ -59,16 +59,16 @@ public:
         int pci = 0; // used only for adding new patchcords
 
 
-        patchCord[pci++] = new AudioConnection(MixVoices, 0, FilterEffects.FilterSelect, 0);
-        patchCord[pci++] = new AudioConnection(MixVoices, 0, FilterEffects.filter1, 0);
-        patchCord[pci++] = new AudioConnection(FilterEffects.chorus1, 0, i2s1, 0);
-        patchCord[pci++] = new AudioConnection(FilterEffects.chorus1, 0, i2s1, 1);
-        patchCord[pci++] = new AudioConnection(FilterEffects.chorus1, 0, usb1, 0);
-        patchCord[pci++] = new AudioConnection(FilterEffects.chorus1, 0, usb1, 1);
+        patchCord[pci++] = new AudioConnection(MixVoices, 0, Filter.FilterSelect, 0);
+        patchCord[pci++] = new AudioConnection(MixVoices, 0, Filter.filter1, 0);
+        patchCord[pci++] = new AudioConnection(Filter.chorus1, 0, i2s1, 0);
+        patchCord[pci++] = new AudioConnection(Filter.chorus1, 0, i2s1, 1);
+        patchCord[pci++] = new AudioConnection(Filter.chorus1, 0, usb1, 0);
+        patchCord[pci++] = new AudioConnection(Filter.chorus1, 0, usb1, 1);
         for (int i = 0; i < 8; i++) {
-            patchCord[pci++] = new AudioConnection(LFOSources.LFO1, 0, Voice[i].VCO1, 0);
-            patchCord[pci++] = new AudioConnection(LFOSources.LFO2, 0, Voice[i].VCO2, 0);
-            patchCord[pci++] = new AudioConnection(Voice[i].ADSR, 0, MixVoices, i);
+            patchCord[pci++] = new AudioConnection(LFOs.LFO1, 0, voice[i].VCO1, 0);
+            patchCord[pci++] = new AudioConnection(LFOs.LFO2, 0, voice[i].VCO2, 0);
+            patchCord[pci++] = new AudioConnection(voice[i].ADSR, 0, MixVoices, i);
         }
         Arp.setSynth(this);
         ProgHndlr.setSynth(this);
@@ -78,34 +78,6 @@ public:
         
     }
 
-    void dumpPatch() {
-      Serial.println("====================================");
-      Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune=%.2f\n",
-                      waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Semis, osc1Detune);
-      Serial.printf( "LFO1: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\n\n",
-                      waves[lfo1Waveform], lfo1Freq, lfo1Depth, lfo1PWM);
-      Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune= %.2f\n",
-                      waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Semis, osc2Detune);
-      Serial.printf( "LFO2: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\n\n",
-                      waves[lfo2Waveform], lfo2Freq, lfo2Depth, lfo2PWM);
-      Serial.printf( "Filter: band=%s, freq=%.2fHz, res=%.2f, DC=%.2f, modulated=%u\n\n",
-                      bands[filtBand], filterFreq, filterRes, filtDC, filtMod);
-      Serial.printf( "Mix ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n",
-                      envAttack, envDecay, envSustain, envRelease);
-      Serial.printf( "Filter ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n\n",
-                      filtEnvA, filtEnvD, filtEnvS, filtEnvR);
-      Serial.printf( "Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f, wavetab=%.2f\n\n",
-                      osc1Amp, osc2Amp, noiseAmp, waveAmp);
-      Serial.printf( " Arpeggiator: arpMode=%s, arpPeriod=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\n",
-                      arpModes[arpMode], arpPeriod, arpOctave, arpLatch, arpDelay, arpTranspose);
-      Serial.println("====================================");
-    }
-    
-    double mapf(double x, double in_min, double in_max, double out_min, double out_max)
-    {
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
-    
     void update() {
       // put your main code here, to run repeatedly:
       usbMIDI.read();

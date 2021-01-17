@@ -16,6 +16,7 @@ class LFOSources
 {
 public:
     // LFO settings
+    private:
     int lfo1Waveform = WAVEFORM_SINE;
     float lfo1Freq = 0.0;
     float lfo1Depth = 0.0;
@@ -36,6 +37,7 @@ public:
         
     }
 
+    private:
     void updateLFO1() {
       LFO1.begin(lfo1Waveform);
       LFO1.frequency(lfo1Freq);
@@ -50,6 +52,7 @@ public:
       LFO2.pulseWidth(lfo2PWM);
     }
     
+    public:
     void setLFO1Waveform(int wave) {
         lfo1Waveform = wave;
         updateLFO1();

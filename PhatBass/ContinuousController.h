@@ -23,8 +23,39 @@ public:
         
     }
 
+    private:
+    void dumpPatch() {
+      Serial.println("====================================");
+      Serial.printf( "OSC1: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune=%.2f\n",
+                      waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Semis, osc1Detune);
+      Serial.printf( "LFO1: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\n\n",
+                      waves[lfo1Waveform], lfo1Freq, lfo1Depth, lfo1PWM);
+      Serial.printf( "OSC2: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune= %.2f\n",
+                      waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Semis, osc2Detune);
+      Serial.printf( "LFO2: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\n\n",
+                      waves[lfo2Waveform], lfo2Freq, lfo2Depth, lfo2PWM);
+      Serial.printf( "Filter: band=%s, freq=%.2fHz, res=%.2f, DC=%.2f, modulated=%u\n\n",
+                      bands[filtBand], filterFreq, filterRes, filtDC, filtMod);
+      Serial.printf( "Mix ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n",
+                      envAttack, envDecay, envSustain, envRelease);
+      Serial.printf( "Filter ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\n\n",
+                      filtEnvA, filtEnvD, filtEnvS, filtEnvR);
+      Serial.printf( "Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f, wavetab=%.2f\n\n",
+                      osc1Amp, osc2Amp, noiseAmp, waveAmp);
+      Serial.printf( " Arpeggiator: arpMode=%s, arpPeriod=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\n",
+                      arpModes[arpMode], arpPeriod, arpOctave, arpLatch, arpDelay, arpTranspose);
+      Serial.println("====================================");
+    }
+    
+    double mapf(double x, double in_min, double in_max, double out_min, double out_max)
+    {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+    
+    public:
     static void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {
       int i, n;
+      int change;
       float fTemp;
       int iTemp;
       Serial.printf("CC: %u = %u ==> ", control, value);
@@ -37,7 +68,7 @@ public:
           fTemp =  velocity2amplitude[value];
           Serial.printf("Mix: Osc1 amplitude = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            synth.voice[n].setOsc1Amp(fTemp);
+            mSynth.voice[n].setOsc1Amp(fTemp);
           }
           break;
     
@@ -45,7 +76,7 @@ public:
           fTemp = velocity2amplitude[value];
           Serial.printf("Mix: Osc2 amplitude = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            synth.voice[n].setOsc2Amp(fTemp);
+            mSynth.voice[n].setOsc2Amp(fTemp);
           }
           break;
     
@@ -53,7 +84,7 @@ public:
           fTemp = velocity2amplitude[value];
           Serial.printf("Mix: Wavetable amplitude = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            synth.voice[n].setWaveAmp(fTemp);
+            mSynth.voice[n].setWaveAmp(fTemp);
           }
           break;
     
@@ -61,7 +92,7 @@ public:
           fTemp = velocity2amplitude[value];
           Serial.printf("Mix: Noise amplitude = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            synth.voice[n].setNoiseAmp(fTemp);
+            mSynth.voice[n].setNoiseAmp(fTemp);
           }
           break;
     
@@ -70,7 +101,7 @@ public:
           fTemp = mapf(value, 0, 127, 0.0, 3000.0);
           Serial.printf("Attack = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            synth.voice[n].setADSRAttack(fTemp);
+            mSynth.voice[n].setADSRAttack(fTemp);
           }
           break;
     
@@ -78,7 +109,7 @@ public:
           fTemp = mapf(value, 0, 127, 0.0, 3000.0);
           Serial.printf("Decay = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            synth.voice[n].setADSRDecay(fTemp);
+            mSynth.voice[n].setADSRDecay(fTemp);
           }
           break;
     
@@ -86,7 +117,7 @@ public:
           fTemp = mapf(value, 0, 127, 0.0, 1.0);
           Serial.printf("Sustain = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            synth.voice[n].setADSRSustain(fTemp);
+            mSynth.voice[n].setADSRSustain(fTemp);
           }
           break;
     
@@ -94,39 +125,42 @@ public:
           fTemp = mapf(value, 0, 127, 0.0, 3000.0);
           Serial.printf("Release = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            synth.voice[n].setADSRRelease(fTemp);
+            mSynth.voice[n].setADSRRelease(fTemp);
           }
           break;
     
         // ========================= FILTER =======================
         case 107:
-          value /= 20;
-          if (value == 0) {
-            filtBand = FILT_OFF;
+          {
+              filter_band_t band;
+              value /= 20;
+              if (value == 0) {
+                band = FILT_OFF;
+              }
+              else if (value == 1) {
+                band= LPF;
+              }
+              else if (value = 2) {
+                band= BPF;
+              }
+              else {
+                band = HPF;
+              }
+              Serial.printf("Filter band = %s\n", bands[band]);
+              mSynth.Filter.setFiltBand(band);
           }
-          else if (value == 1) {
-            filtBand= LPF;
-          }
-          else if (value = 2) {
-            filtBand= BPF;
-          }
-          else {
-            filtBand = HPF;
-          }
-          Serial.printf("Filter band = %s\n", bands[filtBand]);
-          updateFilterBand();
           break;
     
         case 108:
-          filterFreq = mapf(value, 0, 127, 0, 10000);
-          Serial.printf("Filter Freq = %.2fHz\n", filterFreq);
-          updateFilter();
+          fTemp = mapf(value, 0, 127, 0, 10000);
+          Serial.printf("Filter Freq = %.2fHz\n", fTemp);
+          mSynth.Filter.setFiltFreq(fTemp);
           break;
     
         case 109:
-          filterRes = mapf(value, 0, 127, 0.7, 5.0);
-          Serial.printf("Resonance = %.2f\n", filterRes);
-          updateFilter();
+          fTemp = mapf(value, 0, 127, 0.7, 5.0);
+          Serial.printf("Resonance = %.2f\n", fTemp);
+          mSynth.Filter.setFiltRes(fTemp);
           break;
     
         // =================== WAVE SHAPE ======================
@@ -134,7 +168,6 @@ public:
         case 111:
         case 116:
         case 117:
-          int change;
           value /= 10;
           switch (value) {
             case 0:
