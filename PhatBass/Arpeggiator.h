@@ -4,14 +4,16 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+#include "types.h"
 
-
+#include "Synth.h"
  
 // PhatBass: begin automatically generated code
 
 class Arpeggiator
 {
 public:
+    const static int NumStoredNotes = 32;
     // Arpeggiator
     private:
     arp_mode_t arpMode;

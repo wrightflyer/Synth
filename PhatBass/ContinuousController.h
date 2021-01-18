@@ -4,8 +4,9 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+#include "types.h"
 
-
+#include "Synth.h"
  
 // PhatBass: begin automatically generated code
 

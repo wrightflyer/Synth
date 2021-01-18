@@ -4,6 +4,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+#include "types.h"
 #include "LFOSources.h"
 #include "Voice.h"
 #include "Arpeggiator.h"
@@ -12,14 +13,13 @@
 #include "PitchBend.h"
 #include "FilterEffects.h"
 #include "NoteHandling.h"
-#include includeDef
+
  
 // PhatBass: begin automatically generated code
 
 class Synth
 {
 public:
-    const static int NumStoredNotes = 32;
     int clickCount = 0;
     elapsedMillis lastMillis = 0;
     elapsedMillis last_time = 0;

@@ -4,8 +4,9 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+#include "types.h"
 
-
+#include "src/GMinstrument/GMinst.h"
  
 // PhatBass: begin automatically generated code
 
@@ -78,8 +79,8 @@ public:
         updateOsc1();
         updateOsc2();
         updateNoise();
-        updateMix(AllMix);
-        updateADSR(AllADSR);
+        updateMix(Mix_AllMix);
+        updateADSR(Env_AllADSR);
         
     }
 
@@ -89,7 +90,7 @@ public:
       VoiceMixer.gain(1, osc2Amp);
       VoiceMixer.gain(2, waveAmp);
       VoiceMixer.gain(3, noiseAmp);
-      updateMixerBars(change);
+      //updateMixerBars(change);
     }
     
     
@@ -98,7 +99,7 @@ public:
       ADSR.decay(envDecay);
       ADSR.sustain(envSustain);
       ADSR.release(envRelease);
-      updateADSRBars(change);
+      //updateADSRBars(change);
     }
     
     void updateOsc1() {
@@ -131,7 +132,7 @@ public:
     
     void updateWave() {
       WaveTable.amplitude(waveAmplitude);
-      Wavetable.setInstrument(*GMinst[waveInstrument]);
+      WaveTable.setInstrument(*GMinst[waveInstrument]);
     }
     
     public:
@@ -162,7 +163,7 @@ public:
         osc1PB = PB;
     }
     
-    void setOsc1Mod(osc_mot_t mod) {
+    void setOsc1Mod(osc_mod_t mod) {
         osc1Mod = mod;
     }
     
@@ -193,48 +194,48 @@ public:
         osc2PB = PB;
     }
     
-    void setOsc2Mod(osc_mot_t mod) {
+    void setOsc2Mod(osc_mod_t mod) {
         osc2Mod = mod;
     }
     
     void setOsc1Amp(float amp) {
         osc1Amp = amp;
-        updateMix(OSC1);
+        updateMix(Mix_OSC1);
     }
     
     void setOsc2Amp(float amp) {
         osc2Amp = amp;
-        updateMix(OSC2);
+        updateMix(Mix_OSC2);
     }
     
     void setNoiseAmp(float amp) {
         noiseAmp = amp;
-        updateMix(Noise);
+        updateMix(Mix_Noise);
     }
     
     void setWaveAmp(float amp) {
         waveAmp = amp;
-        updateMix(WaveTable);
+        updateMix(Mix_WaveTable);
     }
     
     void setADSRAttack(float attack) {
         envAttack = attack;
-        updateADSR(Attack);
+        updateADSR(Env_Attack);
     }
     
     void setADSRDecay(float decay) {
         envDecay = decay;
-        updateADSR(Decay);
+        updateADSR(Env_Decay);
     }
     
     void setADSRSustain(float sus) {
         envSustain = sus;
-        updateADSR(Sustain);
+        updateADSR(Env_Sustain);
     }
     
     void setADSRRelease(float rel) {
         envRelease = rel;
-        updateADSR(Release);
+        updateADSR(Env_Release);
     }
     
     

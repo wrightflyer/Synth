@@ -9,26 +9,26 @@
 #include "defines.h"
 
 typedef enum {
-  AllMix,
-  OSC1,
-  OSC2,
-  Noise,
-  WaveTable
+  Mix_AllMix,
+  Mix_OSC1,
+  Mix_OSC2,
+  Mix_Noise,
+  Mix_WaveTable
 } Mix_change_t;
 
 typedef enum {
-  AllADSR,
-  Attack,
-  Decay,
-  Sustain,
-  Release
+  Env_AllADSR,
+  Env_Attack,
+  Env_Decay,
+  Env_Sustain,
+  Env_Release
 } ADSR_change_t;
 
 typedef enum {
-  FILT_OFF,
-  LPF,
-  BPF,
-  HPF
+  Filt_FILT_OFF,
+  Filt_LPF,
+  Filt_BPF,
+  Filt_HPF
 } filter_band_t;
 
 typedef enum {

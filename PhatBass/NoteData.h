@@ -7,7 +7,7 @@
 
 // This is for the Teensy Audio library which specifies
 // frequencies as floating point. See make_notetab.xlsx
-const float tune_frequencies2_PGM[128] =
+const PROGMEM float tune_frequencies2_PGM[128] =
 {
     8.1758,    8.6620,    9.1770,    9.7227,    10.3009,    10.9134,    11.5623,    12.2499,
     12.9783,   13.7500,   14.5676,   15.4339,   16.3516,    17.3239,    18.3540,    19.4454,
@@ -32,7 +32,7 @@ const float tune_frequencies2_PGM[128] =
 #define CMD_RESTART	0xe0	/* restart the score from the beginning */
 #define CMD_STOP	0xf0	/* stop playing */
 
-const float velocity2amplitude[128] = {
+const PROGMEM float velocity2amplitude[128] = {
 0.01778,0.01966,0.02164,0.02371,0.02588,0.02814,0.03049,0.03294,0.03549,0.03812,
 0.04086,0.04369,0.04661,0.04963,0.05274,0.05594,0.05924,0.06264,0.06613,0.06972,
 0.07340,0.07717,0.08104,0.08500,0.08906,0.09321,0.09746,0.10180,0.10624,0.11077,
