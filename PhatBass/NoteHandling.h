@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Arduino.h>
 #include <Audio.h>
 #include <Wire.h>
@@ -5,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+
+// forward declare
+class Synth;
 
 #include "NoteData.h"
 #include "Synth.h"

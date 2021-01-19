@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Arduino.h>
 #include <Audio.h>
 #include <Wire.h>
@@ -5,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+
+// forward declare
+class Synth;
 
 #include "Synth.h"
  
@@ -30,6 +35,8 @@ public:
     int arpIncrement;
     int arpPlayOctave;
     int arpScaleMode;
+    
+    elapsedMillis lastMillis = 0;
     
     Synth & mSynth;
     
@@ -96,7 +103,9 @@ public:
           if ((arpDelay != 0) && (arpDelayActive == true)) {
             if (lastMillis > arpPeriod) {
     //          Serial.printf("Osc off because lasmillis (%lu) beyond arpPeriod (%u)", lastMillis, arpPeriod);
-              oscillatorsOff();
+              for (int i = 0; i < NUM_VOICES; i++) {
+                mSynth.voice[i].oscillatorsOff();
+              }
             }
             if (lastMillis > arpDelay) {
               arpDelayActive = false;
@@ -119,8 +128,10 @@ public:
             note2play = arpNotes[arpPlayIndex] + arpTranspose + (12 * arpPlayOctave);
     //        Serial.println("Osc off because arpPeriod expired - cancel last playing note");
             if (arpMode != Arp_Record) {
-              oscillatorsOff(); // end previous note
-              oscillatorsOn(note2play); // start new note from ARP array
+              for (int i = 0; i < NUM_VOICES; i++) {
+                mSynth.voice[i].oscillatorsOff();
+                mSynth.voice[i].oscillatorsOn(note2play);
+              }
             }
             switch(arpMode) {
               case Arp_Up:
@@ -209,7 +220,9 @@ public:
             arpStoreIndex = 0;
             arpPlayOctave = 0;
             //        Serial.println("Osc off because latch Off");
-            oscillatorsOff();
+            for (int i = 0; i < NUM_VOICES; i++) {
+                mSynth.voice[i].oscillatorsOff();
+            }
         }
     }
     
@@ -226,7 +239,7 @@ public:
     }
     
     void setArpScaleMode(int n) {
-        setArpScaleMode = n;
+        arpScaleMode = n;
     }
     
     void setSynth(Synth & refSynth) {
@@ -237,7 +250,9 @@ public:
       if (value == 0) {
         arpMode = Arp_Off;
         Serial.println("Arp Off - Osc Off");
-        oscillatorsOff();
+        for (int i = 0; i < NUM_VOICES; i++) {
+            mSynth.voice[i].oscillatorsOff();
+        }
         arpStoreIndex = 0;
         arpPlayIndex = 0;
       }

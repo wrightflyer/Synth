@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Arduino.h>
 #include <Audio.h>
 #include <Wire.h>
@@ -5,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+
+// forward declare
+class Synth;
 
 #include "Synth.h"
  
@@ -69,7 +74,7 @@ public:
           fTemp =  velocity2amplitude[value];
           Serial.printf("Mix: Osc1 amplitude = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[n].setOsc1Amp(fTemp);
+            mSynth.voice[i].setOsc1Amp(fTemp);
           }
           break;
     
@@ -77,7 +82,7 @@ public:
           fTemp = velocity2amplitude[value];
           Serial.printf("Mix: Osc2 amplitude = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[n].setOsc2Amp(fTemp);
+            mSynth.voice[i].setOsc2Amp(fTemp);
           }
           break;
     
@@ -85,7 +90,7 @@ public:
           fTemp = velocity2amplitude[value];
           Serial.printf("Mix: Wavetable amplitude = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[n].setWaveAmp(fTemp);
+            mSynth.voice[i].setWaveAmp(fTemp);
           }
           break;
     
@@ -93,7 +98,7 @@ public:
           fTemp = velocity2amplitude[value];
           Serial.printf("Mix: Noise amplitude = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[n].setNoiseAmp(fTemp);
+            mSynth.voice[i].setNoiseAmp(fTemp);
           }
           break;
     
@@ -102,7 +107,7 @@ public:
           fTemp = mapf(value, 0, 127, 0.0, 3000.0);
           Serial.printf("Attack = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[n].setADSRAttack(fTemp);
+            mSynth.voice[i].setADSRAttack(fTemp);
           }
           break;
     
@@ -110,7 +115,7 @@ public:
           fTemp = mapf(value, 0, 127, 0.0, 3000.0);
           Serial.printf("Decay = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[n].setADSRDecay(fTemp);
+            mSynth.voice[i].setADSRDecay(fTemp);
           }
           break;
     
@@ -118,7 +123,7 @@ public:
           fTemp = mapf(value, 0, 127, 0.0, 1.0);
           Serial.printf("Sustain = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[n].setADSRSustain(fTemp);
+            mSynth.voice[i].setADSRSustain(fTemp);
           }
           break;
     
@@ -126,7 +131,7 @@ public:
           fTemp = mapf(value, 0, 127, 0.0, 3000.0);
           Serial.printf("Release = %.2f\n", fTemp);
           for (i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[n].setADSRRelease(fTemp);
+            mSynth.voice[i].setADSRRelease(fTemp);
           }
           break;
     
@@ -212,13 +217,13 @@ public:
           if (control == 116) {
             Serial.println("OSC1)");
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc1Waveform(change);
+                mSynth.voice[i].setOsc1Waveform(change);
             }
           }
           if (control == 117) {
             Serial.println("OSC2)");
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc2Waveform(change);
+                mSynth.voice[i].setOsc2Waveform(change);
             }
           }
           break;
@@ -276,7 +281,7 @@ public:
             fTemp = mapf(value, 0.0, 127, 0, 12);
             Serial.printf("Osc1 semis = %u\n", fTemp);
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc1Semis(fTemp);
+                mSynth.voice[i].setOsc1Semis(fTemp);
             }
             break;
     
@@ -286,7 +291,7 @@ public:
             n = (value / 12) * 12;
             n -= 24;
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc1Octave(n);
+                mSynth.voice[i].setOsc1Octave(n);
             }
             Serial.printf("Osc1 Octave: %d\n", n);
             break;
@@ -295,7 +300,7 @@ public:
             fTemp = mapf(value, 0, 127, 1.0, 0.85);
             Serial.printf("Osc1 detune = %.2f\n", fTemp);
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc1Detune(fTemp);
+                mSynth.voice[i].setOsc1Detune(fTemp);
             }
             break;
     
@@ -304,12 +309,12 @@ public:
           // 0..63 = FM, 64..127 = PM
           if (value < 64) {
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc1Mod(Mod_FM);
+                mSynth.voice[i].setOsc1Mod(Mod_FM);
             }
           }
           else {
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc1Mod(Mod_PM);
+                mSynth.voice[i].setOsc1Mod(Mod_PM);
             }
           }
           break;
@@ -319,7 +324,7 @@ public:
             fTemp = mapf(value, 0.0, 127, 0, 12);
             Serial.printf("Osc2 semis = %u\n", fTemp);
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc2Semis(fTemp);
+                mSynth.voice[i].setOsc2Semis(fTemp);
             }
             break;
     
@@ -329,7 +334,7 @@ public:
             n = (value / 12) * 12;
             n -= 24;
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc2Octave(n);
+                mSynth.voice[i].setOsc2Octave(n);
             }
             Serial.printf("Osc1 Octave: %d\n", n);
           break;
@@ -338,7 +343,7 @@ public:
             fTemp = mapf(value, 0, 127, 1.0, 0.85);
             Serial.printf("Osc1 detune = %.2f\n", fTemp);
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc2Detune(fTemp);
+                mSynth.voice[i].setOsc2Detune(fTemp);
             }
             break;
     
@@ -347,12 +352,12 @@ public:
           // 0..63 = FM, 64..127 = PM
           if (value < 64) {
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc2Mod(Mod_FM);
+                mSynth.voice[i].setOsc2Mod(Mod_FM);
             }
           }
           else {
             for (i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[n].setOsc2Mod(Mod_PM);
+                mSynth.voice[i].setOsc2Mod(Mod_PM);
             }
           }
           break;

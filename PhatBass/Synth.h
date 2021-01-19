@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Arduino.h>
 #include <Audio.h>
 #include <Wire.h>
@@ -5,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+
+// forward declare
+class Synth;
 #include "LFOSources.h"
 #include "Voice.h"
 #include "Arpeggiator.h"
@@ -39,7 +44,6 @@ public:
     //PitchBend PBhandler;
     //NoteHandling noteHandler;
     //ProgChange progChange;
-    const static int NUMVOICES = 8;
     
     LFOSources                       LFOs;
     Voice                            voice[8];

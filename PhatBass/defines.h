@@ -3,6 +3,8 @@
 #ifndef _DEFINES_H_
 #define _DEFINES_H_
 
+#define NUM_VOICES  8
+
 #define LED_PIN 13
 #define TFT_DC  9
 #define TFT_CS 10
