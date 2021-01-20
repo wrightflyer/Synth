@@ -4,84 +4,30 @@
         "data": [
             {
                 "arduino": {
-                    "useExportDialog": false,
-                    "IOcheckAtExport": true,
                     "WriteJSONtoExportedFile": false,
-                    "WebServerPort": 8080,
-                    "WebSocketServerPort": 3000,
                     "ProjectName": "PhatBass",
-                    "CodeIndentations": 4,
-                    "StandardIncludeHeader": "#pragma once\n\n#include <Arduino.h>\n#include <Audio.h>\n#include <Wire.h>\n#include <SPI.h>\n#include <SD.h>\n#include <SerialFlash.h>\n#include \"types.h\"\n\n// forward declare\nclass Synth;\n"
+                    "StandardIncludeHeader": "#pragma once\n\n#include <Arduino.h>\n#include <Audio.h>\n#include <Wire.h>\n#include <SPI.h>\n#include <SD.h>\n#include <SerialFlash.h>\n#include \"types.h\"\n"
                 }
             },
             {
-                "BiDirDataWebSocketBridge": {
-                    "bddwssPort": 3001,
-                    "MidiDeviceIn": 0,
-                    "MidiDeviceOut": 0
-                }
+                "BiDirDataWebSocketBridge": {}
             },
             {
                 "view": {
-                    "showWorkspaceToolbar": true,
-                    "showNodeToolTip": true,
-                    "guiEditMode": true,
-                    "lockWindowMouseScrollInRunMode": true,
-                    "space_width": 5000,
-                    "space_height": 5000,
-                    "workspaceBgColor": "#FFF",
-                    "scaleFactor": 1,
-                    "showGridHminor": true,
-                    "showGridHmajor": true,
-                    "showGridVminor": true,
-                    "showGridVmajor": true,
-                    "nodeMouseDownShowGridHminor": false,
-                    "nodeMouseDownShowGridHmajor": true,
-                    "nodeMouseDownShowGridVminor": false,
-                    "nodeMouseDownShowGridVmajor": true,
-                    "gridHminorSize": 10,
-                    "gridHmajorSize": 100,
-                    "gridVminorSize": 10,
-                    "gridVmajorSize": 100,
-                    "gridMinorColor": "#eee",
-                    "gridMajorColor": "#ddd",
-                    "snapToGrid": true,
-                    "snapToGridHsize": 5,
-                    "snapToGridVsize": 5,
-                    "lineCurveScale": 0.75,
-                    "lineConnectionsScale": 1.5,
-                    "useCenterBasedPositions": null,
-                    "nodeDefaultTextSize": 14,
-                    "keyboardScrollSpeed": 10,
-                    "guiRunForceScrollSpeed": 20,
-                    "workspaceMinimumTabSize": 50
+                    "useCenterBasedPositions": null
                 }
             },
             {
-                "sidebar": {
-                    "autoSwitchTabToInfoTab": true
-                }
+                "sidebar": {}
             },
             {
-                "palette": {
-                    "categoryHeaderTextSize": 12,
-                    "categoryHeaderHeight": 14,
-                    "categoryHeaderBackgroundColor": "#f3f3f3",
-                    "onlyShowOne": true
-                }
+                "palette": {}
             },
             {
-                "editor": {
-                    "aceEditorTheme": "theme-chrome"
-                }
+                "editor": {}
             },
             {
-                "devTest": {
-                    "testPost": "data",
-                    "testGet": "cmd",
-                    "testWsSend": "data",
-                    "getFuncHelp": "AudioEffectFade"
-                }
+                "devTest": {}
             }
         ]
     },
@@ -131,7 +77,7 @@
         "id": "LFOSources_vars1",
         "type": "Variables",
         "name": "LFOvars",
-        "comment": "// LFO settings\r\nprivate:\r\nint lfo1Waveform = WAVEFORM_SINE;\r\nfloat lfo1Freq = 0.0;\r\nfloat lfo1Depth = 0.0;\r\nfloat lfo1PWM = 0.0;\r\n\r\nint lfo2Waveform = WAVEFORM_SINE;\r\nfloat lfo2Freq = 0.0;\r\nfloat lfo2Depth = 0.0;\r\nfloat lfo2PWM = 0.0;",
+        "comment": "// LFO settings\r\nprivate:\r\nint lfo1Waveform = WAVEFORM_SINE;\r\nfloat lfo1Freq = 0.0;\r\nfloat lfo1Depth = 0.0;\r\nfloat lfo1PWM = 0.0;\r\n\r\nint lfo2Waveform = WAVEFORM_SINE;\r\nfloat lfo2Freq = 0.0;\r\nfloat lfo2Depth = 0.0;\r\nfloat lfo2PWM = 0.0;\r\n\r\npublic:\r\n",
         "x": 220,
         "y": 270,
         "z": "65451dc5.e7c4b4",
@@ -279,7 +225,7 @@
         "id": "Voice_vars1",
         "type": "Variables",
         "name": "Voicevars",
-        "comment": "private:\r\n// modulator settings\r\nint osc1Waveform = WAVEFORM_SINE;\r\nfloat osc1Amplitude = 1.0;\r\nint osc1Octave = 0;\r\nint osc1Semis = 0;\r\nfloat osc1Detune = 1.0; // can range 1.0 to 0.85\r\nfloat osc1PB = 1.0;\r\nosc_mod_t osc1Mod = Mod_FM;\r\n\r\nint osc2Waveform = WAVEFORM_SAWTOOTH;\r\nfloat osc2Amplitude = 1.0;\r\nint osc2Octave = 0;\r\nint osc2Semis = 0;\r\nfloat osc2Detune = 1.0; // can range 1.0 to 0.85\r\nfloat osc2PB = 1.0;\r\nosc_mod_t osc2Mod = Mod_FM;\r\n\r\n// noise settings\r\nfloat noiseAmplitude = 1.0;\r\n\r\n// wavetable\r\nint waveInstrument = 0; // piano\r\nfloat waveAmplitude = 1.0;\r\n\r\n// Mixer settings\r\nfloat osc1Amp = 1.0;\r\nfloat osc2Amp = 0.0;\r\nfloat noiseAmp = 0.0;\r\nfloat waveAmp = 0.0;\r\n\r\n// ADSR envelope settings\r\nfloat envAttack = 10.5;\r\nfloat envDecay = 35;\r\nfloat envSustain = 0.5;\r\nfloat envRelease = 300;",
+        "comment": "private:\r\n// modulator settings\r\nint osc1Waveform = WAVEFORM_SINE;\r\nfloat osc1Amplitude = 1.0;\r\nint osc1Octave = 0;\r\nint osc1Semis = 0;\r\nfloat osc1Detune = 1.0; // can range 1.0 to 0.85\r\nfloat osc1PB = 1.0;\r\nosc_mod_t osc1Mod = Mod_FM;\r\n\r\nint osc2Waveform = WAVEFORM_SAWTOOTH;\r\nfloat osc2Amplitude = 1.0;\r\nint osc2Octave = 0;\r\nint osc2Semis = 0;\r\nfloat osc2Detune = 1.0; // can range 1.0 to 0.85\r\nfloat osc2PB = 1.0;\r\nosc_mod_t osc2Mod = Mod_FM;\r\n\r\n// noise settings\r\nfloat noiseAmplitude = 1.0;\r\n\r\n// wavetable\r\nint waveInstrument = 0; // piano\r\nfloat waveAmplitude = 1.0;\r\n\r\n// Mixer settings\r\nfloat osc1Amp = 1.0;\r\nfloat osc2Amp = 0.0;\r\nfloat noiseAmp = 0.0;\r\nfloat waveAmp = 0.0;\r\n\r\n// ADSR envelope settings\r\nfloat envAttack = 10.5;\r\nfloat envDecay = 35;\r\nfloat envSustain = 0.5;\r\nfloat envRelease = 300;\r\n\r\npublic:\r\n",
         "x": 110,
         "y": 405,
         "z": "Main",
@@ -538,7 +484,7 @@
         "id": "FilterEffects_vars1",
         "type": "Variables",
         "name": "Filtervars",
-        "comment": "private:\r\n// filter ADSR\r\nfloat filtEnvA = 10.5;\r\nfloat filtEnvD = 35;\r\nfloat filtEnvS = 0.5;\r\nfloat filtEnvR = 300;\r\n\r\n// filter main variables\r\nfilter_band_t filtBand = LPF;\r\nfloat filterFreq = 5000;\r\nfloat filterRes = 2.5;\r\nfloat filtDC = 1.0;\r\nint filtMod = 0;\r\n\r\n// chorus\r\nint chorusVoices;\r\n// Number of samples in each delay line\r\n// Allocate the delay lines for left and right channels\r\nshort delayline[CHORUS_DELAY_LENGTH];\r\n",
+        "comment": "private:\r\n// filter ADSR\r\nfloat filtEnvA = 10.5;\r\nfloat filtEnvD = 35;\r\nfloat filtEnvS = 0.5;\r\nfloat filtEnvR = 300;\r\n\r\n// filter main variables\r\nfilter_band_t filtBand = Filt_LPF;\r\nfloat filterFreq = 5000;\r\nfloat filterRes = 2.5;\r\nfloat filtDC = 1.0;\r\nint filtMod = 0;\r\n\r\n// chorus\r\nint chorusVoices;\r\n// Number of samples in each delay line\r\n// Allocate the delay lines for left and right channels\r\nshort delayline[CHORUS_DELAY_LENGTH];\r\n\r\npublic:\r\n",
         "x": 200,
         "y": 375,
         "z": "5f997400.dc1cbc",
@@ -606,7 +552,7 @@
         "id": "FilterEffects_code1",
         "type": "Function",
         "name": "Filtercode",
-        "comment": "private:\r\nvoid updateFiltADSR() {\r\n  FilterADSR.attack(filtEnvA);\r\n  FilterADSR.decay(filtEnvD);\r\n  FilterADSR.sustain(filtEnvS);\r\n  FilterADSR.release(filtEnvR);\r\n  dc1.amplitude(filtDC);\r\n  if (filtMod == 0) {\r\n    ModSwitch.gain(0.0);\r\n  }\r\n  else {\r\n    ModSwitch.gain(1.0);\r\n  }\r\n}\r\n\r\nvoid updateFilterBand() {\r\n  switch(filtBand) {\r\n    case FILT_OFF:\r\n      FilterSelect.gain(0, 1.00);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case LPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 1.0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case BPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 1.0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case HPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 1.0);\r\n     break;\r\n  }\r\n}\r\n\r\nvoid updateFilter() {\r\n  filter1.frequency(filterFreq);\r\n  filter1.resonance(filterRes);\r\n}\r\n\r\nvoid initChorus() {\r\n  chorusVoices = 0; // off by default\r\n\r\n  // Initialize the effect\r\n  // address of delayline\r\n  // total number of samples in the delay line\r\n  // number of voices in the chorus INCLUDING the original voice\r\n  if(!chorus.begin(delayline, CHORUS_DELAY_LENGTH, 6)) {\r\n    Serial.println(\"AudioEffectChorus - left channel begin failed\");\r\n    while(1);\r\n  }\r\n}\r\n\r\nvoid updateChorus() {\r\n  chorus.voices(chorusVoices);\r\n}\r\n\r\npublic:\r\nvoid setFiltAttack(float attack) {\r\n  filtEnvA = attack;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltDecay(float decay) {\r\n  filtEnvD = decay;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltSustain(float sus) {\r\n  filtEnvS = sus;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltRelease(float release) {\r\n  filtEnvR = release;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltDC(float dc) {\r\n  filtDC = dc;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltModulation(int mod) {\r\n  filtMod = mod;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltBand(filt_band_t band) {\r\n  filtBand = band;\r\n  updateFilterBand();\r\n}\r\n\r\nvoid setFiltFreq(float freq) {\r\n  filterFreq = freq;\r\n  updateFilter();\r\n}\r\n\r\nvoid setFiltRes(float res) {\r\n  filterRes = res;\r\n  updateFilter();\r\n}\r\n\r\nvoid setChorus(int voices) {\r\n    chorusVoices = voices;\r\n    updateChorus();\r\n}",
+        "comment": "private:\r\nvoid updateFiltADSR() {\r\n  FilterADSR.attack(filtEnvA);\r\n  FilterADSR.decay(filtEnvD);\r\n  FilterADSR.sustain(filtEnvS);\r\n  FilterADSR.release(filtEnvR);\r\n  dc1.amplitude(filtDC);\r\n  if (filtMod == 0) {\r\n    ModSwitch.gain(0.0);\r\n  }\r\n  else {\r\n    ModSwitch.gain(1.0);\r\n  }\r\n}\r\n\r\nvoid updateFilterBand() {\r\n  switch(filtBand) {\r\n    case Filt_FILT_OFF:\r\n      FilterSelect.gain(0, 1.00);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case Filt_LPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 1.0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case Filt_BPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 1.0);\r\n      FilterSelect.gain(3, 0);\r\n      break;\r\n\r\n    case Filt_HPF:\r\n      FilterSelect.gain(0, 0);\r\n      FilterSelect.gain(1, 0);\r\n      FilterSelect.gain(2, 0);\r\n      FilterSelect.gain(3, 1.0);\r\n     break;\r\n  }\r\n}\r\n\r\nvoid updateFilter() {\r\n  filter1.frequency(filterFreq);\r\n  filter1.resonance(filterRes);\r\n}\r\n\r\nvoid initChorus() {\r\n  chorusVoices = 0; // off by default\r\n\r\n  // Initialize the effect\r\n  // address of delayline\r\n  // total number of samples in the delay line\r\n  // number of voices in the chorus INCLUDING the original voice\r\n  if(!chorus.begin(delayline, CHORUS_DELAY_LENGTH, 6)) {\r\n    Serial.println(\"AudioEffectChorus - left channel begin failed\");\r\n    while(1);\r\n  }\r\n}\r\n\r\nvoid updateChorus() {\r\n  chorus.voices(chorusVoices);\r\n}\r\n\r\npublic:\r\nvoid setFiltAttack(float attack) {\r\n  filtEnvA = attack;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltDecay(float decay) {\r\n  filtEnvD = decay;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltSustain(float sus) {\r\n  filtEnvS = sus;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltRelease(float release) {\r\n  filtEnvR = release;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltDC(float dc) {\r\n  filtDC = dc;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltModulation(int mod) {\r\n  filtMod = mod;\r\n  updateFiltADSR();\r\n}\r\n\r\nvoid setFiltBand(filter_band_t band) {\r\n  filtBand = band;\r\n  updateFilterBand();\r\n}\r\n\r\nvoid setFiltFreq(float freq) {\r\n  filterFreq = freq;\r\n  updateFilter();\r\n}\r\n\r\nvoid setFiltRes(float res) {\r\n  filterRes = res;\r\n  updateFilter();\r\n}\r\n\r\nvoid setChorus(int voices) {\r\n    chorusVoices = voices;\r\n    updateChorus();\r\n}",
         "x": 560,
         "y": 375,
         "z": "5f997400.dc1cbc",
@@ -652,17 +598,6 @@
         "nodes": []
     },
     {
-        "id": "Arpeggiator_includeDef1",
-        "type": "IncludeDef",
-        "name": "\"Synth.h\"",
-        "comment": "",
-        "x": 180,
-        "y": 5,
-        "z": "95654dc9.1fcd9",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
         "id": "Arpeggiator_constValue1",
         "type": "ConstValue",
         "name": "NumStoredNotes",
@@ -678,7 +613,7 @@
         "id": "Arpeggiator_vars1",
         "type": "Variables",
         "name": "Arpvars",
-        "comment": "// Arpeggiator\r\nprivate:\r\narp_mode_t arpMode;\r\nint arpOctave;\r\nfloat arpPeriod;\r\nbool arpLatch;\r\nfloat arpDelay;\r\nbool arpDelayActive;\r\nint arpTranspose;\r\nbyte arpNotes[NumStoredNotes]; \r\nint arpStoreIndex;\r\nint arpPlayIndex;\r\nint arpNumDown;\r\nint arpIncrement;\r\nint arpPlayOctave;\r\nint arpScaleMode;\r\n\r\nelapsedMillis lastMillis = 0;\r\n\r\nSynth & mSynth;",
+        "comment": "// Arpeggiator\r\nprivate:\r\narp_mode_t arpMode;\r\nint arpOctave;\r\nfloat arpPeriod;\r\nbool arpLatch;\r\nfloat arpDelay;\r\nbool arpDelayActive;\r\nint arpTranspose;\r\nbyte arpNotes[NumStoredNotes]; \r\nint arpStoreIndex;\r\nint arpPlayIndex;\r\nint arpNumDown;\r\nint arpIncrement;\r\nint arpPlayOctave;\r\nint arpScaleMode;\r\n\r\nelapsedMillis lastMillis = 0;\r\n\r\npublic:",
         "x": 180,
         "y": 95,
         "z": "95654dc9.1fcd9",
@@ -700,7 +635,7 @@
         "id": "Arpeggiator_code1",
         "type": "Function",
         "name": "Arpcode",
-        "comment": "private:\r\nvoid sortNotes() {\r\n/* From Wikipedia \r\n *   \r\nprocedure bubbleSort(A : list of sortable items)\r\n    n := length(A)\r\n    repeat\r\n        newn := 0\r\n        for i := 1 to n - 1 inclusive do\r\n            if A[i - 1] > A[i] then\r\n                swap(A[i - 1], A[i])\r\n                newn := i\r\n            end if\r\n        end for\r\n        n := newn\r\n    until n ≤ 1\r\nend procedure\r\n*/\r\n  int newLen;\r\n  int len = arpStoreIndex + 1;\r\n#ifdef DEBUG_SORT  \r\n  Serial.print(\"Input = \");\r\n  for (int i = 0; i < arpStoreIndex; i++) {\r\n    Serial.printf(\"%d \", arpNotes[i]);\r\n  }\r\n  Serial.println();\r\n#endif  \r\n  do {\r\n    newLen = 0;\r\n    \r\n    for (int i = 1; i < (len - 1); i++) {\r\n      if (arpNotes[i - 1] > arpNotes[i]) {\r\n        byte temp = arpNotes[i - 1];\r\n        arpNotes[i - 1] = arpNotes[i];\r\n        arpNotes[i] = temp;\r\n        newLen = i + 1;\r\n      }\r\n    }\r\n    len = newLen;\r\n  } while(len > 1);\r\n}\r\n\r\npublic:\r\nvoid update() {\r\n  if (arpMode != Arp_Off) {\r\n    // play Arpeggiator notes\r\n    if (arpStoreIndex != 0) { // any notes in the array to play?\r\n      // are we in a post sequence delay?\r\n      if ((arpDelay != 0) && (arpDelayActive == true)) {\r\n        if (lastMillis > arpPeriod) {\r\n//          Serial.printf(\"Osc off because lasmillis (%lu) beyond arpPeriod (%u)\", lastMillis, arpPeriod);\r\n          for (int i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].oscillatorsOff();\r\n          }\r\n        }\r\n        if (lastMillis > arpDelay) {\r\n          arpDelayActive = false;\r\n          Serial.println(\"Delay stop\");\r\n          lastMillis = 0;\r\n        }\r\n      }\r\n      else if (lastMillis > arpPeriod) {\r\n        byte note2play;\r\n        lastMillis = 0;\r\n        Serial.print(\"[ \");\r\n        for (int i = 0; i < arpStoreIndex; i++) {\r\n          Serial.print(arpNotes[i]);\r\n          if (i == arpPlayIndex) {\r\n            Serial.print('*');\r\n          }\r\n          Serial.print(' ');\r\n        }\r\n        Serial.printf(\"] Octave=%u\\n\", arpPlayOctave);\r\n        note2play = arpNotes[arpPlayIndex] + arpTranspose + (12 * arpPlayOctave);\r\n//        Serial.println(\"Osc off because arpPeriod expired - cancel last playing note\");\r\n        if (arpMode != Arp_Record) {\r\n          for (int i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].oscillatorsOff();\r\n            mSynth.voice[i].oscillatorsOn(note2play);\r\n          }\r\n        }\r\n        switch(arpMode) {\r\n          case Arp_Up:\r\n          case Arp_Scale:\r\n            arpPlayIndex++;\r\n            if (arpPlayIndex >= arpStoreIndex) {\r\n              arpPlayIndex = 0;\r\n              if (arpPlayOctave < arpOctave) {\r\n                arpPlayOctave++;\r\n              }\r\n              else {\r\n                arpDelayActive = true;\r\n                arpPlayOctave = 0;\r\n                Serial.println(\"Up: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n          case Arp_Down:\r\n            arpPlayIndex--;\r\n            if (arpPlayIndex < 0) {\r\n              arpPlayIndex = arpStoreIndex - 1;\r\n              if (arpPlayOctave > 0) {\r\n                arpPlayOctave--;\r\n              }\r\n              else {\r\n                arpDelayActive = true;\r\n                arpPlayOctave = arpOctave;\r\n                Serial.println(\"Dn: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n          case Arp_UpDown:\r\n            arpPlayIndex += arpIncrement;\r\n            if (arpPlayIndex >= arpStoreIndex) {\r\n              if (arpPlayOctave < arpOctave) {\r\n                arpPlayOctave++;\r\n                arpPlayIndex = 0;\r\n              }\r\n              else {\r\n                arpPlayIndex--;\r\n                arpIncrement = -arpIncrement;\r\n                arpDelayActive = true;\r\n                Serial.println(\"Up*: Delay start\");\r\n              }\r\n            }\r\n            if (arpPlayIndex < 0) {\r\n              if (arpPlayOctave > 0) {\r\n                arpPlayOctave--;\r\n                arpPlayIndex = arpStoreIndex - 1;\r\n              }\r\n              else {\r\n                arpPlayIndex++;\r\n                arpIncrement = -arpIncrement;\r\n                arpDelayActive = true;\r\n                Serial.println(\"Dn*: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n         case Arp_Random:\r\n            arpPlayIndex = rand() % arpStoreIndex;\r\n            if (arpOctave > 0) {\r\n              arpPlayOctave = rand() % (arpOctave + 1);\r\n            }\r\n            else {\r\n              arpPlayOctave = 0;\r\n            }\r\n            break;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n\r\nvoid setArpOctave(int octave) {\r\n    arpOctave = octave;\r\n}\r\n\r\nvoid setArpPeriod(float period) {\r\n    arpPeriod = period;\r\n}\r\n\r\nvoid setArpLatch(bool latch) {\r\n    arpLatch = latch;\r\n    if (latch == 0) {\r\n        arpPlayIndex = 0;\r\n        arpStoreIndex = 0;\r\n        arpPlayOctave = 0;\r\n        //        Serial.println(\"Osc off because latch Off\");\r\n        for (int i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].oscillatorsOff();\r\n        }\r\n    }\r\n}\r\n\r\nvoid setArpDelay(float delay) {\r\n    arpDelay = delay;\r\n}\r\n\r\nvoid setArpDelayActive(bool active) {\r\n    arpDelayActive = active;\r\n}\r\n\r\nvoid setArpTranspose(int transpose) {\r\n    arpTranspose = transpose;\r\n}\r\n\r\nvoid setArpScaleMode(int n) {\r\n    arpScaleMode = n;\r\n}\r\n\r\nvoid setSynth(Synth & refSynth) {\r\n    mSynth = refSynth;\r\n}\r\n\r\nvoid setArpMode(int value) {\r\n  if (value == 0) {\r\n    arpMode = Arp_Off;\r\n    Serial.println(\"Arp Off - Osc Off\");\r\n    for (int i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].oscillatorsOff();\r\n    }\r\n    arpStoreIndex = 0;\r\n    arpPlayIndex = 0;\r\n  }\r\n  else if (value == 20) {\r\n    arpMode = Arp_Up;\r\n    Serial.println(\"Arp Up\");\r\n    arpPlayIndex = 0;\r\n    arpDelayActive = false;\r\n    arpPlayOctave = 0;\r\n  }\r\n  else if (value == 40) {\r\n    arpMode = Arp_Down;\r\n    Serial.println(\"Arp Down\");\r\n    arpPlayIndex = 0;\r\n    arpDelayActive = false;\r\n    arpPlayOctave = arpOctave;\r\n  }\r\n  else if (value == 60) {\r\n    arpMode = Arp_UpDown;\r\n    Serial.println(\"Arp Up/Down\");\r\n    arpPlayIndex = 0;\r\n    arpIncrement = 1; // start \"up\"\r\n    arpDelayActive = false;\r\n    arpPlayOctave = 0;\r\n  }\r\n  else if (value == 80) {\r\n    arpMode = Arp_Random;\r\n    Serial.println(\"Arp Random\");\r\n  }\r\n  else if (value == 100) {\r\n    Serial.println(\"Arp Scales\");\r\n    arpMode = Arp_Scale;\r\n    arpPlayIndex = 0;\r\n    arpDelayActive = false;\r\n    arpPlayOctave = 0;\r\n  }\r\n  else if (value == 120) {\r\n    Serial.println(\"Arp Record\");\r\n    arpMode = Arp_Record;\r\n    arpStoreIndex = 0;\r\n    arpPlayIndex = 0;\r\n    arpDelayActive = false;\r\n    arpPlayOctave = 0;\r\n  }\r\n}",
+        "comment": "private:\r\nvoid sortNotes() {\r\n/* From Wikipedia \r\n *   \r\nprocedure bubbleSort(A : list of sortable items)\r\n    n := length(A)\r\n    repeat\r\n        newn := 0\r\n        for i := 1 to n - 1 inclusive do\r\n            if A[i - 1] > A[i] then\r\n                swap(A[i - 1], A[i])\r\n                newn := i\r\n            end if\r\n        end for\r\n        n := newn\r\n    until n ≤ 1\r\nend procedure\r\n*/\r\n  int newLen;\r\n  int len = arpStoreIndex + 1;\r\n#ifdef DEBUG_SORT  \r\n  Serial.print(\"Input = \");\r\n  for (int i = 0; i < arpStoreIndex; i++) {\r\n    Serial.printf(\"%d \", arpNotes[i]);\r\n  }\r\n  Serial.println();\r\n#endif  \r\n  do {\r\n    newLen = 0;\r\n    \r\n    for (int i = 1; i < (len - 1); i++) {\r\n      if (arpNotes[i - 1] > arpNotes[i]) {\r\n        byte temp = arpNotes[i - 1];\r\n        arpNotes[i - 1] = arpNotes[i];\r\n        arpNotes[i] = temp;\r\n        newLen = i + 1;\r\n      }\r\n    }\r\n    len = newLen;\r\n  } while(len > 1);\r\n}\r\n\r\npublic:\r\nvoid update() {\r\n  if (arpMode != Arp_Off) {\r\n    // play Arpeggiator notes\r\n    if (arpStoreIndex != 0) { // any notes in the array to play?\r\n      // are we in a post sequence delay?\r\n      if ((arpDelay != 0) && (arpDelayActive == true)) {\r\n        if (lastMillis > arpPeriod) {\r\n//          Serial.printf(\"Osc off because lasmillis (%lu) beyond arpPeriod (%u)\", lastMillis, arpPeriod);\r\n          for (int i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].oscillatorsOff();\r\n          }\r\n        }\r\n        if (lastMillis > arpDelay) {\r\n          arpDelayActive = false;\r\n          Serial.println(\"Delay stop\");\r\n          lastMillis = 0;\r\n        }\r\n      }\r\n      else if (lastMillis > arpPeriod) {\r\n        byte note2play;\r\n        lastMillis = 0;\r\n        Serial.print(\"[ \");\r\n        for (int i = 0; i < arpStoreIndex; i++) {\r\n          Serial.print(arpNotes[i]);\r\n          if (i == arpPlayIndex) {\r\n            Serial.print('*');\r\n          }\r\n          Serial.print(' ');\r\n        }\r\n        Serial.printf(\"] Octave=%u\\n\", arpPlayOctave);\r\n        note2play = arpNotes[arpPlayIndex] + arpTranspose + (12 * arpPlayOctave);\r\n//        Serial.println(\"Osc off because arpPeriod expired - cancel last playing note\");\r\n        if (arpMode != Arp_Record) {\r\n          for (int i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].oscillatorsOff();\r\n            phatBass.voice[i].oscillatorsOn(note2play);\r\n          }\r\n        }\r\n        switch(arpMode) {\r\n          case Arp_Up:\r\n          case Arp_Scale:\r\n            arpPlayIndex++;\r\n            if (arpPlayIndex >= arpStoreIndex) {\r\n              arpPlayIndex = 0;\r\n              if (arpPlayOctave < arpOctave) {\r\n                arpPlayOctave++;\r\n              }\r\n              else {\r\n                arpDelayActive = true;\r\n                arpPlayOctave = 0;\r\n                Serial.println(\"Up: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n          case Arp_Down:\r\n            arpPlayIndex--;\r\n            if (arpPlayIndex < 0) {\r\n              arpPlayIndex = arpStoreIndex - 1;\r\n              if (arpPlayOctave > 0) {\r\n                arpPlayOctave--;\r\n              }\r\n              else {\r\n                arpDelayActive = true;\r\n                arpPlayOctave = arpOctave;\r\n                Serial.println(\"Dn: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n          case Arp_UpDown:\r\n            arpPlayIndex += arpIncrement;\r\n            if (arpPlayIndex >= arpStoreIndex) {\r\n              if (arpPlayOctave < arpOctave) {\r\n                arpPlayOctave++;\r\n                arpPlayIndex = 0;\r\n              }\r\n              else {\r\n                arpPlayIndex--;\r\n                arpIncrement = -arpIncrement;\r\n                arpDelayActive = true;\r\n                Serial.println(\"Up*: Delay start\");\r\n              }\r\n            }\r\n            if (arpPlayIndex < 0) {\r\n              if (arpPlayOctave > 0) {\r\n                arpPlayOctave--;\r\n                arpPlayIndex = arpStoreIndex - 1;\r\n              }\r\n              else {\r\n                arpPlayIndex++;\r\n                arpIncrement = -arpIncrement;\r\n                arpDelayActive = true;\r\n                Serial.println(\"Dn*: Delay start\");\r\n              }\r\n            }\r\n            break;\r\n         case Arp_Random:\r\n            arpPlayIndex = rand() % arpStoreIndex;\r\n            if (arpOctave > 0) {\r\n              arpPlayOctave = rand() % (arpOctave + 1);\r\n            }\r\n            else {\r\n              arpPlayOctave = 0;\r\n            }\r\n            break;\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n\r\nvoid setArpOctave(int octave) {\r\n    arpOctave = octave;\r\n}\r\n\r\nvoid setArpPeriod(float period) {\r\n    arpPeriod = period;\r\n}\r\n\r\nvoid setArpLatch(bool latch) {\r\n    arpLatch = latch;\r\n    if (latch == 0) {\r\n        arpPlayIndex = 0;\r\n        arpStoreIndex = 0;\r\n        arpPlayOctave = 0;\r\n        //        Serial.println(\"Osc off because latch Off\");\r\n        for (int i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].oscillatorsOff();\r\n        }\r\n    }\r\n}\r\n\r\nvoid setArpDelay(float delay) {\r\n    arpDelay = delay;\r\n}\r\n\r\nvoid setArpDelayActive(bool active) {\r\n    arpDelayActive = active;\r\n}\r\n\r\nvoid setArpTranspose(int transpose) {\r\n    arpTranspose = transpose;\r\n}\r\n\r\nvoid setArpScaleMode(int n) {\r\n    arpScaleMode = n;\r\n}\r\n\r\nvoid setArpMode(int value) {\r\n  if (value == 0) {\r\n    arpMode = Arp_Off;\r\n    Serial.println(\"Arp Off - Osc Off\");\r\n    for (int i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].oscillatorsOff();\r\n    }\r\n    arpStoreIndex = 0;\r\n    arpPlayIndex = 0;\r\n  }\r\n  else if (value == 20) {\r\n    arpMode = Arp_Up;\r\n    Serial.println(\"Arp Up\");\r\n    arpPlayIndex = 0;\r\n    arpDelayActive = false;\r\n    arpPlayOctave = 0;\r\n  }\r\n  else if (value == 40) {\r\n    arpMode = Arp_Down;\r\n    Serial.println(\"Arp Down\");\r\n    arpPlayIndex = 0;\r\n    arpDelayActive = false;\r\n    arpPlayOctave = arpOctave;\r\n  }\r\n  else if (value == 60) {\r\n    arpMode = Arp_UpDown;\r\n    Serial.println(\"Arp Up/Down\");\r\n    arpPlayIndex = 0;\r\n    arpIncrement = 1; // start \"up\"\r\n    arpDelayActive = false;\r\n    arpPlayOctave = 0;\r\n  }\r\n  else if (value == 80) {\r\n    arpMode = Arp_Random;\r\n    Serial.println(\"Arp Random\");\r\n  }\r\n  else if (value == 100) {\r\n    Serial.println(\"Arp Scales\");\r\n    arpMode = Arp_Scale;\r\n    arpPlayIndex = 0;\r\n    arpDelayActive = false;\r\n    arpPlayOctave = 0;\r\n  }\r\n  else if (value == 120) {\r\n    Serial.println(\"Arp Record\");\r\n    arpMode = Arp_Record;\r\n    arpStoreIndex = 0;\r\n    arpPlayIndex = 0;\r\n    arpDelayActive = false;\r\n    arpPlayOctave = 0;\r\n  }\r\n}",
         "x": 515,
         "y": 95,
         "z": "95654dc9.1fcd9",
@@ -720,28 +655,6 @@
         "nodes": []
     },
     {
-        "id": "ContinuousController_includeDef1",
-        "type": "IncludeDef",
-        "name": "\"Synth.h\"",
-        "comment": "",
-        "x": 135,
-        "y": 25,
-        "z": "8ff6bbec.7eceb8",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
-        "id": "ContinuousController_vars1",
-        "type": "Variables",
-        "name": "CCvars",
-        "comment": "Synth & mSynth;\n",
-        "x": 140,
-        "y": 90,
-        "z": "8ff6bbec.7eceb8",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
         "id": "ContinuousController_constructor code1",
         "type": "ConstructorCode",
         "name": "CC constructor",
@@ -756,7 +669,7 @@
         "id": "ContinuousController_code1",
         "type": "Function",
         "name": "CCcode",
-        "comment": "private:\r\nvoid dumpPatch() {\r\n  Serial.println(\"====================================\");\r\n  Serial.printf( \"OSC1: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune=%.2f\\n\",\r\n                  waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Semis, osc1Detune);\r\n  Serial.printf( \"LFO1: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\\n\\n\",\r\n                  waves[lfo1Waveform], lfo1Freq, lfo1Depth, lfo1PWM);\r\n  Serial.printf( \"OSC2: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune= %.2f\\n\",\r\n                  waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Semis, osc2Detune);\r\n  Serial.printf( \"LFO2: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\\n\\n\",\r\n                  waves[lfo2Waveform], lfo2Freq, lfo2Depth, lfo2PWM);\r\n  Serial.printf( \"Filter: band=%s, freq=%.2fHz, res=%.2f, DC=%.2f, modulated=%u\\n\\n\",\r\n                  bands[filtBand], filterFreq, filterRes, filtDC, filtMod);\r\n  Serial.printf( \"Mix ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\\n\",\r\n                  envAttack, envDecay, envSustain, envRelease);\r\n  Serial.printf( \"Filter ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\\n\\n\",\r\n                  filtEnvA, filtEnvD, filtEnvS, filtEnvR);\r\n  Serial.printf( \"Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f, wavetab=%.2f\\n\\n\",\r\n                  osc1Amp, osc2Amp, noiseAmp, waveAmp);\r\n  Serial.printf( \" Arpeggiator: arpMode=%s, arpPeriod=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\\n\",\r\n                  arpModes[arpMode], arpPeriod, arpOctave, arpLatch, arpDelay, arpTranspose);\r\n  Serial.println(\"====================================\");\r\n}\r\n\r\ndouble mapf(double x, double in_min, double in_max, double out_min, double out_max)\r\n{\r\n    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;\r\n}\r\n\r\npublic:\r\nstatic void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {\r\n  int i, n;\r\n  int change;\r\n  float fTemp;\r\n  int iTemp;\r\n  Serial.printf(\"CC: %u = %u ==> \", control, value);\r\n  switch(control) {\r\n    case 1:\r\n      Serial.println(\"Mod wheel\");\r\n      break;\r\n    // ====================== MIXER =====================\r\n    case 75:\r\n      fTemp =  velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Osc1 amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].setOsc1Amp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 76:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Osc2 amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].setOsc2Amp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 77:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Wavetable amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].setWaveAmp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 102:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Noise amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].setNoiseAmp(fTemp);\r\n      }\r\n      break;\r\n\r\n    // ======================== Amp ADSR ==========================\r\n    case 103:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Attack = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].setADSRAttack(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 104:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Decay = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].setADSRDecay(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 105:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"Sustain = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].setADSRSustain(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 106:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Release = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        mSynth.voice[i].setADSRRelease(fTemp);\r\n      }\r\n      break;\r\n\r\n    // ========================= FILTER =======================\r\n    case 107:\r\n      {\r\n          filter_band_t band;\r\n          value /= 20;\r\n          if (value == 0) {\r\n            band = FILT_OFF;\r\n          }\r\n          else if (value == 1) {\r\n            band= LPF;\r\n          }\r\n          else if (value = 2) {\r\n            band= BPF;\r\n          }\r\n          else {\r\n            band = HPF;\r\n          }\r\n          Serial.printf(\"Filter band = %s\\n\", bands[band]);\r\n          mSynth.Filter.setFiltBand(band);\r\n      }\r\n      break;\r\n\r\n    case 108:\r\n      fTemp = mapf(value, 0, 127, 0, 10000);\r\n      Serial.printf(\"Filter Freq = %.2fHz\\n\", fTemp);\r\n      mSynth.Filter.setFiltFreq(fTemp);\r\n      break;\r\n\r\n    case 109:\r\n      fTemp = mapf(value, 0, 127, 0.7, 5.0);\r\n      Serial.printf(\"Resonance = %.2f\\n\", fTemp);\r\n      mSynth.Filter.setFiltRes(fTemp);\r\n      break;\r\n\r\n    // =================== WAVE SHAPE ======================\r\n    case 110:\r\n    case 111:\r\n    case 116:\r\n    case 117:\r\n      value /= 10;\r\n      switch (value) {\r\n        case 0:\r\n          // nothing for now as it'll be used to disable source below\r\n          break;\r\n        case 1:\r\n        default:\r\n          change = WAVEFORM_SINE;\r\n          break;\r\n        case 2:\r\n          change = WAVEFORM_SAWTOOTH;\r\n          break;\r\n        case 3:\r\n          change = WAVEFORM_SAWTOOTH_REVERSE;\r\n          break;\r\n        case 4:\r\n          change = WAVEFORM_SQUARE;\r\n          break;\r\n        case 5:\r\n          change = WAVEFORM_TRIANGLE;\r\n          break;\r\n        case 6:\r\n          change = WAVEFORM_SAMPLE_HOLD;\r\n          break;\r\n        case 7:\r\n          change = WAVEFORM_ARBITRARY;\r\n          break;\r\n        case 8:\r\n          change = WAVEFORM_PULSE;\r\n          break;\r\n      }\r\n      Serial.printf(\"Wave: %s (\", (value == 0) ? \"Off\" : waves[change]);\r\n      if (control == 110) {\r\n        Serial.println(\"LFO1)\");\r\n        mSynth.LFOs.setLFO1Waveform(change);\r\n      }\r\n      if (control == 111) {\r\n        Serial.println(\"LFO2)\");\r\n        mSynth.LFOs.setLFO2Waveform(change);\r\n      }\r\n      if (control == 116) {\r\n        Serial.println(\"OSC1)\");\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc1Waveform(change);\r\n        }\r\n      }\r\n      if (control == 117) {\r\n        Serial.println(\"OSC2)\");\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc2Waveform(change);\r\n        }\r\n      }\r\n      break;\r\n\r\n    // ===========================  LFO1 =====================\r\n    case 112:\r\n      if (value < 64) {\r\n        fTemp = mapf(value, 0, 64, 0.0, 20.0);        \r\n      }\r\n      else {\r\n        fTemp = mapf(value, 64, 127, 20.0, 200.0);\r\n      }\r\n      Serial.printf(\"LFO1 freq = %.2fHz\\n\", fTemp);\r\n      mSynth.LFOs.setLFO1Freq(fTemp);\r\n      break;\r\n\r\n    case 114:\r\n      fTemp = mapf(value, 0, 127, 0.0, 0.2);\r\n      Serial.printf(\"LFO1 depth = %.2f\\n\", fTemp);\r\n      mSynth.LFOs.setLFO1Depth(ftemp);\r\n      break;\r\n\r\n    case 20:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"LFO1 PWM = %.2f\\n\", fTemp);\r\n      mSynth.LFOs.setLFO1PWM(ftemp);\r\n      break;\r\n\r\n    // ===================== LFO2 ========================\r\n    case 113:\r\n      if (value < 64) {\r\n        fTemp = mapf(value, 0, 64, 0.0, 20.0);        \r\n      }\r\n      else {\r\n        fTemp = mapf(value, 64, 127, 20.0, 200.0);\r\n      }\r\n      Serial.printf(\"LFO2 freq = %.2fHz\\n\", fTemp);\r\n      mSynth.LFOs.setLFO2Freq(fTemp);\r\n      break;\r\n\r\n    case 115:\r\n      fTemp = mapf(value, 0, 127, 0.0, 0.2);\r\n      Serial.printf(\"LFO2 depth = %.2f\\n\", fTemp);\r\n      mSynth.LFOs.setLFO2Depth(ftemp);\r\n      break;\r\n\r\n    case 21:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"LFO2 PWM = %.2f\\n\", fTemp);\r\n      mSynth.LFOs.setLFO2PWM(ftemp);\r\n      break;\r\n\r\n    // ======================= OSC1 =======================\r\n    case 118:\r\n        fTemp = mapf(value, 0.0, 127, 0, 12);\r\n        Serial.printf(\"Osc1 semis = %u\\n\", fTemp);\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc1Semis(fTemp);\r\n        }\r\n        break;\r\n\r\n    case 23:\r\n        // -2, -1, 0, +1, +2 octave (-24 to +24)\r\n        value = (value > 48) ? 48 : value;\r\n        n = (value / 12) * 12;\r\n        n -= 24;\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc1Octave(n);\r\n        }\r\n        Serial.printf(\"Osc1 Octave: %d\\n\", n);\r\n        break;\r\n\r\n    case 25:\r\n        fTemp = mapf(value, 0, 127, 1.0, 0.85);\r\n        Serial.printf(\"Osc1 detune = %.2f\\n\", fTemp);\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc1Detune(fTemp);\r\n        }\r\n        break;\r\n\r\n    case 14:\r\n      Serial.printf(\"Osc1 modulation = %s\\n\", value == 0 ? \"FM\" : \"PM\");\r\n      // 0..63 = FM, 64..127 = PM\r\n      if (value < 64) {\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc1Mod(Mod_FM);\r\n        }\r\n      }\r\n      else {\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc1Mod(Mod_PM);\r\n        }\r\n      }\r\n      break;\r\n\r\n    // ======================= OSC2 ============================\r\n    case 119:\r\n        fTemp = mapf(value, 0.0, 127, 0, 12);\r\n        Serial.printf(\"Osc2 semis = %u\\n\", fTemp);\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc2Semis(fTemp);\r\n        }\r\n        break;\r\n\r\n    case 26:\r\n        // -2, -1, 0, +1, +2 octave (-24 to +24)\r\n        value = (value > 48) ? 48 : value;\r\n        n = (value / 12) * 12;\r\n        n -= 24;\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc2Octave(n);\r\n        }\r\n        Serial.printf(\"Osc1 Octave: %d\\n\", n);\r\n      break;\r\n\r\n    case 27:\r\n        fTemp = mapf(value, 0, 127, 1.0, 0.85);\r\n        Serial.printf(\"Osc1 detune = %.2f\\n\", fTemp);\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc2Detune(fTemp);\r\n        }\r\n        break;\r\n\r\n    case 15:\r\n      Serial.printf(\"Osc2 modulation = %s\\n\", value == 0 ? \"FM\" : \"PM\");\r\n      // 0..63 = FM, 64..127 = PM\r\n      if (value < 64) {\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc2Mod(Mod_FM);\r\n        }\r\n      }\r\n      else {\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc2Mod(Mod_PM);\r\n        }\r\n      }\r\n      break;\r\n\r\n    // ======================== Filter ADSR =======================\r\n    case 22:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Attack = %.2f\\n\", ftemp);\r\n      mSynth.Filter.setFiltAttack(fTemp);\r\n      break;\r\n\r\n    case 24:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Decay = %.2f\\n\", fTemp);\r\n      mSynth.Filter.setFiltDecay(fTemp);\r\n      break;\r\n\r\n    case 28:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"Filter Sustain = %.2f\\n\", fTemp);\r\n      mSynth.Filter.setFiltSustain(fTemp);\r\n      break;\r\n\r\n    case 29:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Release = %.2f\\n\", fTemp);\r\n      mSynth.Filter.setFiltRelease(fTemp);\r\n      break;\r\n\r\n    // ====================== FILTER ====================\r\n    case 30:\r\n      fTemp = mapf(value, 0, 127, -1.0, 1.0);\r\n      Serial.printf(\"DC = %.2f\\n\", fTemp);\r\n      mSynth.Filter.setFiltDC(fTemp);\r\n      break;\r\n\r\n    case 31:\r\n      // use amp as a 0/1 switch for filter DC modulation\r\n      n = (value < 64) ? 0 : 1;\r\n      Serial.printf(\"Modulation = %d\\n\", n);\r\n      mSynth.Filter.setFiltModulation(n);\r\n      if (n == 0) {\r\n        dumpPatch();\r\n      }\r\n      break;\r\n\r\n    // ===================== ARPEGGIATOR ===================\r\n    case 85:\r\n      value /= 20;\r\n      value *= 20;\r\n      mSynth.Arp.setArpMode(value);\r\n      break;\r\n\r\n    case 86:\r\n      mSynth.Arp.setArpOctave(value / 20);\r\n      Serial.printf(\"Arp Octaves = %d\\n\", (value / 20) + 1);\r\n      break;\r\n\r\n    case 87:\r\n      n = (value >= 64) ? 1 : 0; // 0 /1\r\n      mSynth.Arp.setArpOctave(n);\r\n      Serial.printf(\"Arp Latch = %u\\n\", n);\r\n      break;\r\n\r\n    case 88:\r\n      fTemp = mapf(value, 0, 127, 1200, 50); // not sure of units yet\r\n      mSynth.Arp.setArpPeriod(fTemp);\r\n      Serial.printf(\"Arp Period = %.2f\\n\", fTemp);\r\n      break;\r\n\r\n    case 89:\r\n      fTemp = mapf(value, 0, 127, 0, 2000);\r\n      mSynth.Arp.setArpDelay(fTemp);\r\n      Serial.printf(\"Arp Delay = %.2f\\n\", fTemp);\r\n      break;\r\n\r\n    case 90:\r\n      n = (int)mapf(value, 0, 127, 0, 11);\r\n      mSynth.Arp.setArpTranspose(n);\r\n      Serial.printf(\"Arp Transpose = %u\\n\", n);\r\n      break;\r\n\r\n    case 92:\r\n      mSynth.Arp.setArpScaleMode(value);\r\n      Serial.printf(\"Scale = %s\\n\", scaleModes[value].name);\r\n      break;\r\n\r\n    // ===================== CHORUS ====================\r\n    case 91:\r\n      value /= 20;\r\n      value *= 20;\r\n      if (value == 0) {\r\n        n = 0;\r\n      }\r\n      else if (value == 20) {\r\n        n = 2;\r\n      }\r\n      else if (value == 40) {\r\n        n = 4;\r\n      }\r\n      else if (value == 60) {\r\n        n = 6;\r\n      }\r\n      Serial.printf(\"Chorus = %u\\n\", n);\r\n      mSynth.Filter.setChorusVoices(n);\r\n      updateChorus();\r\n      break;\r\n\r\n    // ========================= PANIC =================\r\n    case 123:\r\n      // MIDI PANIC!!\r\n      mSynth.Arp.setArpMode(0); // off\r\n      Serial.println(\"Osc off because Panic\");\r\n      oscillatorsOff();\r\n      break;\r\n\r\n    default:\r\n      // if unrecognised do nothing\r\n      break;\r\n  }\r\n}\r\n\r\nvoid setSynth(Synth & refSynth) {\r\n    mSynth = refSynth;\r\n}\r\n",
+        "comment": "public:\r\nvoid dumpPatch() {\r\n  Serial.println(\"====================================\");\r\n  Serial.printf( \"OSC1: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune=%.2f\\n\",\r\n                  waves[osc1Waveform], osc1Amplitude, osc1Octave, osc1Semis, osc1Detune);\r\n  Serial.printf( \"LFO1: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\\n\\n\",\r\n                  waves[lfo1Waveform], lfo1Freq, lfo1Depth, lfo1PWM);\r\n  Serial.printf( \"OSC2: wave=%s, ampl=%.2f, octave=%d, semis=%u, detune= %.2f\\n\",\r\n                  waves[osc2Waveform], osc2Amplitude, osc2Octave, osc2Semis, osc2Detune);\r\n  Serial.printf( \"LFO2: wave=%s, freq=%.2fHz, depth=%.2f, PWM=%.2f\\n\\n\",\r\n                  waves[lfo2Waveform], lfo2Freq, lfo2Depth, lfo2PWM);\r\n  Serial.printf( \"Filter: band=%s, freq=%.2fHz, res=%.2f, DC=%.2f, modulated=%u\\n\\n\",\r\n                  bands[filtBand], filterFreq, filterRes, filtDC, filtMod);\r\n  Serial.printf( \"Mix ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\\n\",\r\n                  envAttack, envDecay, envSustain, envRelease);\r\n  Serial.printf( \"Filter ADSR: attack=%.2f, decay=%.2f, sustain=%.2f, release=%.2f\\n\\n\",\r\n                  filtEnvA, filtEnvD, filtEnvS, filtEnvR);\r\n  Serial.printf( \"Mixer: osc1=%.2f, osc2=%.2f, noise=%.2f, wavetab=%.2f\\n\\n\",\r\n                  osc1Amp, osc2Amp, noiseAmp, waveAmp);\r\n  Serial.printf( \" Arpeggiator: arpMode=%s, arpPeriod=%.2f, arpOctave=%u, arpLatch=%u, arpDelay=%.2f, arpTranspose=%d\\n\",\r\n                  arpModes[arpMode], arpPeriod, arpOctave, arpLatch, arpDelay, arpTranspose);\r\n  Serial.println(\"====================================\");\r\n}\r\n\r\ndouble mapf(double x, double in_min, double in_max, double out_min, double out_max)\r\n{\r\n    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;\r\n}\r\n\r\nstatic void OnControlChange(byte channel, byte control /* CC num*/, byte value /* 0 .. 127 */) {\r\n  int i, n;\r\n  int change;\r\n  float fTemp;\r\n  int iTemp;\r\n  Serial.printf(\"CC: %u = %u ==> \", control, value);\r\n  switch(control) {\r\n    case 1:\r\n      Serial.println(\"Mod wheel\");\r\n      break;\r\n    // ====================== MIXER =====================\r\n    case 75:\r\n      fTemp =  velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Osc1 amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].setOsc1Amp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 76:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Osc2 amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].setOsc2Amp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 77:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Wavetable amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].setWaveAmp(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 102:\r\n      fTemp = velocity2amplitude[value];\r\n      Serial.printf(\"Mix: Noise amplitude = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].setNoiseAmp(fTemp);\r\n      }\r\n      break;\r\n\r\n    // ======================== Amp ADSR ==========================\r\n    case 103:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Attack = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].setADSRAttack(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 104:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Decay = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].setADSRDecay(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 105:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"Sustain = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].setADSRSustain(fTemp);\r\n      }\r\n      break;\r\n\r\n    case 106:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Release = %.2f\\n\", fTemp);\r\n      for (i = 0; i < NUM_VOICES; i++) {\r\n        phatBass.voice[i].setADSRRelease(fTemp);\r\n      }\r\n      break;\r\n\r\n    // ========================= FILTER =======================\r\n    case 107:\r\n      {\r\n          filter_band_t band;\r\n          value /= 20;\r\n          if (value == 0) {\r\n            band = Filt_FILT_OFF;\r\n          }\r\n          else if (value == 1) {\r\n            band= Filt_LPF;\r\n          }\r\n          else if (value = 2) {\r\n            band= Filt_BPF;\r\n          }\r\n          else {\r\n            band = Filt_HPF;\r\n          }\r\n          Serial.printf(\"Filter band = %s\\n\", bands[band]);\r\n          phatBass.Filter.setFiltBand(band);\r\n      }\r\n      break;\r\n\r\n    case 108:\r\n      fTemp = mapf(value, 0, 127, 0, 10000);\r\n      Serial.printf(\"Filter Freq = %.2fHz\\n\", fTemp);\r\n      phatBass.Filter.setFiltFreq(fTemp);\r\n      break;\r\n\r\n    case 109:\r\n      fTemp = mapf(value, 0, 127, 0.7, 5.0);\r\n      Serial.printf(\"Resonance = %.2f\\n\", fTemp);\r\n      phatBass.Filter.setFiltRes(fTemp);\r\n      break;\r\n\r\n    // =================== WAVE SHAPE ======================\r\n    case 110:\r\n    case 111:\r\n    case 116:\r\n    case 117:\r\n      value /= 10;\r\n      switch (value) {\r\n        case 0:\r\n          // nothing for now as it'll be used to disable source below\r\n          break;\r\n        case 1:\r\n        default:\r\n          change = WAVEFORM_SINE;\r\n          break;\r\n        case 2:\r\n          change = WAVEFORM_SAWTOOTH;\r\n          break;\r\n        case 3:\r\n          change = WAVEFORM_SAWTOOTH_REVERSE;\r\n          break;\r\n        case 4:\r\n          change = WAVEFORM_SQUARE;\r\n          break;\r\n        case 5:\r\n          change = WAVEFORM_TRIANGLE;\r\n          break;\r\n        case 6:\r\n          change = WAVEFORM_SAMPLE_HOLD;\r\n          break;\r\n        case 7:\r\n          change = WAVEFORM_ARBITRARY;\r\n          break;\r\n        case 8:\r\n          change = WAVEFORM_PULSE;\r\n          break;\r\n      }\r\n      Serial.printf(\"Wave: %s (\", (value == 0) ? \"Off\" : waves[change]);\r\n      if (control == 110) {\r\n        Serial.println(\"LFO1)\");\r\n        phatBass.LFOs.setLFO1Waveform(change);\r\n      }\r\n      if (control == 111) {\r\n        Serial.println(\"LFO2)\");\r\n        phatBass.LFOs.setLFO2Waveform(change);\r\n      }\r\n      if (control == 116) {\r\n        Serial.println(\"OSC1)\");\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc1Waveform(change);\r\n        }\r\n      }\r\n      if (control == 117) {\r\n        Serial.println(\"OSC2)\");\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc2Waveform(change);\r\n        }\r\n      }\r\n      break;\r\n\r\n    // ===========================  LFO1 =====================\r\n    case 112:\r\n      if (value < 64) {\r\n        fTemp = mapf(value, 0, 64, 0.0, 20.0);        \r\n      }\r\n      else {\r\n        fTemp = mapf(value, 64, 127, 20.0, 200.0);\r\n      }\r\n      Serial.printf(\"LFO1 freq = %.2fHz\\n\", fTemp);\r\n      phatBass.LFOs.setLFO1Freq(fTemp);\r\n      break;\r\n\r\n    case 114:\r\n      fTemp = mapf(value, 0, 127, 0.0, 0.2);\r\n      Serial.printf(\"LFO1 depth = %.2f\\n\", fTemp);\r\n      phatBass.LFOs.setLFO1Depth(ftemp);\r\n      break;\r\n\r\n    case 20:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"LFO1 PWM = %.2f\\n\", fTemp);\r\n      phatBass.LFOs.setLFO1PWM(ftemp);\r\n      break;\r\n\r\n    // ===================== LFO2 ========================\r\n    case 113:\r\n      if (value < 64) {\r\n        fTemp = mapf(value, 0, 64, 0.0, 20.0);        \r\n      }\r\n      else {\r\n        fTemp = mapf(value, 64, 127, 20.0, 200.0);\r\n      }\r\n      Serial.printf(\"LFO2 freq = %.2fHz\\n\", fTemp);\r\n      phatBass.LFOs.setLFO2Freq(fTemp);\r\n      break;\r\n\r\n    case 115:\r\n      fTemp = mapf(value, 0, 127, 0.0, 0.2);\r\n      Serial.printf(\"LFO2 depth = %.2f\\n\", fTemp);\r\n      phatBass.LFOs.setLFO2Depth(ftemp);\r\n      break;\r\n\r\n    case 21:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"LFO2 PWM = %.2f\\n\", fTemp);\r\n      phatBass.LFOs.setLFO2PWM(ftemp);\r\n      break;\r\n\r\n    // ======================= OSC1 =======================\r\n    case 118:\r\n        fTemp = mapf(value, 0.0, 127, 0, 12);\r\n        Serial.printf(\"Osc1 semis = %u\\n\", fTemp);\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc1Semis(fTemp);\r\n        }\r\n        break;\r\n\r\n    case 23:\r\n        // -2, -1, 0, +1, +2 octave (-24 to +24)\r\n        value = (value > 48) ? 48 : value;\r\n        n = (value / 12) * 12;\r\n        n -= 24;\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc1Octave(n);\r\n        }\r\n        Serial.printf(\"Osc1 Octave: %d\\n\", n);\r\n        break;\r\n\r\n    case 25:\r\n        fTemp = mapf(value, 0, 127, 1.0, 0.85);\r\n        Serial.printf(\"Osc1 detune = %.2f\\n\", fTemp);\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc1Detune(fTemp);\r\n        }\r\n        break;\r\n\r\n    case 14:\r\n      Serial.printf(\"Osc1 modulation = %s\\n\", value == 0 ? \"FM\" : \"PM\");\r\n      // 0..63 = FM, 64..127 = PM\r\n      if (value < 64) {\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc1Mod(Mod_FM);\r\n        }\r\n      }\r\n      else {\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc1Mod(Mod_PM);\r\n        }\r\n      }\r\n      break;\r\n\r\n    // ======================= OSC2 ============================\r\n    case 119:\r\n        fTemp = mapf(value, 0.0, 127, 0, 12);\r\n        Serial.printf(\"Osc2 semis = %u\\n\", fTemp);\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc2Semis(fTemp);\r\n        }\r\n        break;\r\n\r\n    case 26:\r\n        // -2, -1, 0, +1, +2 octave (-24 to +24)\r\n        value = (value > 48) ? 48 : value;\r\n        n = (value / 12) * 12;\r\n        n -= 24;\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc2Octave(n);\r\n        }\r\n        Serial.printf(\"Osc1 Octave: %d\\n\", n);\r\n      break;\r\n\r\n    case 27:\r\n        fTemp = mapf(value, 0, 127, 1.0, 0.85);\r\n        Serial.printf(\"Osc1 detune = %.2f\\n\", fTemp);\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            mSynth.voice[i].setOsc2Detune(fTemp);\r\n        }\r\n        break;\r\n\r\n    case 15:\r\n      Serial.printf(\"Osc2 modulation = %s\\n\", value == 0 ? \"FM\" : \"PM\");\r\n      // 0..63 = FM, 64..127 = PM\r\n      if (value < 64) {\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc2Mod(Mod_FM);\r\n        }\r\n      }\r\n      else {\r\n        for (i = 0; i < NUM_VOICES; i++) {\r\n            phatBass.voice[i].setOsc2Mod(Mod_PM);\r\n        }\r\n      }\r\n      break;\r\n\r\n    // ======================== Filter ADSR =======================\r\n    case 22:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Attack = %.2f\\n\", ftemp);\r\n      phatBass.Filter.setFiltAttack(fTemp);\r\n      break;\r\n\r\n    case 24:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Decay = %.2f\\n\", fTemp);\r\n      phatBass.Filter.setFiltDecay(fTemp);\r\n      break;\r\n\r\n    case 28:\r\n      fTemp = mapf(value, 0, 127, 0.0, 1.0);\r\n      Serial.printf(\"Filter Sustain = %.2f\\n\", fTemp);\r\n      phatBass.Filter.setFiltSustain(fTemp);\r\n      break;\r\n\r\n    case 29:\r\n      fTemp = mapf(value, 0, 127, 0.0, 3000.0);\r\n      Serial.printf(\"Filter Release = %.2f\\n\", fTemp);\r\n      phatBass.Filter.setFiltRelease(fTemp);\r\n      break;\r\n\r\n    // ====================== FILTER ====================\r\n    case 30:\r\n      fTemp = mapf(value, 0, 127, -1.0, 1.0);\r\n      Serial.printf(\"DC = %.2f\\n\", fTemp);\r\n      phatBass.Filter.setFiltDC(fTemp);\r\n      break;\r\n\r\n    case 31:\r\n      // use amp as a 0/1 switch for filter DC modulation\r\n      n = (value < 64) ? 0 : 1;\r\n      Serial.printf(\"Modulation = %d\\n\", n);\r\n      phatBass.Filter.setFiltModulation(n);\r\n      if (n == 0) {\r\n        dumpPatch();\r\n      }\r\n      break;\r\n\r\n    // ===================== ARPEGGIATOR ===================\r\n    case 85:\r\n      value /= 20;\r\n      value *= 20;\r\n      Arp.setArpMode(value);\r\n      break;\r\n\r\n    case 86:\r\n      Arp.setArpOctave(value / 20);\r\n      Serial.printf(\"Arp Octaves = %d\\n\", (value / 20) + 1);\r\n      break;\r\n\r\n    case 87:\r\n      n = (value >= 64) ? 1 : 0; // 0 /1\r\n      Arp.setArpOctave(n);\r\n      Serial.printf(\"Arp Latch = %u\\n\", n);\r\n      break;\r\n\r\n    case 88:\r\n      fTemp = mapf(value, 0, 127, 1200, 50); // not sure of units yet\r\n      Arp.setArpPeriod(fTemp);\r\n      Serial.printf(\"Arp Period = %.2f\\n\", fTemp);\r\n      break;\r\n\r\n    case 89:\r\n      fTemp = mapf(value, 0, 127, 0, 2000);\r\n      Arp.setArpDelay(fTemp);\r\n      Serial.printf(\"Arp Delay = %.2f\\n\", fTemp);\r\n      break;\r\n\r\n    case 90:\r\n      n = (int)mapf(value, 0, 127, 0, 11);\r\n      Arp.setArpTranspose(n);\r\n      Serial.printf(\"Arp Transpose = %u\\n\", n);\r\n      break;\r\n\r\n    case 92:\r\n      Arp.setArpScaleMode(value);\r\n      Serial.printf(\"Scale = %s\\n\", scaleModes[value].name);\r\n      break;\r\n\r\n    // ===================== CHORUS ====================\r\n    case 91:\r\n      value /= 20;\r\n      value *= 20;\r\n      if (value == 0) {\r\n        n = 0;\r\n      }\r\n      else if (value == 20) {\r\n        n = 2;\r\n      }\r\n      else if (value == 40) {\r\n        n = 4;\r\n      }\r\n      else if (value == 60) {\r\n        n = 6;\r\n      }\r\n      Serial.printf(\"Chorus = %u\\n\", n);\r\n      phatBass.Filter.setChorusVoices(n);\r\n      updateChorus();\r\n      break;\r\n\r\n    // ========================= PANIC =================\r\n    case 123:\r\n      // MIDI PANIC!!\r\n      Arp.setArpMode(0); // off\r\n      Serial.println(\"Osc off because Panic\");\r\n      oscillatorsOff();\r\n      break;\r\n\r\n    default:\r\n      // if unrecognised do nothing\r\n      break;\r\n  }\r\n}\r\n",
         "x": 480,
         "y": 90,
         "z": "8ff6bbec.7eceb8",
@@ -776,28 +689,6 @@
         "nodes": []
     },
     {
-        "id": "PitchBend_includeDef1",
-        "type": "IncludeDef",
-        "name": "\"Synth.h\"",
-        "comment": "",
-        "x": 80,
-        "y": 25,
-        "z": "312a4458.4253ec",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
-        "id": "PitchBend_vars1",
-        "type": "Variables",
-        "name": "PBvars",
-        "comment": "Synth & mSynth;\n",
-        "x": 80,
-        "y": 80,
-        "z": "312a4458.4253ec",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
         "id": "PitchBend_constructor code1",
         "type": "ConstructorCode",
         "name": "PitchBend constructor",
@@ -812,7 +703,7 @@
         "id": "PitchBend_code1",
         "type": "Function",
         "name": "PBcode",
-        "comment": "static void onPitchChange(byte channel, int pitch) {\r\n  float change = 0.0;\r\n  Serial.printf(\"Pitch change: %d\\n\", pitch);\r\n  if (pitch == 0) {\r\n    osc1PB = 1.0;\r\n    osc2PB = 1.0;\r\n  }\r\n  else {\r\n    // pitch is -8192 to +8192 so convert that to -0.5 to +0.5\r\n    change = (0.5 / 8192) * pitch;\r\n    // so swing from 0.5 to 1.5\r\n    osc1PB = 1.0 + change;\r\n    osc2PB = 1.0 + change;\r\n  }\r\n  Serial.printf(\"Pitch change: %d so bend = %.05f, osc1PB = %.02f, osc2PB = %.02f\\n\", pitch, change, osc1PB, osc2PB);\r\n  if (arpNumDown != 0) {\r\n    // something already playing so retrigger with new freq\r\n    oscillatorsOn();\r\n  }\r\n}\r\n\r\nvoid setSynth(Synth & refSynth) {\r\n    mSynth = refSynth;\r\n}\r\n",
+        "comment": "static void onPitchChange(byte channel, int pitch) {\r\n  float change = 0.0;\r\n  Serial.printf(\"Pitch change: %d\\n\", pitch);\r\n  if (pitch == 0) {\r\n    osc1PB = 1.0;\r\n    osc2PB = 1.0;\r\n  }\r\n  else {\r\n    // pitch is -8192 to +8192 so convert that to -0.5 to +0.5\r\n    change = (0.5 / 8192) * pitch;\r\n    // so swing from 0.5 to 1.5\r\n    osc1PB = 1.0 + change;\r\n    osc2PB = 1.0 + change;\r\n  }\r\n  Serial.printf(\"Pitch change: %d so bend = %.05f, osc1PB = %.02f, osc2PB = %.02f\\n\", pitch, change, osc1PB, osc2PB);\r\n  if (arpNumDown != 0) {\r\n    // something already playing so retrigger with new freq\r\n    oscillatorsOn();\r\n  }\r\n}\r\n",
         "x": 385,
         "y": 80,
         "z": "312a4458.4253ec",
@@ -843,28 +734,6 @@
         "wires": []
     },
     {
-        "id": "NoteHandling_includeDef2",
-        "type": "IncludeDef",
-        "name": "\"Synth.h\"",
-        "comment": "",
-        "x": 125,
-        "y": 60,
-        "z": "f32e2e0a.d7803",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
-        "id": "NoteHandling_vars1",
-        "type": "Variables",
-        "name": "Notevars",
-        "comment": "Synth & mSynth;\n",
-        "x": 125,
-        "y": 115,
-        "z": "f32e2e0a.d7803",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
         "id": "NoteHandling_constructor code1",
         "type": "ConstructorCode",
         "name": "NoteHandler constructor",
@@ -879,7 +748,7 @@
         "id": "NoteHandling_code1",
         "type": "Function",
         "name": "Notecode",
-        "comment": "public:\r\nvoid oscillatorsOn() {\r\n  oscillatorsOn(currentNote);\r\n}\r\n\r\nvoid oscillatorsOn(byte playNote) {\r\n  currentNote = playNote; // in case we need to retrigger after recalculating pitch bend\r\n  \r\n  byte note;\r\n  note = playNote;  \r\n\r\n  note += osc1Octave; // -24, -12, 0, 12 or 24\r\n  note += osc1Semis;\r\n  if (note < 0) {\r\n    note = 0;\r\n  }\r\n  if (note > 127) {\r\n    note = 127;\r\n  }\r\n  Serial.printf(\"Osc1 note=%d (%s%u) \", note, noteNames[note %12], (note / 12) - 1);\r\n  float freq = tune_frequencies2_PGM[note];\r\n  freq *= osc1Detune; // mult 0.85 .. 1.0\r\n  freq *= osc1PB;\r\n  Serial.printf(\"so freq1 = %.2fHz, \", freq);\r\n  waveformMod1.frequency(freq);\r\n\r\n  wavetable1.playFrequency(freq, 127);\r\n\r\n  note = playNote;\r\n  note += osc2Octave; // -24, -12, 0, 12 or 24\r\n  note += osc2Semis;\r\n  if (note < 0) {\r\n    note = 0;\r\n  }\r\n  if (note > 127) {\r\n    note = 127;\r\n  }\r\n  Serial.printf(\"Osc2 note=%d (%s%u) \", note, noteNames[note %12], (note / 12) - 1);\r\n  freq = tune_frequencies2_PGM[note];\r\n  freq *= osc2Detune; // mult 0.85 .. 1.0\r\n  freq *= osc2PB;\r\n  Serial.printf(\"freq2 = %.2fHz\\n\", freq);\r\n  waveformMod2.frequency(freq);\r\n  // sound ADSR\r\n  envelope1.noteOn();\r\n  // filter ADSR\r\n  envelope2.noteOn();\r\n//  Serial.println(\"Both Env triggered\");\r\n}\r\n\r\nvoid oscillatorsOff() {\r\n  envelope1.noteOff();\r\n  envelope2.noteOff();\r\n  wavetable1.stop();\r\n}\r\n\r\nstatic void OnNoteOn(byte channel, byte note, byte velocity) {\r\n  Serial.printf(\"ch: %u, note: %u, vel: %u \", channel, note, velocity);\r\n  digitalWrite(LED_PIN, HIGH);\r\n  if (note >= 48) {\r\n    highlightKey(note, true);\r\n  }\r\n  arpNumDown++;\r\n  if (arpMode == Arp_Off) {\r\n    oscillatorsOn(note);\r\n  }\r\n  else if (arpStoreIndex < 20) {\r\n    Serial.println(); // finish note info logging\r\n    // just consider adding notes to be played to the Arp array\r\n\r\n    if ((arpMode == Arp_Scale) && (arpStoreIndex != 0)) {\r\n      // already playing a scale so clear all notes to allow\r\n      // new one to be added\r\n      arpStoreIndex = 0;\r\n      arpPlayIndex = 0;\r\n      arpPlayOctave = 0;\r\n    }\r\n\r\n    // usually just add one note to the sequence\r\n    arpNotes[arpStoreIndex] = note;\r\n    Serial.printf(\"Added note %u at entry %u\\n\", note, arpStoreIndex);\r\n    arpStoreIndex++;\r\n\r\n    // but want a whole scale if in scale mode...\r\n    if (arpMode == Arp_Scale) {\r\n      int currNote = note;\r\n      // but if Scale mode add all the other notes of this scale...\r\n      for (int n = 0; n < scaleModes[arpScaleMode].entries; n++) {\r\n        currNote += scaleModes[arpScaleMode].offsets[n];\r\n        arpNotes[arpStoreIndex++] = currNote;\r\n      }\r\n    }\r\n    if (arpMode != Arp_Record) {\r\n      sortNotes();\r\n    }\r\n    else {\r\n      // in record mode we simply record everything played in order (no sort)\r\n      Serial.printf(\"Playing %u while recording\\n\", note);\r\n      oscillatorsOn(note);\r\n    }\r\n  }\r\n}\r\n\r\nstatic void OnNoteOff(byte channel, byte note, byte velocity) {\r\n  if (note >= 48) {\r\n    highlightKey(note, false);\r\n  }\r\n  digitalWrite(LED_PIN, LOW);\r\n  arpNumDown--;\r\n  if (!arpLatch) {\r\n    // remove the off note from the array\r\n    for (int i = 0; i < arpStoreIndex; i++) {\r\n      if (arpNotes[i] == note) {\r\n        // shuffle remaining back 1 to this slot\r\n        for (int j = i + 1; j < arpStoreIndex; j++) {\r\n          arpNotes[j - 1] = arpNotes[j];\r\n        }\r\n        // and reduce number in array.\r\n        arpStoreIndex--;\r\n        break;\r\n      }\r\n    }\r\n  }\r\n//  Serial.println(\"Osc off because NoteOff\");\r\n  oscillatorsOff();\r\n}\r\n\r\nvoid setSynth(Synth & refSynth) {\r\n    mSynth = refSynth;\r\n}\r\n",
+        "comment": "public:\r\nvoid oscillatorsOn() {\r\n  oscillatorsOn(currentNote);\r\n}\r\n\r\nvoid oscillatorsOn(byte playNote) {\r\n  currentNote = playNote; // in case we need to retrigger after recalculating pitch bend\r\n  \r\n  byte note;\r\n  note = playNote;  \r\n\r\n  note += osc1Octave; // -24, -12, 0, 12 or 24\r\n  note += osc1Semis;\r\n  if (note < 0) {\r\n    note = 0;\r\n  }\r\n  if (note > 127) {\r\n    note = 127;\r\n  }\r\n  Serial.printf(\"Osc1 note=%d (%s%u) \", note, noteNames[note %12], (note / 12) - 1);\r\n  float freq = tune_frequencies2_PGM[note];\r\n  freq *= osc1Detune; // mult 0.85 .. 1.0\r\n  freq *= osc1PB;\r\n  Serial.printf(\"so freq1 = %.2fHz, \", freq);\r\n  waveformMod1.frequency(freq);\r\n\r\n  wavetable1.playFrequency(freq, 127);\r\n\r\n  note = playNote;\r\n  note += osc2Octave; // -24, -12, 0, 12 or 24\r\n  note += osc2Semis;\r\n  if (note < 0) {\r\n    note = 0;\r\n  }\r\n  if (note > 127) {\r\n    note = 127;\r\n  }\r\n  Serial.printf(\"Osc2 note=%d (%s%u) \", note, noteNames[note %12], (note / 12) - 1);\r\n  freq = tune_frequencies2_PGM[note];\r\n  freq *= osc2Detune; // mult 0.85 .. 1.0\r\n  freq *= osc2PB;\r\n  Serial.printf(\"freq2 = %.2fHz\\n\", freq);\r\n  waveformMod2.frequency(freq);\r\n  // sound ADSR\r\n  envelope1.noteOn();\r\n  // filter ADSR\r\n  envelope2.noteOn();\r\n//  Serial.println(\"Both Env triggered\");\r\n}\r\n\r\nvoid oscillatorsOff() {\r\n  envelope1.noteOff();\r\n  envelope2.noteOff();\r\n  wavetable1.stop();\r\n}\r\n\r\nstatic void OnNoteOn(byte channel, byte note, byte velocity) {\r\n  Serial.printf(\"ch: %u, note: %u, vel: %u \", channel, note, velocity);\r\n  digitalWrite(LED_PIN, HIGH);\r\n  if (note >= 48) {\r\n    highlightKey(note, true);\r\n  }\r\n  arpNumDown++;\r\n  if (arpMode == Arp_Off) {\r\n    oscillatorsOn(note);\r\n  }\r\n  else if (arpStoreIndex < 20) {\r\n    Serial.println(); // finish note info logging\r\n    // just consider adding notes to be played to the Arp array\r\n\r\n    if ((arpMode == Arp_Scale) && (arpStoreIndex != 0)) {\r\n      // already playing a scale so clear all notes to allow\r\n      // new one to be added\r\n      arpStoreIndex = 0;\r\n      arpPlayIndex = 0;\r\n      arpPlayOctave = 0;\r\n    }\r\n\r\n    // usually just add one note to the sequence\r\n    arpNotes[arpStoreIndex] = note;\r\n    Serial.printf(\"Added note %u at entry %u\\n\", note, arpStoreIndex);\r\n    arpStoreIndex++;\r\n\r\n    // but want a whole scale if in scale mode...\r\n    if (arpMode == Arp_Scale) {\r\n      int currNote = note;\r\n      // but if Scale mode add all the other notes of this scale...\r\n      for (int n = 0; n < scaleModes[arpScaleMode].entries; n++) {\r\n        currNote += scaleModes[arpScaleMode].offsets[n];\r\n        arpNotes[arpStoreIndex++] = currNote;\r\n      }\r\n    }\r\n    if (arpMode != Arp_Record) {\r\n      sortNotes();\r\n    }\r\n    else {\r\n      // in record mode we simply record everything played in order (no sort)\r\n      Serial.printf(\"Playing %u while recording\\n\", note);\r\n      oscillatorsOn(note);\r\n    }\r\n  }\r\n}\r\n\r\nstatic void OnNoteOff(byte channel, byte note, byte velocity) {\r\n  if (note >= 48) {\r\n    highlightKey(note, false);\r\n  }\r\n  digitalWrite(LED_PIN, LOW);\r\n  arpNumDown--;\r\n  if (!arpLatch) {\r\n    // remove the off note from the array\r\n    for (int i = 0; i < arpStoreIndex; i++) {\r\n      if (arpNotes[i] == note) {\r\n        // shuffle remaining back 1 to this slot\r\n        for (int j = i + 1; j < arpStoreIndex; j++) {\r\n          arpNotes[j - 1] = arpNotes[j];\r\n        }\r\n        // and reduce number in array.\r\n        arpStoreIndex--;\r\n        break;\r\n      }\r\n    }\r\n  }\r\n//  Serial.println(\"Osc off because NoteOff\");\r\n  oscillatorsOff();\r\n}\r\n",
         "x": 462,
         "y": 113,
         "z": "f32e2e0a.d7803",
@@ -899,28 +768,6 @@
         "nodes": []
     },
     {
-        "id": "ProgChange_includeDef1",
-        "type": "IncludeDef",
-        "name": "\"Synth.h\"",
-        "comment": "",
-        "x": 120,
-        "y": 20,
-        "z": "b0f58453.3aa3a8",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
-        "id": "ProgChange_vars1",
-        "type": "Variables",
-        "name": "Progvars",
-        "comment": "Synth & mSynth;\n",
-        "x": 120,
-        "y": 80,
-        "z": "b0f58453.3aa3a8",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
         "id": "ProgChange_constructor code1",
         "type": "ConstructorCode",
         "name": "ProgChange constructor",
@@ -935,7 +782,7 @@
         "id": "ProgChange_code1",
         "type": "Function",
         "name": "ProgChangecode",
-        "comment": "static void onProgramChange(byte channel, byte program) {\r\n  waveInstrument = program & 0x7F; // currently so limit 0..127\r\n  Serial.printf(\"Progran change: %u = %s\\n\", waveInstrument, instrumentNames[waveInstrument]);\r\n  updateWave();\r\n}\r\n\r\nvoid setSynth(Synth & refSynth) {\r\n    mSynth = refSynth;\r\n}\r\n",
+        "comment": "static void onProgramChange(byte channel, byte program) {\r\n  waveInstrument = program & 0x7F; // currently so limit 0..127\r\n  Serial.printf(\"Progran change: %u = %s\\n\", waveInstrument, instrumentNames[waveInstrument]);\r\n  updateWave();\r\n}\r\n",
         "x": 460,
         "y": 80,
         "z": "b0f58453.3aa3a8",
@@ -953,6 +800,17 @@
         "mainNameType": "tabName",
         "mainNameExt": ".ino",
         "nodes": []
+    },
+    {
+        "id": "Synth_includeDef1",
+        "type": "IncludeDef",
+        "name": "\"themixer.h\"",
+        "comment": "",
+        "x": 105,
+        "y": 35,
+        "z": "5d3343db.fec47c",
+        "bgColor": "#DDFFBB",
+        "wires": []
     },
     {
         "id": "Synth_LFOSources1",
@@ -975,9 +833,9 @@
         "id": "Synth_vars1",
         "type": "Variables",
         "name": "Synthvars",
-        "comment": "int clickCount = 0;\r\nelapsedMillis lastMillis = 0;\r\nelapsedMillis last_time = 0;\r\nlong encPos = -999;\r\nint encVal = 0;\r\n\r\n// Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC\r\nILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);\r\nXPT2046_Touchscreen ts(TOUCH_CS);\r\nEncoder enc(2,3);\r\nMIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);\r\n\r\nbyte currentNote;\r\n\r\n//Arpeggiator arp;\r\n//ContinuousController CChandler;\r\n//PitchBend PBhandler;\r\n//NoteHandling noteHandler;\r\n//ProgChange progChange;",
-        "x": 160,
-        "y": 390,
+        "comment": "private:\r\nint clickCount = 0;\r\nelapsedMillis lastMillis = 0;\r\nelapsedMillis last_time = 0;\r\nlong encPos = -999;\r\nint encVal = 0;\r\n\r\nbyte currentNote;\r\n\r\npublic:\r\n",
+        "x": 140,
+        "y": 230,
         "z": "5d3343db.fec47c",
         "bgColor": "#DDFFBB",
         "wires": []
@@ -997,23 +855,12 @@
         ]
     },
     {
-        "id": "Synth_constructor code1",
-        "type": "ConstructorCode",
-        "name": "Synth constructor",
-        "comment": "Arp.setSynth(this);\nProgHndlr.setSynth(this);\nCCHndlr.setSynth(this);\nNoteHndlr.setSynth(this);\nPBHndlr.setSynth(this);",
-        "x": 305,
-        "y": 390,
-        "z": "5d3343db.fec47c",
-        "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
         "id": "Synth_mixer1",
         "type": "AudioMixer",
         "name": "MixVoices",
         "inputs": "1",
         "comment": "",
-        "x": 470,
+        "x": 385,
         "y": 125,
         "z": "5d3343db.fec47c",
         "bgColor": "#E6E0F8",
@@ -1024,112 +871,40 @@
         ]
     },
     {
-        "id": "Synth_Arpeggiator1",
-        "type": "Arpeggiator",
-        "name": "Arp",
-        "x": 405,
-        "y": 275,
-        "z": "5d3343db.fec47c",
-        "bgColor": "#CCFFCC",
-        "wires": []
-    },
-    {
-        "id": "Synth_ProgChange1",
-        "type": "ProgChange",
-        "name": "ProgHndlr",
-        "x": 425,
-        "y": 330,
-        "z": "5d3343db.fec47c",
-        "bgColor": "#CCFFCC",
-        "wires": []
-    },
-    {
         "id": "Synth_code1",
         "type": "Function",
         "name": "Synthcode",
         "comment": "void update() {\r\n  // put your main code here, to run repeatedly:\r\n  usbMIDI.read();\r\n  MIDI.read()\r\n\r\n#ifdef USE_TOUCH\r\n  if (ts.touched()) {\r\n    int X, Y;\r\n    TS_Point p = ts.getPoint();\r\n    X = p.x - 231;\r\n    X = map(X, 3482, 0, 0, 320);\r\n    Y = p.y - 360;\r\n    Y = map(Y, 3465, 0, 0, 240);\r\n    tft.setFont(Arial_14);\r\n    tft.fillRect(240, 5, 100, 30, ILI9341_BLACK);\r\n    tft.setTextColor(ILI9341_RED);\r\n    tft.setCursor(240, 5);\r\n    int Aval;\r\n    Aval = pointInBar(X, Y, ADSR_PANEL_X + 5, ADSR_PANEL_Y);\r\n    if (Aval > 0) {\r\n      tft.print(Aval);\r\n      OnControlChange(1, 103, Aval);\r\n    }\r\n    int Dval;\r\n    Dval = pointInBar(X, Y, ADSR_PANEL_X + 30, ADSR_PANEL_Y);\r\n    if (Dval > 0) {\r\n      tft.print(Dval);\r\n      OnControlChange(1, 104, Dval);\r\n    }\r\n    int Sval;\r\n    Sval = pointInBar(X, Y, ADSR_PANEL_X + 55, ADSR_PANEL_Y);\r\n    if (Sval > 0) {\r\n      tft.print(Sval);\r\n      OnControlChange(1, 105, Sval);\r\n    }\r\n    int Rval;\r\n    Rval = pointInBar(X, Y, ADSR_PANEL_X + 80, ADSR_PANEL_Y);\r\n    if (Rval > 0) {\r\n      tft.print(Rval);\r\n      OnControlChange(1, 106, Rval);\r\n    }\r\n    int O1val;\r\n    O1val = pointInBar(X, Y, MIX_PANEL_X + 5, MIX_PANEL_Y);\r\n    if (O1val > 0) {\r\n      tft.print(O1val);\r\n      OnControlChange(1, 100, O1val);\r\n    }\r\n    int O2val;\r\n    O2val = pointInBar(X, Y, MIX_PANEL_X + 30, MIX_PANEL_Y);\r\n    if (O2val > 0) {\r\n      tft.print(O2val);\r\n      OnControlChange(1, 101, O2val);\r\n    }\r\n    int Nval;\r\n    Nval = pointInBar(X, Y, MIX_PANEL_X + 55, MIX_PANEL_Y);\r\n    if (Nval > 0) {\r\n      tft.print(Nval);\r\n      OnControlChange(1, 102, Nval);\r\n    }\r\n  }\r\n  #endif\r\n\r\n  arp.update();\r\n  if(0) {\r\n    if(last_time >= 5000) {\r\n      Serial.print(\"Proc = \");\r\n      Serial.print(AudioProcessorUsage());\r\n      Serial.print(\" (\");    \r\n      Serial.print(AudioProcessorUsageMax());\r\n      Serial.print(\"),  Mem = \");\r\n      Serial.print(AudioMemoryUsage());\r\n      Serial.print(\" (\");    \r\n      Serial.print(AudioMemoryUsageMax());\r\n      Serial.println(\")\");\r\n      last_time = 0;\r\n    }\r\n  }\r\n}\r\n",
-        "x": 495,
-        "y": 390,
+        "x": 390,
+        "y": 230,
         "z": "5d3343db.fec47c",
         "bgColor": "#DDFFBB",
-        "wires": []
-    },
-    {
-        "id": "Synth_ContinuousController1",
-        "type": "ContinuousController",
-        "name": "CCHndlr",
-        "x": 560,
-        "y": 275,
-        "z": "5d3343db.fec47c",
-        "bgColor": "#CCFFCC",
-        "wires": []
-    },
-    {
-        "id": "Synth_PitchBend1",
-        "type": "PitchBend",
-        "name": "PBHndlr",
-        "x": 560,
-        "y": 330,
-        "z": "5d3343db.fec47c",
-        "bgColor": "#CCFFCC",
-        "wires": []
-    },
-    {
-        "id": "Synth_sgtl5000_1",
-        "type": "AudioControlSGTL5000",
-        "name": "sgtl5000_1",
-        "comment": "",
-        "x": 685,
-        "y": 45,
-        "z": "5d3343db.fec47c",
-        "bgColor": "#E6E0F8",
         "wires": []
     },
     {
         "id": "Synth_FilterEffects1",
         "type": "FilterEffects",
         "name": "Filter",
-        "x": 625,
+        "x": 540,
         "y": 125,
         "z": "5d3343db.fec47c",
         "bgColor": "#CCFFCC",
         "wires": [
             [
-                "Synth_i2s2:0",
-                "Synth_i2s2:1",
-                "Synth_usb2:0",
-                "Synth_usb2:1"
+                "Synth_i2s1:0",
+                "Synth_i2s1:1",
+                "Synth_usb1:0",
+                "Synth_usb1:1"
             ]
         ]
     },
     {
-        "id": "Synth_NoteHandling1",
-        "type": "NoteHandling",
-        "name": "NoteHndlr",
-        "x": 695,
-        "y": 275,
-        "z": "5d3343db.fec47c",
-        "bgColor": "#CCFFCC",
-        "wires": []
-    },
-    {
-        "id": "Synth_i2s2",
-        "type": "AudioOutputI2S",
-        "name": "i2s",
+        "id": "Synth_sgtl5000_1",
+        "type": "AudioControlSGTL5000",
+        "name": "sgtl5000_1",
         "comment": "",
-        "x": 785,
-        "y": 100,
-        "z": "5d3343db.fec47c",
-        "bgColor": "#E6E0F8",
-        "wires": []
-    },
-    {
-        "id": "Synth_usb2",
-        "type": "AudioOutputUSB",
-        "name": "usb",
-        "comment": "",
-        "x": 785,
-        "y": 155,
+        "x": 600,
+        "y": 45,
         "z": "5d3343db.fec47c",
         "bgColor": "#E6E0F8",
         "wires": []
@@ -1139,8 +914,8 @@
         "type": "AudioOutputI2S",
         "name": "i2s1",
         "comment": "",
-        "x": 1005,
-        "y": 90,
+        "x": 775,
+        "y": 100,
         "z": "5d3343db.fec47c",
         "bgColor": "#E6E0F8",
         "wires": []
@@ -1150,8 +925,8 @@
         "type": "AudioOutputUSB",
         "name": "usb1",
         "comment": "",
-        "x": 1010,
-        "y": 155,
+        "x": 780,
+        "y": 165,
         "z": "5d3343db.fec47c",
         "bgColor": "#E6E0F8",
         "wires": []
@@ -1171,23 +946,127 @@
     {
         "id": "PhatBass_includeDef1",
         "type": "IncludeDef",
-        "name": "\"Synth.h\"",
+        "name": "<ILI9341_t3.h>",
         "comment": "",
-        "x": 195,
-        "y": 35,
+        "x": 190,
+        "y": 15,
         "z": "fc36cdca.24645",
         "bgColor": "#DDFFBB",
         "wires": []
     },
     {
-        "id": "PhatBass_code1",
-        "type": "Function",
-        "name": "PhatBass INO code",
-        "comment": "Synth phatBass;\r\n\r\nvoid setup() {\r\n    pinMode(LED_PIN, OUTPUT);\r\n    pinMode(JOY_SW, INPUT_PULLUP);\r\n    Serial.begin(9600);\r\n    Serial1.begin(31250);\r\n    Serial.println(\"The bastard is Alive!\");\r\n    MIDI.begin();\r\n    ts.begin();\r\n    ts.setRotation(3);\r\n    tftInit(); \r\n    AudioMemory(20);\r\n    sgtl5000_1.enable();\r\n    sgtl5000_1.volume(0.75);\r\n}\r\n\r\nvoid loop() {\r\n    phatBass.update();\r\n}\r\n",
-        "x": 188,
-        "y": 85,
+        "id": "PhatBass_includeDef3",
+        "type": "IncludeDef",
+        "name": "<MIDI.h>",
+        "comment": "",
+        "x": 190,
+        "y": 55,
         "z": "fc36cdca.24645",
         "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_Synth1",
+        "type": "Synth",
+        "name": "phatBass",
+        "x": 190,
+        "y": 110,
+        "z": "fc36cdca.24645",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_Arpeggiator1",
+        "type": "Arpeggiator",
+        "name": "Arp",
+        "x": 190,
+        "y": 160,
+        "z": "fc36cdca.24645",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_ProgChange1",
+        "type": "ProgChange",
+        "name": "ProgHndlr",
+        "x": 190,
+        "y": 230,
+        "z": "fc36cdca.24645",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_vars1",
+        "type": "Variables",
+        "name": "phatBass vars",
+        "comment": "// Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC\r\nILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);\r\nXPT2046_Touchscreen ts(TOUCH_CS);\r\nEncoder enc(2,3);\r\nMIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);\r\n",
+        "x": 205,
+        "y": 310,
+        "z": "fc36cdca.24645",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_includeDef2",
+        "type": "IncludeDef",
+        "name": "<XPT2046_Touchscreen.h>",
+        "comment": "",
+        "x": 345,
+        "y": 15,
+        "z": "fc36cdca.24645",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_includeDef4",
+        "type": "IncludeDef",
+        "name": "<Encoder.h>",
+        "comment": "",
+        "x": 345,
+        "y": 55,
+        "z": "fc36cdca.24645",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_ContinuousController1",
+        "type": "ContinuousController",
+        "name": "CCHndlr",
+        "x": 320,
+        "y": 160,
+        "z": "fc36cdca.24645",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_PitchBend1",
+        "type": "PitchBend",
+        "name": "PBHndlr",
+        "x": 325,
+        "y": 230,
+        "z": "fc36cdca.24645",
+        "bgColor": "#CCFFCC",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_code1",
+        "type": "Function",
+        "name": "phatBass code",
+        "comment": "void setup() {\r\n    pinMode(LED_PIN, OUTPUT);\r\n    pinMode(JOY_SW, INPUT_PULLUP);\r\n    Serial.begin(9600);\r\n    Serial1.begin(31250);\r\n    Serial.println(\"The bastard is Alive!\");\r\n    MIDI.begin();\r\n    ts.begin();\r\n    ts.setRotation(3);\r\n    tftInit(); \r\n    AudioMemory(20);\r\n    sgtl5000_1.enable();\r\n    sgtl5000_1.volume(0.75);\r\n}\r\n\r\nvoid loop() {\r\n    phatBass.update();\r\n}\r\n",
+        "x": 360,
+        "y": 315,
+        "z": "fc36cdca.24645",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "PhatBass_NoteHandling1",
+        "type": "NoteHandling",
+        "name": "NoteHndlr",
+        "x": 480,
+        "y": 160,
+        "z": "fc36cdca.24645",
+        "bgColor": "#CCFFCC",
         "wires": []
     },
     {
@@ -1219,7 +1098,7 @@
         "name": "NoteData.h",
         "comment": "// Table of midi note frequencies * 2\r\n//   They are times 2 for greater accuracy, yet still fits in a word.\r\n//   Generated from Excel by =ROUND(2*440/32*(2^((x-9)/12)),0) for 0<x<128\r\n// The lowest notes might not work, depending on the Arduino clock frequency\r\n\r\n// This is for the Teensy Audio library which specifies\r\n// frequencies as floating point. See make_notetab.xlsx\r\nconst PROGMEM float tune_frequencies2_PGM[128] =\r\n{\r\n    8.1758,    8.6620,    9.1770,    9.7227,    10.3009,    10.9134,    11.5623,    12.2499,\r\n    12.9783,   13.7500,   14.5676,   15.4339,   16.3516,    17.3239,    18.3540,    19.4454,\r\n    20.6017,   21.8268,   23.1247,   24.4997,   25.9565,    27.5000,    29.1352,    30.8677,\r\n    32.7032,   34.6478,   36.7081,   38.8909,   41.2034,    43.6535,    46.2493,    48.9994,\r\n    51.9131,   55.0000,   58.2705,   61.7354,   65.4064,    69.2957,    73.4162,    77.7817,\r\n    82.4069,   87.3071,   92.4986,   97.9989,   103.8262,   110.0000,   116.5409,   123.4708,\r\n    130.8128,  138.5913,  146.8324,  155.5635,  164.8138,   174.6141,   184.9972,   195.9977,\r\n    207.6523,  220.0000,  233.0819,  246.9417,  261.6256,   277.1826,   293.6648,   311.1270,\r\n    329.6276,  349.2282,  369.9944,  391.9954,  415.3047,   440.0000,   466.1638,   493.8833,\r\n    523.2511,  554.3653,  587.3295,  622.2540,  659.2551,   698.4565,   739.9888,   783.9909,\r\n    830.6094,  880.0000,  932.3275,  987.7666,  1046.5023,  1108.7305,  1174.6591,  1244.5079,\r\n    1318.5102, 1396.9129, 1479.9777, 1567.9817, 1661.2188,  1760.0000,  1864.6550,  1975.5332,\r\n    2093.0045, 2217.4610, 2349.3181, 2489.0159, 2637.0205,  2793.8259,  2959.9554,  3135.9635,\r\n    3322.4376, 3520.0000, 3729.3101, 3951.0664, 4186.0090,  4434.9221,  4698.6363,  4978.0317,\r\n    5274.0409, 5587.6517, 5919.9108, 6271.9270, 6644.8752,  7040.0000,  7458.6202,  7902.1328,\r\n    8372.0181, 8869.8442, 9397.2726, 9956.0635, 10548.0818, 11175.3034, 11839.8215, 12543.8540\r\n};\r\n\r\n#define CMD_PLAYNOTE\t0x90\t/* play a note: low nibble is generator #, note is next byte */\r\n#define CMD_STOPNOTE\t0x80\t/* stop a note: low nibble is generator # */\r\n#define CMD_RESTART\t0xe0\t/* restart the score from the beginning */\r\n#define CMD_STOP\t0xf0\t/* stop playing */\r\n\r\nconst PROGMEM float velocity2amplitude[128] = {\r\n0.01778,0.01966,0.02164,0.02371,0.02588,0.02814,0.03049,0.03294,0.03549,0.03812,\r\n0.04086,0.04369,0.04661,0.04963,0.05274,0.05594,0.05924,0.06264,0.06613,0.06972,\r\n0.07340,0.07717,0.08104,0.08500,0.08906,0.09321,0.09746,0.10180,0.10624,0.11077,\r\n0.11539,0.12011,0.12493,0.12984,0.13484,0.13994,0.14513,0.15042,0.15581,0.16128,\r\n0.16685,0.17252,0.17828,0.18414,0.19009,0.19613,0.20227,0.20851,0.21484,0.22126,\r\n0.22778,0.23439,0.24110,0.24790,0.25480,0.26179,0.26887,0.27605,0.28333,0.29070,\r\n0.29816,0.30572,0.31337,0.32112,0.32896,0.33690,0.34493,0.35306,0.36128,0.36960,\r\n0.37801,0.38651,0.39511,0.40381,0.41260,0.42148,0.43046,0.43953,0.44870,0.45796,\r\n0.46732,0.47677,0.48631,0.49595,0.50569,0.51552,0.52544,0.53546,0.54557,0.55578,\r\n0.56609,0.57648,0.58697,0.59756,0.60824,0.61902,0.62989,0.64085,0.65191,0.66307,\r\n0.67432,0.68566,0.69710,0.70863,0.72026,0.73198,0.74380,0.75571,0.76771,0.77981,\r\n0.79201,0.80430,0.81668,0.82916,0.84174,0.85440,0.86717,0.88003,0.89298,0.90602,\r\n0.91917,0.93240,0.94573,0.95916,0.97268,0.98629,1.00000, 1.000\r\n};",
         "x": 110,
-        "y": 95,
+        "y": 90,
         "z": "9c8b761f.abaf18",
         "bgColor": "#DDFFBB",
         "wires": []
@@ -1264,6 +1143,17 @@
         "comment": "#ifndef _DEFINES_H_\r\n#define _DEFINES_H_\r\n\r\n#define NUM_VOICES  8\r\n\r\n#define LED_PIN 13\r\n#define TFT_DC  9\r\n#define TFT_CS 10\r\n#define TOUCH_CS 8\r\n#define JOY_SW 2\r\n#define JOY_X 8 // pin 22\r\n#define JOY_Y 5 // pin 19\r\n\r\n#define PANEL_H 140\r\n#define BAR_HEIGHT 100\r\n#define BAR_WIDTH 20\r\n#define BAR_OFFSET 15\r\n#define MIX_PANEL_X 10\r\n#define MIX_PANEL_Y 20\r\n#define MIX_PANEL_W 80\r\n#define ADSR_PANEL_X 120\r\n#define ADSR_PANEL_Y 20\r\n#define ADSR_PANEL_W 100\r\n#define KEYB_X  10\r\n#define KEYB_Y  200\r\n#define KEY_WIDTH 12\r\n\r\n#define CHORUS_DELAY_LENGTH (32*AUDIO_BLOCK_SAMPLES)\r\n\r\n#endif\r\n",
         "x": 120,
         "y": 320,
+        "z": "9c8b761f.abaf18",
+        "bgColor": "#DDFFBB",
+        "wires": []
+    },
+    {
+        "id": "data_files_codeFile2",
+        "type": "CodeFile",
+        "name": "themixer.h",
+        "comment": "/* Audio Library for Teensy 3.X\r\n * Copyright (c) 2014, Paul Stoffregen, paul@pjrc.com\r\n *\r\n * Development of this audio library was funded by PJRC.COM, LLC by sales of\r\n * Teensy and Audio Adaptor boards.  Please support PJRC's efforts to develop\r\n * open source software by purchasing Teensy or other PJRC products.\r\n *\r\n * Permission is hereby granted, free of charge, to any person obtaining a copy\r\n * of this software and associated documentation files (the \"Software\"), to deal\r\n * in the Software without restriction, including without limitation the rights\r\n * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\n * copies of the Software, and to permit persons to whom the Software is\r\n * furnished to do so, subject to the following conditions:\r\n *\r\n * The above copyright notice, development funding notice, and this permission\r\n * notice shall be included in all copies or substantial portions of the Software.\r\n *\r\n * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\n * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\n * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\n * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\n * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\n * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\n  * THE SOFTWARE.\r\n */\r\n\r\n#ifndef themixer_h_\r\n#define themixer_h_\r\n\r\n#include <Arduino.h>\r\n#include <AudioStream.h>\r\n\r\n//#define AudioMixer4 AudioMixer<4>\r\n\r\n#if defined(__ARM_ARCH_7EM__)\r\n\r\n#define MULTI_UNITYGAIN 65536\r\n#define MULTI_UNITYGAIN_F 65536.0f\r\n#define MAX_GAIN 32767.0f\r\n#define MIN_GAIN -32767.0f\r\n#define MULT_DATA_TYPE int32_t\r\n\r\n#elif defined(KINETISL)\r\n\r\n#define MULTI_UNITYGAIN 256\r\n#define MULTI_UNITYGAIN_F 256.0f\r\n#define MAX_GAIN 127.0f\r\n#define MIN_GAIN -127.0f\r\n#define MULT_DATA_TYPE int16_t\r\n\r\n#endif\r\n\r\ntemplate <int NN> class AudioMixer : public AudioStream\r\n{\r\npublic:\r\n  AudioMixer(void) : AudioStream(NN, inputQueueArray) {\r\n    for (int i=0; i<NN; i++) multiplier[i] = MULTI_UNITYGAIN;\r\n  } \r\n  virtual void update();\r\n  \r\n  /**\r\n   * this sets the individual gains\r\n   * @param channel\r\n   * @param gain\r\n   */\r\n  void gain(unsigned int channel, float gain);\r\n  /**\r\n   * set all channels to specified gain\r\n   * @param gain\r\n   */\r\n  void gain(float gain);\r\n\r\nprivate:\r\n  MULT_DATA_TYPE multiplier[NN];\r\n  audio_block_t *inputQueueArray[NN];\r\n};\r\n\r\n// the following Forward declarations \r\n// must be defined when we use template \r\n// the compiler throws some warnings that should be errors otherwise\r\n\r\nstatic int32_t signed_multiply_32x16b(int32_t a, uint32_t b); \r\nstatic int32_t signed_multiply_32x16t(int32_t a, uint32_t b);\r\nstatic int32_t signed_saturate_rshift(int32_t val, int bits, int rshift);\r\nstatic uint32_t pack_16b_16b(int32_t a, int32_t b);\r\nstatic uint32_t signed_add_16_and_16(uint32_t a, uint32_t b);\r\n\r\n// because of the template use applyGain and applyGainThenAdd functions\r\n// must be in this file and NOT in cpp file\r\n#if defined(__ARM_ARCH_7EM__)\r\n\r\n  static void applyGain(int16_t *data, int32_t mult)\r\n  {\r\n    uint32_t *p = (uint32_t *)data;\r\n    const uint32_t *end = (uint32_t *)(data + AUDIO_BLOCK_SAMPLES);\r\n\r\n    do {\r\n      uint32_t tmp32 = *p; // read 2 samples from *data\r\n      int32_t val1 = signed_multiply_32x16b(mult, tmp32);\r\n      int32_t val2 = signed_multiply_32x16t(mult, tmp32);\r\n      val1 = signed_saturate_rshift(val1, 16, 0);\r\n      val2 = signed_saturate_rshift(val2, 16, 0);\r\n      *p++ = pack_16b_16b(val2, val1);\r\n    } while (p < end);\r\n  }\r\n\r\n  static void applyGainThenAdd(int16_t *data, const int16_t *in, int32_t mult)\r\n  {\r\n    uint32_t *dst = (uint32_t *)data;\r\n    const uint32_t *src = (uint32_t *)in;\r\n    const uint32_t *end = (uint32_t *)(data + AUDIO_BLOCK_SAMPLES);\r\n\r\n    if (mult == MULTI_UNITYGAIN) {\r\n      do {\r\n        uint32_t tmp32 = *dst;\r\n        *dst++ =  signed_add_16_and_16(tmp32, *src++);\r\n        tmp32 = *dst;\r\n        *dst++ =  signed_add_16_and_16(tmp32, *src++);\r\n      } while (dst < end);\r\n    } else {\r\n      do {\r\n        uint32_t tmp32 = *src++; // read 2 samples from *data\r\n        int32_t val1 =  signed_multiply_32x16b(mult, tmp32);\r\n        int32_t val2 =  signed_multiply_32x16t(mult, tmp32);\r\n        val1 =  signed_saturate_rshift(val1, 16, 0);\r\n        val2 =  signed_saturate_rshift(val2, 16, 0);\r\n        tmp32 =  pack_16b_16b(val2, val1);\r\n        uint32_t tmp32b = *dst;\r\n        *dst++ =  signed_add_16_and_16(tmp32, tmp32b);\r\n      } while (dst < end);\r\n    }\r\n  }\r\n\r\n#elif defined(KINETISL)\r\n\r\n  static void applyGain(int16_t *data, int32_t mult)\r\n  {\r\n    const int16_t *end = data + AUDIO_BLOCK_SAMPLES;\r\n\r\n    do {\r\n      int32_t val = *data * mult;\r\n      *data++ = signed_saturate_rshift(val, 16, 0);\r\n    } while (data < end);\r\n  }\r\n\r\n  static void applyGainThenAdd(int16_t *dst, const int16_t *src, int32_t mult)\r\n  {\r\n    const int16_t *end = dst + AUDIO_BLOCK_SAMPLES;\r\n\r\n    if (mult == MULTI_UNITYGAIN) {\r\n      do {\r\n        int32_t val = *dst + *src++;\r\n        *dst++ = signed_saturate_rshift(val, 16, 0);\r\n      } while (dst < end);\r\n    } else {\r\n      do {\r\n        int32_t val = *dst + ((*src++ * mult) >> 8); // overflow possible??\r\n        *dst++ = signed_saturate_rshift(val, 16, 0);\r\n      } while (dst < end);\r\n    }\r\n  }\r\n#endif\r\n\r\ntemplate <int NN> void AudioMixer<NN>::gain(unsigned int channel, float gain) {\r\n  if (channel >= NN) return;\r\n  if (gain > MAX_GAIN) gain = MAX_GAIN;\r\n  else if (gain < MIN_GAIN) gain = MIN_GAIN;\r\n  multiplier[channel] = gain * MULTI_UNITYGAIN_F; // TODO: proper roundoff?\r\n}\r\n\r\ntemplate <int NN> void AudioMixer<NN>::gain(float gain) {\r\n  for (int i = 0; i < NN; i++) {\r\n    if (gain > MAX_GAIN) gain = MAX_GAIN;\r\n    else if (gain < MIN_GAIN) gain = MIN_GAIN;\r\n    multiplier[i] = gain * MULTI_UNITYGAIN_F; // TODO: proper roundoff?\r\n  } \r\n}\r\n\r\ntemplate <int NN> void AudioMixer<NN>::update() {\r\n  audio_block_t *in, *out=NULL;\r\n  unsigned int channel;\r\n  for (channel=0; channel < NN; channel++) {\r\n    if (!out) {\r\n      out = receiveWritable(channel);\r\n      if (out) {\r\n        int32_t mult = multiplier[channel];\r\n        if (mult != MULTI_UNITYGAIN) applyGain(out->data, mult);\r\n      }\r\n    } else {\r\n      in = receiveReadOnly(channel);\r\n      if (in) {\r\n        applyGainThenAdd(out->data, in->data, multiplier[channel]);\r\n        release(in);\r\n      }\r\n    }\r\n  }\r\n  if (out) {\r\n    transmit(out);\r\n    release(out);\r\n  }\r\n}\r\n// this class and function forces include \r\n// of functions applyGainThenAdd and applyGain used by the template\r\nclass DummyClass\r\n{\r\n  public:\r\n    virtual void dummyFunction();\r\n};\r\nvoid DummyClass::dummyFunction() {\r\n  applyGainThenAdd(0, 0, 0);\r\n  applyGain(0,0);\r\n    \r\n}\r\n\r\n#endif",
+        "x": 115,
+        "y": 370,
         "z": "9c8b761f.abaf18",
         "bgColor": "#DDFFBB",
         "wires": []

@@ -7,58 +7,35 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
-
-// forward declare
-class Synth;
 #include "LFOSources.h"
 #include "Voice.h"
-#include "Arpeggiator.h"
-#include "ProgChange.h"
-#include "ContinuousController.h"
-#include "PitchBend.h"
 #include "FilterEffects.h"
-#include "NoteHandling.h"
-
+#include "themixer.h"
  
 // PhatBass: begin automatically generated code
 
 class Synth
 {
 public:
+    private:
     int clickCount = 0;
     elapsedMillis lastMillis = 0;
     elapsedMillis last_time = 0;
     long encPos = -999;
     int encVal = 0;
     
-    // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
-    ILI9341_t3 tft = ILI9341_t3(TFT_CS, TFT_DC);
-    XPT2046_Touchscreen ts(TOUCH_CS);
-    Encoder enc(2,3);
-    MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
-    
     byte currentNote;
     
-    //Arpeggiator arp;
-    //ContinuousController CChandler;
-    //PitchBend PBhandler;
-    //NoteHandling noteHandler;
-    //ProgChange progChange;
+    public:
+    
     
     LFOSources                       LFOs;
     Voice                            voice[8];
     AudioMixer<8>                    MixVoices;
     FilterEffects                    Filter;
-    AudioOutputI2S                   i2s;
-    AudioOutputUSB                   usb;
     AudioOutputI2S                   i2s1;
     AudioOutputUSB                   usb1;
-    Arpeggiator Arp;
-    ProgChange ProgHndlr;
-    ContinuousController CCHndlr;
-    PitchBend PBHndlr;
     AudioControlSGTL5000 sgtl5000_1;
-    NoteHandling NoteHndlr;
     AudioConnection                  *patchCord[30]; // total patchCordCount:30 including array typed ones.
 
     Synth() { // constructor (this is called when class-object is created)
@@ -67,20 +44,15 @@ public:
 
         patchCord[pci++] = new AudioConnection(MixVoices, 0, Filter.FilterSelect, 0);
         patchCord[pci++] = new AudioConnection(MixVoices, 0, Filter.filter1, 0);
-        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, i2s, 0);
-        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, i2s, 1);
-        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, usb, 0);
-        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, usb, 1);
+        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, i2s1, 0);
+        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, i2s1, 1);
+        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, usb1, 0);
+        patchCord[pci++] = new AudioConnection(Filter.chorus, 0, usb1, 1);
         for (int i = 0; i < 8; i++) {
             patchCord[pci++] = new AudioConnection(LFOs.LFO1switch, 0, voice[i].VCO1, 0);
             patchCord[pci++] = new AudioConnection(LFOs.LFO2switch, 0, voice[i].VCO2, 0);
             patchCord[pci++] = new AudioConnection(voice[i].ADSR, 0, MixVoices, i);
         }
-        Arp.setSynth(this);
-        ProgHndlr.setSynth(this);
-        CCHndlr.setSynth(this);
-        NoteHndlr.setSynth(this);
-        PBHndlr.setSynth(this);
         
     }
 

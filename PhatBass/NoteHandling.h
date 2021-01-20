@@ -8,20 +8,13 @@
 #include <SerialFlash.h>
 #include "types.h"
 
-// forward declare
-class Synth;
-
 #include "NoteData.h"
-#include "Synth.h"
  
 // PhatBass: begin automatically generated code
 
 class NoteHandling
 {
 public:
-    Synth & mSynth;
-    
-    
 
     NoteHandling() { // constructor (this is called when class-object is created)
 
@@ -157,10 +150,6 @@ public:
       }
     //  Serial.println("Osc off because NoteOff");
       oscillatorsOff();
-    }
-    
-    void setSynth(Synth & refSynth) {
-        mSynth = refSynth;
     }
     
     

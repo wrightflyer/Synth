@@ -8,9 +8,6 @@
 #include <SerialFlash.h>
 #include "types.h"
 
-// forward declare
-class Synth;
-
 #include "src/GMinstrument/GMinst.h"
  
 // PhatBass: begin automatically generated code
@@ -59,6 +56,9 @@ public:
     float envDecay = 35;
     float envSustain = 0.5;
     float envRelease = 300;
+    
+    public:
+    
     
     AudioSynthWaveformModulated      VCO1;
     AudioSynthWaveformModulated      VCO2;

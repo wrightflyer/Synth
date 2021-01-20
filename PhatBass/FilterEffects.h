@@ -8,9 +8,6 @@
 #include <SerialFlash.h>
 #include "types.h"
 
-// forward declare
-class Synth;
-
 
  
 // PhatBass: begin automatically generated code
@@ -26,7 +23,7 @@ public:
     float filtEnvR = 300;
     
     // filter main variables
-    filter_band_t filtBand = LPF;
+    filter_band_t filtBand = Filt_LPF;
     float filterFreq = 5000;
     float filterRes = 2.5;
     float filtDC = 1.0;
@@ -37,6 +34,8 @@ public:
     // Number of samples in each delay line
     // Allocate the delay lines for left and right channels
     short delayline[CHORUS_DELAY_LENGTH];
+    
+    public:
     
     
     AudioFilterStateVariable         filter1;
@@ -83,28 +82,28 @@ public:
     
     void updateFilterBand() {
       switch(filtBand) {
-        case FILT_OFF:
+        case Filt_FILT_OFF:
           FilterSelect.gain(0, 1.00);
           FilterSelect.gain(1, 0);
           FilterSelect.gain(2, 0);
           FilterSelect.gain(3, 0);
           break;
     
-        case LPF:
+        case Filt_LPF:
           FilterSelect.gain(0, 0);
           FilterSelect.gain(1, 1.0);
           FilterSelect.gain(2, 0);
           FilterSelect.gain(3, 0);
           break;
     
-        case BPF:
+        case Filt_BPF:
           FilterSelect.gain(0, 0);
           FilterSelect.gain(1, 0);
           FilterSelect.gain(2, 1.0);
           FilterSelect.gain(3, 0);
           break;
     
-        case HPF:
+        case Filt_HPF:
           FilterSelect.gain(0, 0);
           FilterSelect.gain(1, 0);
           FilterSelect.gain(2, 0);
@@ -166,7 +165,7 @@ public:
       updateFiltADSR();
     }
     
-    void setFiltBand(filt_band_t band) {
+    void setFiltBand(filter_band_t band) {
       filtBand = band;
       updateFilterBand();
     }

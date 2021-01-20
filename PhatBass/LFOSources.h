@@ -8,9 +8,6 @@
 #include <SerialFlash.h>
 #include "types.h"
 
-// forward declare
-class Synth;
-
 
  
 // PhatBass: begin automatically generated code
@@ -32,6 +29,9 @@ public:
     float lfo2Freq = 0.0;
     float lfo2Depth = 0.0;
     float lfo2PWM = 0.0;
+    
+    public:
+    
     
     AudioSynthWaveform               LFO1;
     AudioSynthWaveform               LFO2;

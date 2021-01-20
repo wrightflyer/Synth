@@ -8,10 +8,7 @@
 #include <SerialFlash.h>
 #include "types.h"
 
-// forward declare
-class Synth;
 
-#include "Synth.h"
  
 // PhatBass: begin automatically generated code
 
@@ -38,7 +35,7 @@ public:
     
     elapsedMillis lastMillis = 0;
     
-    Synth & mSynth;
+    public:
     
 
     Arpeggiator() { // constructor (this is called when class-object is created)
@@ -104,7 +101,7 @@ public:
             if (lastMillis > arpPeriod) {
     //          Serial.printf("Osc off because lasmillis (%lu) beyond arpPeriod (%u)", lastMillis, arpPeriod);
               for (int i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[i].oscillatorsOff();
+                phatBass.voice[i].oscillatorsOff();
               }
             }
             if (lastMillis > arpDelay) {
@@ -129,8 +126,8 @@ public:
     //        Serial.println("Osc off because arpPeriod expired - cancel last playing note");
             if (arpMode != Arp_Record) {
               for (int i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[i].oscillatorsOff();
-                mSynth.voice[i].oscillatorsOn(note2play);
+                phatBass.voice[i].oscillatorsOff();
+                phatBass.voice[i].oscillatorsOn(note2play);
               }
             }
             switch(arpMode) {
@@ -221,7 +218,7 @@ public:
             arpPlayOctave = 0;
             //        Serial.println("Osc off because latch Off");
             for (int i = 0; i < NUM_VOICES; i++) {
-                mSynth.voice[i].oscillatorsOff();
+                phatBass.voice[i].oscillatorsOff();
             }
         }
     }
@@ -242,16 +239,12 @@ public:
         arpScaleMode = n;
     }
     
-    void setSynth(Synth & refSynth) {
-        mSynth = refSynth;
-    }
-    
     void setArpMode(int value) {
       if (value == 0) {
         arpMode = Arp_Off;
         Serial.println("Arp Off - Osc Off");
         for (int i = 0; i < NUM_VOICES; i++) {
-            mSynth.voice[i].oscillatorsOff();
+            phatBass.voice[i].oscillatorsOff();
         }
         arpStoreIndex = 0;
         arpPlayIndex = 0;
