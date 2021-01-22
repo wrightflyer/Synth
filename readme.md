@@ -35,3 +35,8 @@ deserve that title!):
 
 Read the WIKI: https://github.com/wrightflyer/Synth/wiki for more details
 about the hardware and the software and just how it all came about!
+
+This is the dataflow in the class based polyphonic phatBass:
+
+![dataflow](src/wikiPics/data_flow.png)
+
