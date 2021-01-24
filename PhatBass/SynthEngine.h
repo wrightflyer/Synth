@@ -7,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+#include "SynthEngine.h"
+#include "Arpeggiator.h"
+
 #include "LFOSources.h"
 #include "Voice.h"
 #include "FilterEffects.h"
@@ -59,15 +62,13 @@ public:
         
     }
 
-    static SynthEngine * getInst() {
-        static SynthEngine * pInst = 0;
-        if (pInst == 0) {
-            pInst = new SynthEngine;
-        }
-        return pInst;
+    static SynthEngine& getInst() {
+        static SynthEngine instance;
+        return instance;
     }
+    static void update() { getInst().Iupdate(); }
     
-    void update() {
+    void Iupdate() {
       // put your main code here, to run repeatedly:
       usbMIDI.read();
       MIDI.read()
@@ -129,7 +130,6 @@ public:
       }
       #endif
     
-      arp.update();
       if(0) {
         if(last_time >= 5000) {
           Serial.print("Proc = ");

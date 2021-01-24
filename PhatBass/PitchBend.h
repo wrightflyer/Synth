@@ -7,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+#include "SynthEngine.h"
+#include "Arpeggiator.h"
+
 
 
  
@@ -18,12 +21,9 @@
 class PitchBend
 {
 public:
-    SynthEngine * mpSynth;
-    
 
     PitchBend() { // constructor (this is called when class-object is created)
 
-        mpSynth = SyntheEngine::getInst();
         usbMIDI.setHandlePitchChange(onPitchChange);
         MIDI.setHandlePitchBend(onPitchChange);
         

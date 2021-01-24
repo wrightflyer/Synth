@@ -9,14 +9,15 @@
 #include "types.h"
 #include "SynthEngine.h"
 #include "Arpeggiator.h"
+
 #include "ContinuousController.h"
 #include "ProgChange.h"
 #include "PitchBend.h"
 #include "NoteHandling.h"
 #include <ILI9341_t3.h>
 #include <MIDI.h>
-#include <XPT2046_Touchscreen.h>
 #include <Encoder.h>
+#include <XPT2046_Touchscreen.h>
  
 // PhatBass: begin automatically generated code
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
@@ -25,8 +26,6 @@ XPT2046_Touchscreen ts(TOUCH_CS);
 Encoder enc(2,3);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 
-SynthEngine phatBass;
-Arpeggiator Arp;
 ContinuousController CCHndlr;
 ProgChange ProgHndlr;
 PitchBend PBHndlr;
@@ -48,7 +47,8 @@ void setup() {
 }
 
 void loop() {
-    phatBass.update();
+    SynthEngine::update();
+    Arpeggiator::update();
 }
 
 // PhatBass: end automatically generated code

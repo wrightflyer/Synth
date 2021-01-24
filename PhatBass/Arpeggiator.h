@@ -7,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+#include "SynthEngine.h"
+#include "Arpeggiator.h"
+
 
 
  
@@ -49,6 +52,7 @@ public:
         arpPeriod = 1000;
         arpDelay = 0;
         arpTranspose = 0;
+        
         
     }
 
@@ -95,15 +99,16 @@ public:
     }
     
     public:
-        static Arpeggiator * getInst() {
-            static Arpeggiator * pInst = 0;
-            if (pInst == 0) {
-                pInst = new Arpeggiator;
-            }
-            return pInst;
-        }
     
-    void update() {
+    static Arpeggiator& getInst() {
+        static Arpeggiator instance;
+        return instance;
+    }
+    static void update() { getInst().Iupdate(); }
+    static void setArpLatch(bool latch) { getInst().IsetArpLatch(latch); } 
+    static void setArpMode(int value) { getInst().IsetArpMode(value); }
+        
+    void Iupdate() {
       if (arpMode != Arp_Off) {
         // play Arpeggiator notes
         if (arpStoreIndex != 0) { // any notes in the array to play?
@@ -213,15 +218,15 @@ public:
       }
     }
     
-    void setArpOctave(int octave) {
-        arpOctave = octave;
+    static void setArpOctave(int octave) {
+        getInst().arpOctave = octave;
     }
     
-    void setArpPeriod(float period) {
-        arpPeriod = period;
+    static void setArpPeriod(float period) {
+        getInst().arpPeriod = period;
     }
     
-    void setArpLatch(bool latch) {
+    void IsetArpLatch(bool latch) {
         arpLatch = latch;
         if (latch == 0) {
             arpPlayIndex = 0;
@@ -234,23 +239,23 @@ public:
         }
     }
     
-    void setArpDelay(float delay) {
+    static void setArpDelay(float delay) {
         arpDelay = delay;
     }
     
-    void setArpDelayActive(bool active) {
-        arpDelayActive = active;
+    static void setArpDelayActive(bool active) {
+        getInst().arpDelayActive = active;
     }
     
-    void setArpTranspose(int transpose) {
-        arpTranspose = transpose;
+    static void setArpTranspose(int transpose) {
+        getInst().arpTranspose = transpose;
     }
     
-    void setArpScaleMode(int n) {
-        arpScaleMode = n;
+    static void setArpScaleMode(int n) {
+        getInst().arpScaleMode = n;
     }
     
-    void setArpMode(int value) {
+    void IsetArpMode(int value) {
       if (value == 0) {
         arpMode = Arp_Off;
         Serial.println("Arp Off - Osc Off");
@@ -302,6 +307,7 @@ public:
         arpPlayOctave = 0;
       }
     }
+    
     
 };
 // PhatBass: end automatically generated code

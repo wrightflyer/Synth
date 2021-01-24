@@ -7,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+#include "SynthEngine.h"
+#include "Arpeggiator.h"
+
 
 
  
@@ -18,21 +21,20 @@
 class ProgChange
 {
 public:
-    SynthEngine * mpSynth;
-    
 
     ProgChange() { // constructor (this is called when class-object is created)
 
-        mpSynth = SyntheEngine::getInst();
         usbMIDI.setHandleProgramChange(onProgramChange);
         MIDI.setHandleProgramChange(onProgramChange);
         
     }
 
     static void onProgramChange(byte channel, byte program) {
-      waveInstrument = program & 0x7F; // currently so limit 0..127
-      Serial.printf("Progran change: %u = %s\n", waveInstrument, instrumentNames[waveInstrument]);
-      updateWave();
+        program &= 0x7F;
+        for (int i = 0; i < NUM_VOICES; i++) {
+            SyntheEngine::voices[i].setWaveInstrument(program); // currently so limit 0..127
+        }
+        Serial.printf("Progran change: %u = %s\n", program, instrumentNames[program]);
     }
     
     

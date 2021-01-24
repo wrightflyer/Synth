@@ -7,6 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+#include "SynthEngine.h"
+#include "Arpeggiator.h"
+
 
 #include "NoteData.h"
  
@@ -18,14 +21,9 @@
 class NoteHandling
 {
 public:
-    SynthEngine * mpSynth;
-    Arpeggiator * mpArp;
-    
 
     NoteHandling() { // constructor (this is called when class-object is created)
 
-        mpSynth = SynthEngine::getInst();
-        mArp = Arpeggiator::getInst();
         usbMIDI.setHandleNoteOff(OnNoteOff);
         usbMIDI.setHandleNoteOn(OnNoteOn);
         MIDI.setHandleNoteOff(OnNoteOff);
