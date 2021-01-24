@@ -12,12 +12,18 @@
  
 // PhatBass: begin automatically generated code
 
+/**
+ * Subscribes to MIDI PB and adjust oscillators
+ */
 class PitchBend
 {
 public:
+    SynthEngine * mpSynth;
+    
 
     PitchBend() { // constructor (this is called when class-object is created)
 
+        mpSynth = SyntheEngine::getInst();
         usbMIDI.setHandlePitchChange(onPitchChange);
         MIDI.setHandlePitchBend(onPitchChange);
         

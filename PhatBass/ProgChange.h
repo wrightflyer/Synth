@@ -12,12 +12,18 @@
  
 // PhatBass: begin automatically generated code
 
+/**
+ * Subscribes to MIDI Prog Change and sets wavetable
+ */
 class ProgChange
 {
 public:
+    SynthEngine * mpSynth;
+    
 
     ProgChange() { // constructor (this is called when class-object is created)
 
+        mpSynth = SyntheEngine::getInst();
         usbMIDI.setHandleProgramChange(onProgramChange);
         MIDI.setHandleProgramChange(onProgramChange);
         

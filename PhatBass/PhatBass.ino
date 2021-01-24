@@ -7,10 +7,10 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
-#include "Synth.h"
+#include "SynthEngine.h"
 #include "Arpeggiator.h"
-#include "ProgChange.h"
 #include "ContinuousController.h"
+#include "ProgChange.h"
 #include "PitchBend.h"
 #include "NoteHandling.h"
 #include <ILI9341_t3.h>
@@ -25,10 +25,10 @@ XPT2046_Touchscreen ts(TOUCH_CS);
 Encoder enc(2,3);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 
-Synth phatBass;
+SynthEngine phatBass;
 Arpeggiator Arp;
-ProgChange ProgHndlr;
 ContinuousController CCHndlr;
+ProgChange ProgHndlr;
 PitchBend PBHndlr;
 NoteHandling NoteHndlr;
 

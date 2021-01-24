@@ -14,7 +14,10 @@
  
 // PhatBass: begin automatically generated code
 
-class Synth
+/**
+ * Core engine of synth that ties LFOs, Oscs and Filter
+ */
+class SynthEngine
 {
 public:
     private:
@@ -38,7 +41,7 @@ public:
     AudioControlSGTL5000 sgtl5000_1;
     AudioConnection                  *patchCord[30]; // total patchCordCount:30 including array typed ones.
 
-    Synth() { // constructor (this is called when class-object is created)
+    SynthEngine() { // constructor (this is called when class-object is created)
         int pci = 0; // used only for adding new patchcords
 
 
@@ -56,6 +59,14 @@ public:
         
     }
 
+    static SynthEngine * getInst() {
+        static SynthEngine * pInst = 0;
+        if (pInst == 0) {
+            pInst = new SynthEngine;
+        }
+        return pInst;
+    }
+    
     void update() {
       // put your main code here, to run repeatedly:
       usbMIDI.read();

@@ -12,6 +12,9 @@
  
 // PhatBass: begin automatically generated code
 
+/**
+ * Can feed note (sequences) in place of input Note Handling
+ */
 class Arpeggiator
 {
 public:
@@ -92,6 +95,14 @@ public:
     }
     
     public:
+        static Arpeggiator * getInst() {
+            static Arpeggiator * pInst = 0;
+            if (pInst == 0) {
+                pInst = new Arpeggiator;
+            }
+            return pInst;
+        }
+    
     void update() {
       if (arpMode != Arp_Off) {
         // play Arpeggiator notes

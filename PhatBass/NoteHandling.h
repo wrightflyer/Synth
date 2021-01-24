@@ -12,12 +12,20 @@
  
 // PhatBass: begin automatically generated code
 
+/**
+ * Subscribes and receives MIDI note on/off and passes on to oscillators
+ */
 class NoteHandling
 {
 public:
+    SynthEngine * mpSynth;
+    Arpeggiator * mpArp;
+    
 
     NoteHandling() { // constructor (this is called when class-object is created)
 
+        mpSynth = SynthEngine::getInst();
+        mArp = Arpeggiator::getInst();
         usbMIDI.setHandleNoteOff(OnNoteOff);
         usbMIDI.setHandleNoteOn(OnNoteOn);
         MIDI.setHandleNoteOff(OnNoteOff);

@@ -12,6 +12,9 @@
  
 // PhatBass: begin automatically generated code
 
+/**
+ * Single filter and chorus for all voices
+ */
 class FilterEffects
 {
 public:
