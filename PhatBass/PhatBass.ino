@@ -7,9 +7,9 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
+
 #include "SynthEngine.h"
 #include "Arpeggiator.h"
-
 #include "ContinuousController.h"
 #include "ProgChange.h"
 #include "PitchBend.h"
@@ -26,6 +26,8 @@ XPT2046_Touchscreen ts(TOUCH_CS);
 Encoder enc(2,3);
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial1, MIDI);
 
+SynthEngine unused_Synth;
+Arpeggiator unused_Arp;
 ContinuousController CCHndlr;
 ProgChange ProgHndlr;
 PitchBend PBHndlr;
@@ -47,6 +49,8 @@ void setup() {
 }
 
 void loop() {
+    MIDI.read()
+
     SynthEngine::update();
     Arpeggiator::update();
 }

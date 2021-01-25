@@ -7,8 +7,6 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
-#include "SynthEngine.h"
-#include "Arpeggiator.h"
 
 
 

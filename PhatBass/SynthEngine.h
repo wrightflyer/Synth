@@ -7,8 +7,6 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
-#include "SynthEngine.h"
-#include "Arpeggiator.h"
 
 #include "LFOSources.h"
 #include "Voice.h"
@@ -71,7 +69,6 @@ public:
     void Iupdate() {
       // put your main code here, to run repeatedly:
       usbMIDI.read();
-      MIDI.read()
     
     #ifdef USE_TOUCH
       if (ts.touched()) {
@@ -144,6 +141,61 @@ public:
           last_time = 0;
         }
       }
+    }
+    
+    void oscillatorsOn() {
+      oscillatorsOn(currentNote);
+    }
+    
+    void oscillatorsOn(byte playNote) {
+      currentNote = playNote; // in case we need to retrigger after recalculating pitch bend
+      
+      byte note;
+      note = playNote;  
+    
+      note += osc1Octave; // -24, -12, 0, 12 or 24
+      note += osc1Semis;
+      if (note < 0) {
+        note = 0;
+      }
+      if (note > 127) {
+        note = 127;
+      }
+      Serial.printf("Osc1 note=%d (%s%u) ", note, noteNames[note %12], (note / 12) - 1);
+      float freq = tune_frequencies2_PGM[note];
+      freq *= osc1Detune; // mult 0.85 .. 1.0
+      freq *= osc1PB;
+      Serial.printf("so freq1 = %.2fHz, ", freq);
+      waveformMod1.frequency(freq);
+    
+      wavetable1.playFrequency(freq, 127);
+    
+      note = playNote;
+      note += osc2Octave; // -24, -12, 0, 12 or 24
+      note += osc2Semis;
+      if (note < 0) {
+        note = 0;
+      }
+      if (note > 127) {
+        note = 127;
+      }
+      Serial.printf("Osc2 note=%d (%s%u) ", note, noteNames[note %12], (note / 12) - 1);
+      freq = tune_frequencies2_PGM[note];
+      freq *= osc2Detune; // mult 0.85 .. 1.0
+      freq *= osc2PB;
+      Serial.printf("freq2 = %.2fHz\n", freq);
+      waveformMod2.frequency(freq);
+      // sound ADSR
+      envelope1.noteOn();
+      // filter ADSR
+      envelope2.noteOn();
+    //  Serial.println("Both Env triggered");
+    }
+    
+    void oscillatorsOff() {
+      envelope1.noteOff();
+      envelope2.noteOff();
+      wavetable1.stop();
     }
     
     

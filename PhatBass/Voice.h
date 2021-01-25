@@ -7,8 +7,6 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
-#include "SynthEngine.h"
-#include "Arpeggiator.h"
 
 
 #include "src/GMinstrument/GMinst.h"
@@ -92,6 +90,7 @@ public:
         
     }
 
+    
     private:
     void updateMix(Mix_change_t change) {
       VoiceMixer.gain(0, osc1Amp);  

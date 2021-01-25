@@ -7,8 +7,6 @@
 #include <SD.h>
 #include <SerialFlash.h>
 #include "types.h"
-#include "SynthEngine.h"
-#include "Arpeggiator.h"
 
 
 
@@ -53,6 +51,7 @@ public:
         arpDelay = 0;
         arpTranspose = 0;
         
+        // checking
         
     }
 
@@ -116,9 +115,7 @@ public:
           if ((arpDelay != 0) && (arpDelayActive == true)) {
             if (lastMillis > arpPeriod) {
     //          Serial.printf("Osc off because lasmillis (%lu) beyond arpPeriod (%u)", lastMillis, arpPeriod);
-              for (int i = 0; i < NUM_VOICES; i++) {
-                phatBass.voice[i].oscillatorsOff();
-              }
+                SynthEngine::oscillatorsOff();
             }
             if (lastMillis > arpDelay) {
               arpDelayActive = false;
@@ -141,10 +138,8 @@ public:
             note2play = arpNotes[arpPlayIndex] + arpTranspose + (12 * arpPlayOctave);
     //        Serial.println("Osc off because arpPeriod expired - cancel last playing note");
             if (arpMode != Arp_Record) {
-              for (int i = 0; i < NUM_VOICES; i++) {
-                phatBass.voice[i].oscillatorsOff();
-                phatBass.voice[i].oscillatorsOn(note2play);
-              }
+                SynthEngine::oscillatorsOff();
+                SynthEngine::oscillatorsOn(note2play);
             }
             switch(arpMode) {
               case Arp_Up:
@@ -233,14 +228,12 @@ public:
             arpStoreIndex = 0;
             arpPlayOctave = 0;
             //        Serial.println("Osc off because latch Off");
-            for (int i = 0; i < NUM_VOICES; i++) {
-                phatBass.voice[i].oscillatorsOff();
-            }
+            SynthEngine::oscillatorsOff();
         }
     }
     
     static void setArpDelay(float delay) {
-        arpDelay = delay;
+        getInst().arpDelay = delay;
     }
     
     static void setArpDelayActive(bool active) {
@@ -259,9 +252,7 @@ public:
       if (value == 0) {
         arpMode = Arp_Off;
         Serial.println("Arp Off - Osc Off");
-        for (int i = 0; i < NUM_VOICES; i++) {
-            phatBass.voice[i].oscillatorsOff();
-        }
+        SynthEngine::oscillatorsOff();
         arpStoreIndex = 0;
         arpPlayIndex = 0;
       }
